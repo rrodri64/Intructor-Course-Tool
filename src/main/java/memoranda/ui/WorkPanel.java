@@ -86,6 +86,7 @@ public class WorkPanel extends JPanel {
 				agendaB_actionPerformed(e);
 			}
 		});
+		
 		agendaB.setIcon(
 			new ImageIcon(
 				main.java.memoranda.ui.AppFrame.class.getResource(
@@ -93,7 +94,8 @@ public class WorkPanel extends JPanel {
 		agendaB.setOpaque(false);
 		agendaB.setMargin(new Insets(0, 0, 0, 0));
 		agendaB.setSelected(true);
-
+        
+		
 		eventsB.setBackground(Color.white);
 		eventsB.setMaximumSize(new Dimension(60, 80));
 		eventsB.setMinimumSize(new Dimension(30, 30));
@@ -118,9 +120,9 @@ public class WorkPanel extends JPanel {
 					"/ui/icons/events.png")));
 		eventsB.setOpaque(false);
 		eventsB.setMargin(new Insets(0, 0, 0, 0));
-		//eventsB.setSelected(true);
+		eventsB.setSelected(false);
 
-		tasksB.setSelected(true);
+		tasksB.setSelected(false);
 		tasksB.setFont(new java.awt.Font("Dialog", 1, 10));
 		tasksB.setMargin(new Insets(0, 0, 0, 0));
 		tasksB.setIcon(
@@ -169,10 +171,10 @@ public class WorkPanel extends JPanel {
 				main.java.memoranda.ui.AppFrame.class.getResource(
 					"/ui/icons/notes.png")));
 		notesB.setMargin(new Insets(0, 0, 0, 0));
-		notesB.setSelected(true);
+		notesB.setSelected(false);
 		this.setPreferredSize(new Dimension(1073, 300));
 
-		filesB.setSelected(true);
+		filesB.setSelected(false);
 		filesB.setMargin(new Insets(0, 0, 0, 0));
 		filesB.setIcon(
 			new ImageIcon(
@@ -205,10 +207,19 @@ public class WorkPanel extends JPanel {
 		toolBar.add(tasksB, null);
 		toolBar.add(notesB, null);
 		toolBar.add(filesB, null);
+		
 		currentB = agendaB;
+		
+		//Make it so that each time the app is opened first icon is highlighted
+		cardLayout1.show(panel, "DAILYITEMS");
+		dailyItemsPanel.selectPanel("AGENDA");
+		setCurrentButton(agendaB);
+		Context.put("CURRENT_PANEL", "AGENDA");
+		
 		// Default blue color
 		currentB.setBackground(new Color(215, 225, 250));
 		currentB.setOpaque(true);
+		
 
 		toolBar.setBorder(null);
 		panel.setBorder(null);
