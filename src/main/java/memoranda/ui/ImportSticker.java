@@ -18,7 +18,6 @@ String name;
                   
                   
                   */
-                
                 JOptionPane.showMessageDialog(null,Local.getString("Could not import Document. "));
                 return true;
         }

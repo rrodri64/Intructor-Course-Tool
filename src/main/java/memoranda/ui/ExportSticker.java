@@ -74,7 +74,7 @@ public class ExportSticker {
             
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null,Local.getString("Document creation failed."));
+            JOptionPane.showMessageDialog(null,Local.getString("Document creation failed. "));
         }
                 
                 
