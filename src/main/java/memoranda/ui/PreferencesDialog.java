@@ -34,27 +34,7 @@ public class PreferencesDialog extends JDialog {
 
 	ButtonGroup closeGroup = new ButtonGroup();
 
-	JLabel jLabel2 = new JLabel();
-
-	JRadioButton closeExitRB = new JRadioButton();
-
 	JCheckBox askConfirmChB = new JCheckBox();
-
-	JRadioButton closeHideRB = new JRadioButton();
-
-	JLabel jLabel3 = new JLabel();
-
-	ButtonGroup lfGroup = new ButtonGroup();
-
-	JRadioButton lfSystemRB = new JRadioButton();
-
-	JRadioButton lfJavaRB = new JRadioButton();
-
-	JRadioButton lfCustomRB = new JRadioButton();
-
-	JLabel classNameLabel = new JLabel();
-
-	JTextField lfClassName = new JTextField();
 
 	JLabel jLabel4 = new JLabel();
 
@@ -242,50 +222,11 @@ public class PreferencesDialog extends JDialog {
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		GeneralPanel.add(minHideRB, gbc);
-		jLabel2.setHorizontalAlignment(SwingConstants.RIGHT);
-		jLabel2.setText(Local.getString("Window close action:"));
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.insets = new Insets(2, 10, 0, 15);
-		gbc.anchor = GridBagConstraints.EAST;
-		GeneralPanel.add(jLabel2, gbc);
-		closeGroup.add(closeExitRB);
-		closeExitRB.setSelected(true);
-		closeExitRB.setText(Local.getString("Close and exit"));
-		closeExitRB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				closeExitRB_actionPerformed(e);
-			}
-		});
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 2;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(closeExitRB, gbc);
-
-		closeGroup.add(closeHideRB);
-		closeHideRB.setText(Local.getString("Hide"));
-		closeHideRB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				closeHideRB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 3;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(closeHideRB, gbc);
-		jLabel3.setHorizontalAlignment(SwingConstants.RIGHT);
-		jLabel3.setText(Local.getString("Look and feel:"));
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 4;
-		gbc.insets = new Insets(2, 10, 0, 15);
-		gbc.anchor = GridBagConstraints.EAST;
-		GeneralPanel.add(jLabel3, gbc);
 
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
@@ -293,48 +234,6 @@ public class PreferencesDialog extends JDialog {
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 5;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(lfSystemRB, gbc);
-
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 6;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(lfJavaRB, gbc);
-		lfGroup.add(lfCustomRB);
-		lfCustomRB.setText(Local.getString("Custom"));
-		lfCustomRB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				lfCustomRB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 7;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(lfCustomRB, gbc);
-		classNameLabel.setEnabled(false);
-		classNameLabel.setText(Local.getString("L&F class name:"));
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 8;
-		gbc.insets = new Insets(2, 20, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(classNameLabel, gbc);
-		lfClassName.setEnabled(false);
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 9;
-		gbc.insets = new Insets(7, 20, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		GeneralPanel.add(lfClassName, gbc);
 		jLabel4.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabel4.setText(Local.getString("Startup:"));
 		gbc = new GridBagConstraints();
@@ -534,29 +433,8 @@ public class PreferencesDialog extends JDialog {
 		firstdow.setSelected(Configuration.get("FIRST_DAY_OF_WEEK").toString()
 				.equalsIgnoreCase("mon"));
 
-		enableCustomLF(false);
-		String lf = Configuration.get("LOOK_AND_FEEL").toString();
-		if (lf.equalsIgnoreCase("system"))
-			lfSystemRB.setSelected(true);
-		else if (lf.equalsIgnoreCase("default"))
-			lfJavaRB.setSelected(true);
-		else if (lf.length() > 0) {
-			lfCustomRB.setSelected(true);
-			enableCustomLF(true);
-			lfClassName.setText(lf);
-		} else
-			lfJavaRB.setSelected(true);
-
 		askConfirmChB.setSelected(!Configuration.get("ASK_ON_EXIT").toString()
 				.equalsIgnoreCase("no"));
-		String onclose = Configuration.get("ON_CLOSE").toString();
-		if (onclose.equals("exit")) {
-			this.closeExitRB.setSelected(true);
-			// this.askConfirmChB.setEnabled(true);
-		} else {
-			this.closeHideRB.setSelected(true);
-			// this.askConfirmChB.setEnabled(false);
-		}
 
 		String onmin = Configuration.get("ON_MINIMIZE").toString();
 		this.minTaskbarRB.setSelected(true);
@@ -641,46 +519,8 @@ public class PreferencesDialog extends JDialog {
 		else
 			Configuration.put("ASK_ON_EXIT", "no");
 
-		if (this.closeExitRB.isSelected())
-			Configuration.put("ON_CLOSE", "exit");
-		else
-			Configuration.put("ON_CLOSE", "minimize");
-
 		Configuration.put("ON_MINIMIZE", "normal");
 
-		String lf = Configuration.get("LOOK_AND_FEEL").toString();
-		String newlf = "";
-
-		if (this.lfSystemRB.isSelected())
-			newlf = "system";
-		else if (this.lfJavaRB.isSelected())
-			newlf = "default";
-		else if (this.lfCustomRB.isSelected())
-			newlf = this.lfClassName.getText();
-
-		if (!lf.equalsIgnoreCase(newlf)) {
-			Configuration.put("LOOK_AND_FEEL", newlf);
-			try {
-				if (Configuration.get("LOOK_AND_FEEL").equals("system"))
-					UIManager.setLookAndFeel(UIManager
-							.getSystemLookAndFeelClassName());
-				else if (Configuration.get("LOOK_AND_FEEL").equals("default"))
-					UIManager.setLookAndFeel(UIManager
-							.getCrossPlatformLookAndFeelClassName());
-				else if (Configuration.get("LOOK_AND_FEEL").toString().length() > 0)
-					UIManager.setLookAndFeel(Configuration.get("LOOK_AND_FEEL")
-							.toString());
-
-				SwingUtilities.updateComponentTreeUI(App.getFrame());
-
-			} catch (Exception e) {
-				Configuration.put("LOOK_AND_FEEL", lf);
-				new ExceptionDialog(
-						e,
-						"Error when initializing a pluggable look-and-feel. Default LF will be used.",
-						"Make sure that specified look-and-feel library classes are on the CLASSPATH.");
-			}
-		}
 		String brPath = this.browserPath.getText();
 		if (new java.io.File(brPath).isFile()) {
 			MimeTypesList.getAppList().setBrowserExec(brPath);
@@ -712,11 +552,6 @@ public class PreferencesDialog extends JDialog {
 		
 		Configuration.saveConfig();
 		
-	}
-
-	void enableCustomLF(boolean is) {
-		this.classNameLabel.setEnabled(is);
-		this.lfClassName.setEnabled(is);
 	}
 
 	void enableCustomSound(boolean is) {
@@ -754,28 +589,8 @@ public class PreferencesDialog extends JDialog {
 
 	}
 
-	void closeExitRB_actionPerformed(ActionEvent e) {
-		// this.askConfirmChB.setEnabled(true);
-	}
-
 	void askConfirmChB_actionPerformed(ActionEvent e) {
 
-	}
-
-	void closeHideRB_actionPerformed(ActionEvent e) {
-		// this.askConfirmChB.setEnabled(false);
-	}
-
-	void lfSystemRB_actionPerformed(ActionEvent e) {
-		this.enableCustomLF(false);
-	}
-
-	void lfJavaRB_actionPerformed(ActionEvent e) {
-		this.enableCustomLF(false);
-	}
-
-	void lfCustomRB_actionPerformed(ActionEvent e) {
-		this.enableCustomLF(true);
 	}
 
 	void enSystrayChB_actionPerformed(ActionEvent e) {
