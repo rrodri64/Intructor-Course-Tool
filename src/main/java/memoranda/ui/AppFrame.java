@@ -632,6 +632,7 @@ public class AppFrame extends JFrame {
 
     }
    
+    //Code for stuff in the help tab
     protected void jMenuHelpBug_actionPerformed(ActionEvent e) {
         Util.runBrowser(App.BUGS_TRACKER_URL);
     }
@@ -664,9 +665,11 @@ public class AppFrame extends JFrame {
         System.exit(0);
     }
 
+    /*
+     * Currently just minimizes the window but can be expanded to do more.
+     */
     public void doMinimize() {
-        exitNotify();
-        App.closeWindow();
+        App.getFrame().setState(Frame.ICONIFIED);
     }
 
     //Help | About action performed
@@ -680,6 +683,10 @@ public class AppFrame extends JFrame {
          dlg.setVisible(true);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see javax.swing.JFrame#processWindowEvent(java.awt.event.WindowEvent)
+     */
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
             if (Configuration.get("ON_CLOSE").equals("exit"))
@@ -688,8 +695,7 @@ public class AppFrame extends JFrame {
                 doMinimize();
         }
         else if ((e.getID() == WindowEvent.WINDOW_ICONIFIED)) {
-            super.processWindowEvent(new WindowEvent(this,
-                    WindowEvent.WINDOW_CLOSING));
+        	//Pass the minimize event to a function for this.
             doMinimize();
         }
         else
