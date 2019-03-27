@@ -75,10 +75,11 @@ public class JNCalendarCellRenderer extends javax.swing.table.DefaultTableCellRe
             label.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 128)));
         }
         
-		// set foreground color
-		if (d.getCalendar().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-            label.setForeground(new Color(255, 0, 0));
+        //Set sunday highlights 
+        if(d.getCalendar().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+        	label.setBorder(BorderFactory.createLineBorder(new Color(255,0,0)));
         }
+			
 		else { 		
 			label.setForeground(Color.BLACK);
 		}
