@@ -85,8 +85,8 @@ public class Local {
 
     static String monthnames[] =
         {
-            "Jan",
-            "Feb",
+            "January",
+            "February",
             "March",
             "April",
             "May",
