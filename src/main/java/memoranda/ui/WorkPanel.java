@@ -37,7 +37,8 @@ public class WorkPanel extends JPanel {
 	public JButton agendaB = new JButton();  // Calendar Button
 	public JButton tasksB = new JButton();  // Assignments Button
 	public JButton eventsB = new JButton(); // Lectures Button
-	public JButton filesB = new JButton();  // Sprints Button
+	public JButton filesB = new JButton();  // Sprints Button 
+	public JButton to_do_listB = new JButton();
 	JButton currentB = null;
 	Border border1;
 
@@ -171,6 +172,33 @@ public class WorkPanel extends JPanel {
 		notesB.setMargin(new Insets(0, 0, 0, 0));
 		notesB.setSelected(true);
 		this.setPreferredSize(new Dimension(1073, 300));
+		
+		to_do_listB.setFont(new java.awt.Font("Dialog", 1, 10));
+		to_do_listB.setBackground(Color.white);
+		to_do_listB.setBorder(null);
+		to_do_listB.setMaximumSize(new Dimension(60, 80));
+		to_do_listB.setMinimumSize(new Dimension(30, 30));
+		to_do_listB.setOpaque(false);
+		to_do_listB.setPreferredSize(new Dimension(60, 50));
+		to_do_listB.setBorderPainted(false);
+		to_do_listB.setContentAreaFilled(false);
+		to_do_listB.setFocusPainted(false);
+		to_do_listB.setHorizontalTextPosition(SwingConstants.CENTER);
+		to_do_listB.setText(Local.getString("To-Do List"));
+		to_do_listB.setVerticalAlignment(SwingConstants.TOP);
+		to_do_listB.setVerticalTextPosition(SwingConstants.BOTTOM);
+		to_do_listB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				notesB_actionPerformed(e);
+			}
+		});
+		to_do_listB.setIcon(
+			new ImageIcon(
+				main.java.memoranda.ui.AppFrame.class.getResource(
+					"/ui/icons/notes.png")));
+		to_do_listB.setMargin(new Insets(0, 0, 0, 0));
+		to_do_listB.setSelected(true);
+		this.setPreferredSize(new Dimension(1073, 300));
 
 		filesB.setSelected(true);
 		filesB.setMargin(new Insets(0, 0, 0, 0));
@@ -242,6 +270,13 @@ public class WorkPanel extends JPanel {
 		dailyItemsPanel.selectPanel("NOTES");
 		setCurrentButton(notesB);
 		Context.put("CURRENT_PANEL", "NOTES");
+	}
+	
+	public void to_do_listB_actionPerformed(ActionEvent e) {
+		cardLayout1.show(panel, "DAILYITEMS");
+		dailyItemsPanel.selectPanel("TO_DO_LIST");
+		setCurrentButton(to_do_listB);
+		Context.put("CURRENT_PANEL", "TO_DO_LIST");
 	}
 
 	public void tasksB_actionPerformed(ActionEvent e) {
