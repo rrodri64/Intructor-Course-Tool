@@ -683,16 +683,11 @@ public class AppFrame extends JFrame {
          dlg.setVisible(true);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.swing.JFrame#processWindowEvent(java.awt.event.WindowEvent)
-     */
+
+    // Custom handling for exit and minimize window events
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            if (Configuration.get("ON_CLOSE").equals("exit"))
-                doExit();
-            else
-                doMinimize();
+            doExit();
         }
         else if ((e.getID() == WindowEvent.WINDOW_ICONIFIED)) {
         	//Pass the minimize event to a function for this.
