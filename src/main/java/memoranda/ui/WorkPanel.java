@@ -189,7 +189,7 @@ public class WorkPanel extends JPanel {
 		to_do_listB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		to_do_listB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				notesB_actionPerformed(e);
+				to_do_listB_actionPerformed(e);
 			}
 		});
 		to_do_listB.setIcon(
