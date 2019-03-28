@@ -31,13 +31,14 @@ public class WorkPanel extends JPanel {
 	JPanel panel = new JPanel();
 	CardLayout cardLayout1 = new CardLayout();
 
-	public JButton notesB = new JButton();
+	public JButton notesB = new JButton();  // Documents Button
 	public DailyItemsPanel dailyItemsPanel = new DailyItemsPanel(this);
 	public ResourcesPanel filesPanel = new ResourcesPanel();
-	public JButton agendaB = new JButton();
-	public JButton tasksB = new JButton();
-	public JButton eventsB = new JButton();
-	public JButton filesB = new JButton();
+	public JButton agendaB = new JButton();  // Calendar Button
+	public JButton tasksB = new JButton();  // Assignments Button
+	public JButton eventsB = new JButton(); // Lectures Button
+	public JButton filesB = new JButton();  // Sprints Button 
+	public JButton to_do_listB = new JButton();
 	JButton currentB = null;
 	Border border1;
 
@@ -78,7 +79,7 @@ public class WorkPanel extends JPanel {
 		agendaB.setContentAreaFilled(false);
 		agendaB.setFocusPainted(false);
 		agendaB.setHorizontalTextPosition(SwingConstants.CENTER);
-		agendaB.setText(Local.getString("Agenda"));
+		agendaB.setText(Local.getString("Calendar"));
 		agendaB.setVerticalAlignment(SwingConstants.TOP);
 		agendaB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		agendaB.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +107,7 @@ public class WorkPanel extends JPanel {
 		eventsB.setContentAreaFilled(false);
 		eventsB.setFocusPainted(false);
 		eventsB.setHorizontalTextPosition(SwingConstants.CENTER);
-		eventsB.setText(Local.getString("Events"));
+		eventsB.setText(Local.getString("Lectures"));
 		eventsB.setVerticalAlignment(SwingConstants.TOP);
 		eventsB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		eventsB.addActionListener(new java.awt.event.ActionListener() {
@@ -136,7 +137,7 @@ public class WorkPanel extends JPanel {
 			}
 		});
 		tasksB.setVerticalAlignment(SwingConstants.TOP);
-		tasksB.setText(Local.getString("Tasks"));
+		tasksB.setText(Local.getString("Assignments"));
 		tasksB.setHorizontalTextPosition(SwingConstants.CENTER);
 		tasksB.setFocusPainted(false);
 		tasksB.setBorderPainted(false);
@@ -158,7 +159,7 @@ public class WorkPanel extends JPanel {
 		notesB.setContentAreaFilled(false);
 		notesB.setFocusPainted(false);
 		notesB.setHorizontalTextPosition(SwingConstants.CENTER);
-		notesB.setText(Local.getString("Notes"));
+		notesB.setText(Local.getString("Documents"));
 		notesB.setVerticalAlignment(SwingConstants.TOP);
 		notesB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		notesB.addActionListener(new java.awt.event.ActionListener() {
@@ -172,6 +173,33 @@ public class WorkPanel extends JPanel {
 					"/ui/icons/Documents.png")));
 		notesB.setMargin(new Insets(0, 0, 0, 0));
 		notesB.setSelected(false);
+		this.setPreferredSize(new Dimension(1073, 300));
+		
+		to_do_listB.setFont(new java.awt.Font("Dialog", 1, 10));
+		to_do_listB.setBackground(Color.white);
+		to_do_listB.setBorder(null);
+		to_do_listB.setMaximumSize(new Dimension(60, 80));
+		to_do_listB.setMinimumSize(new Dimension(30, 30));
+		to_do_listB.setOpaque(false);
+		to_do_listB.setPreferredSize(new Dimension(60, 50));
+		to_do_listB.setBorderPainted(false);
+		to_do_listB.setContentAreaFilled(false);
+		to_do_listB.setFocusPainted(false);
+		to_do_listB.setHorizontalTextPosition(SwingConstants.CENTER);
+		to_do_listB.setText(Local.getString("To-Do List"));
+		to_do_listB.setVerticalAlignment(SwingConstants.TOP);
+		to_do_listB.setVerticalTextPosition(SwingConstants.BOTTOM);
+		to_do_listB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				to_do_listB_actionPerformed(e);
+			}
+		});
+		to_do_listB.setIcon(
+			new ImageIcon(
+				main.java.memoranda.ui.AppFrame.class.getResource(
+					"/ui/icons/notes.png")));
+		to_do_listB.setMargin(new Insets(0, 0, 0, 0));
+		to_do_listB.setSelected(true);
 		this.setPreferredSize(new Dimension(1073, 300));
 
 		filesB.setSelected(false);
@@ -188,7 +216,7 @@ public class WorkPanel extends JPanel {
 		});
 		filesB.setFont(new java.awt.Font("Dialog", 1, 10));
 		filesB.setVerticalAlignment(SwingConstants.TOP);
-		filesB.setText(Local.getString("Resources"));
+		filesB.setText(Local.getString("Sprints"));
 		filesB.setHorizontalTextPosition(SwingConstants.CENTER);
 		filesB.setFocusPainted(false);
 		filesB.setBorderPainted(false);
@@ -253,6 +281,13 @@ public class WorkPanel extends JPanel {
 		dailyItemsPanel.selectPanel("NOTES");
 		setCurrentButton(notesB);
 		Context.put("CURRENT_PANEL", "NOTES");
+	}
+	
+	public void to_do_listB_actionPerformed(ActionEvent e) {
+		cardLayout1.show(panel, "DAILYITEMS");
+		dailyItemsPanel.selectPanel("TO_DO_LIST");
+		setCurrentButton(to_do_listB);
+		Context.put("CURRENT_PANEL", "TO_DO_LIST");
 	}
 
 	public void tasksB_actionPerformed(ActionEvent e) {
