@@ -21,3 +21,6 @@
 .DS_Store
 
 
+/classes/
+/bin/
+/doc/

@@ -33,6 +33,8 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.text.html.HTMLDocument;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.ButtonGroup;
 
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.History;
@@ -82,9 +84,11 @@ public class AppFrame extends JFrame {
     ProjectsPanel projectsPanel = new ProjectsPanel();
     boolean prPanelExpanded = false;
 
+    // Create the JMenu items
     JMenu jMenuEdit = new JMenu();
     JMenu jMenuFormat = new JMenu();
     JMenu jMenuInsert = new JMenu();
+    JMenu jMenuUserType = new JMenu("User Type");
 
     public WorkPanel workPanel = new WorkPanel();
     HTMLEditor editor = workPanel.dailyItemsPanel.editorPanel.editor;
@@ -115,6 +119,31 @@ public class AppFrame extends JFrame {
         }
     };
     
+    /*
+     * Actions for the UserTypes radio buttons.
+     */
+    
+    public Action setUserTeacherAction = new AbstractAction("Teacher") {
+        public void actionPerformed(ActionEvent e) {
+            //TODO UserTypeTeacher
+        }
+    };
+
+    public Action setUserTAAction = new AbstractAction("TA") {
+        public void actionPerformed(ActionEvent e) {
+        	//TODO UserTypeTeacher
+        }
+    };
+
+    public Action setUserStudentAction = new AbstractAction("Student") {
+        public void actionPerformed(ActionEvent e) {
+            //TODO UserTypeTeacher
+        }
+    };
+    
+    /*
+     * Other actions for misc menu item buttons if we need to change later
+     */
     public Action exportNotesAction =
                 new AbstractAction(Local.getString("Export notes") + "...") {
 
@@ -138,6 +167,7 @@ public class AppFrame extends JFrame {
                 }
         };
     
+    //Variables for File MenuItem
     JMenuItem jMenuFileNewPrj = new JMenuItem();
         JMenuItem jMenuFileNewNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.newAction);
     JMenuItem jMenuFilePackPrj = new JMenuItem(prjPackAction);
@@ -148,7 +178,8 @@ public class AppFrame extends JFrame {
     JMenuItem jMenuFileExportNote = new JMenuItem(
             workPanel.dailyItemsPanel.editorPanel.exportAction);
     JMenuItem jMenuFileMin = new JMenuItem(minimizeAction);
-
+    
+    //Variables for Edit MenuItem
     JMenuItem jMenuItem1 = new JMenuItem();
     JMenuItem jMenuEditUndo = new JMenuItem(editor.undoAction);
     JMenuItem jMenuEditRedo = new JMenuItem(editor.redoAction);
@@ -159,6 +190,7 @@ public class AppFrame extends JFrame {
     JMenuItem jMenuEditSelectAll = new JMenuItem(editor.selectAllAction);
     JMenuItem jMenuEditFind = new JMenuItem(editor.findAction);
 
+    //Variables for Insert MenuItem
     JMenu jMenuGo = new JMenu();
     JMenuItem jMenuInsertImage = new JMenuItem(editor.imageAction);
     JMenuItem jMenuInsertTable = new JMenuItem(editor.tableAction);
@@ -176,6 +208,7 @@ public class AppFrame extends JFrame {
     JMenuItem jMenuInsertFile = new JMenuItem(
             workPanel.dailyItemsPanel.editorPanel.importAction);
 
+    //Variables for Format MenuItem
     JMenu jMenuFormatPStyle = new JMenu();
     JMenuItem jMenuFormatP = new JMenuItem(editor.new BlockAction(editor.T_P,
             ""));
@@ -226,6 +259,7 @@ public class AppFrame extends JFrame {
     JMenuItem jMenuGoHBack = new JMenuItem(History.historyBackAction);
     JMenuItem jMenuGoFwd = new JMenuItem(History.historyForwardAction);
 
+    //Variables for Go MenuItem
     JMenuItem jMenuGoDayBack = new JMenuItem(
             workPanel.dailyItemsPanel.calendar.dayBackAction);
     JMenuItem jMenuGoDayFwd = new JMenuItem(
@@ -239,10 +273,17 @@ public class AppFrame extends JFrame {
     
     JMenu jMenuHelp = new JMenu();
     
+    //Variables for Help MenuItem
     JMenuItem jMenuHelpGuide = new JMenuItem();
     JMenuItem jMenuHelpWeb = new JMenuItem();
     JMenuItem jMenuHelpBug = new JMenuItem();
     JMenuItem jMenuHelpAbout = new JMenuItem();
+    
+    //Variables for UserType Menu Item 
+    ButtonGroup userTypeGroup = new ButtonGroup();
+    JRadioButtonMenuItem menuItemTeacher = new JRadioButtonMenuItem(setUserTeacherAction);
+    JRadioButtonMenuItem menuItemTA = new JRadioButtonMenuItem(setUserTAAction);
+    JRadioButtonMenuItem menuItemStudent = new JRadioButtonMenuItem(setUserStudentAction);
 
     //Construct the frame
     public AppFrame() {
@@ -257,12 +298,12 @@ public class AppFrame extends JFrame {
     //Component initialization
     private void jbInit() throws Exception {
         this.setIconImage(new ImageIcon(AppFrame.class.getResource(
-                "/ui/icons/jnotes16.png"))
+                "/ui/icons/fcpt-icon.png"))
                 .getImage());
         contentPane = (JPanel) this.getContentPane();
         contentPane.setLayout(borderLayout1);
         //this.setSize(new Dimension(800, 500));
-        this.setTitle("Memoranda - " + CurrentProject.get().getTitle());
+        this.setTitle("Flash-Course Planning Tool - " + CurrentProject.get().getTitle());
         //Added a space to App.VERSION_INFO to make it look some nicer
         statusBar.setText(" Version:" + App.VERSION_INFO + " (Build "
                 + App.BUILD_INFO + " )");
@@ -307,6 +348,19 @@ public class AppFrame extends JFrame {
                 jMenuHelpAbout_actionPerformed(e);
             }
         });
+        
+        //Sets up the UserType Panel
+        userTypeGroup.add(menuItemTeacher);
+        jMenuUserType.add(menuItemTeacher);
+        menuItemTeacher.setText("Teacher");
+        menuItemTeacher.setSelected(true);
+        userTypeGroup.add(menuItemTA);
+        jMenuUserType.add(menuItemTA);
+        menuItemTA.setText("TA");
+        userTypeGroup.add(menuItemStudent);
+        jMenuUserType.add(menuItemStudent);
+        menuItemStudent.setText("Student");
+        
         //jButton3.setIcon(image3);
         jButton3.setToolTipText(Local.getString("Help"));
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -474,6 +528,7 @@ public class AppFrame extends JFrame {
         menuBar.add(jMenuFormat);
         menuBar.add(jMenuGo);
         menuBar.add(jMenuHelp);
+        menuBar.add(jMenuUserType);
         this.setJMenuBar(menuBar);
         //contentPane.add(toolBar, BorderLayout.NORTH);
         contentPane.add(statusBar, BorderLayout.SOUTH);
@@ -632,6 +687,7 @@ public class AppFrame extends JFrame {
 
     }
    
+    //Code for stuff in the help tab
     protected void jMenuHelpBug_actionPerformed(ActionEvent e) {
         Util.runBrowser(App.BUGS_TRACKER_URL);
     }
@@ -664,9 +720,11 @@ public class AppFrame extends JFrame {
         System.exit(0);
     }
 
+    /*
+     * Currently just minimizes the window but can be expanded to do more.
+     */
     public void doMinimize() {
-        exitNotify();
-        App.closeWindow();
+        App.getFrame().setState(Frame.ICONIFIED);
     }
 
     //Help | About action performed
@@ -680,16 +738,14 @@ public class AppFrame extends JFrame {
          dlg.setVisible(true);
     }
 
+
+    // Custom handling for exit and minimize window events
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            if (Configuration.get("ON_CLOSE").equals("exit"))
-                doExit();
-            else
-                doMinimize();
+            doExit();
         }
         else if ((e.getID() == WindowEvent.WINDOW_ICONIFIED)) {
-            super.processWindowEvent(new WindowEvent(this,
-                    WindowEvent.WINDOW_CLOSING));
+        	//Pass the minimize event to a function for this.
             doMinimize();
         }
         else
