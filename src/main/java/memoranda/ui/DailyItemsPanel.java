@@ -96,6 +96,7 @@ public class DailyItemsPanel extends JPanel {
     JTabbedPane tasksTabbedPane = new JTabbedPane();
     JTabbedPane eventsTabbedPane = new JTabbedPane();
 	JTabbedPane agendaTabbedPane = new JTabbedPane();
+	JTabbedPane to_do_TabbedPane = new JTabbedPane();
     Border border2;
 
 	String CurrentPanel;
@@ -301,6 +302,7 @@ public class DailyItemsPanel extends JPanel {
         mainTabsPanel.add(tasksTabbedPane, "TASKSTAB");
         mainTabsPanel.add(notesControlPane, "NOTESTAB");
 		mainTabsPanel.add(agendaTabbedPane, "AGENDATAB");
+		mainTabsPanel.add(to_do_TabbedPane, "TO_DO_TAB");
         updateIndicators(CurrentDate.get(), CurrentProject.getTaskList());
         mainPanel.setBorder(null);
     }
