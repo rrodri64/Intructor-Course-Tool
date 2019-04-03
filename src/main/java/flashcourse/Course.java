@@ -34,7 +34,13 @@ private Map<String, CalendarDate> holidays;
 private Map<String, CalendarDate> freeDays;
 private ArrayList<Assignment> assignments;
 
-
+/**
+ * 
+ * @param course the course name to be set during creation
+ * 
+ * Course constructor that takes in the name of a course 
+ * and sets all dates and date collections as empty.
+ */
 public Course(String course) {
 	
 	courseName = course;
@@ -46,7 +52,7 @@ public Course(String course) {
 	lectureTimes = new HashMap<>();
 	holidays = new HashMap<>();
 	freeDays = new HashMap<>();
-	//assignments = new ArrayList<>();
+	assignments = new ArrayList<>();
 }
 
 public String getCourseName() {
