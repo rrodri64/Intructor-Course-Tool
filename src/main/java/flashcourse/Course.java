@@ -32,7 +32,7 @@ private CalendarDate courseBreakEnd;
 private Map<String, CalendarDate> lectureTimes;
 private Map<String, CalendarDate> holidays;
 private Map<String, CalendarDate> freeDays;
-//private ArrayList<Assignments> assignments;
+private ArrayList<Assignment> assignments;
 
 
 public Course(String course) {
@@ -213,33 +213,48 @@ public boolean deleteFreeDay(String freeDayName, CalendarDate freeDayDate) {
 	return delete;
 }
 
-//public ArrayList<Assignments> getAssignments(){
-//	return assignments;
-//}
+public ArrayList<Assignment> getAssignments(){
+	return assignments;
+}
 
-//public boolean addAssignment(Assignment assign) {
-//	boolean add = false;
-//	for(int i = 0; i < assignments.length(); i++) {
-//		if(!(assignments.get(i).contains(assign))) {
-			//assignemnts.add(assign);
-//			add = true;
-//		}
-//	}
-//	return add;
-//	
-//}
+/**
+ * 
+ * @param assign to be added
+ * @return true or false depending on success of adding
+ * to collection
+ * 
+ * Adds assignment to assignments collection
+ */
+public boolean addAssignment(Assignment assign) {
+	boolean add = false;
+	for(int i = 0; i < assignments.size(); i++) {
+		if(!(assignments.get(i).equals(assign))) {
+			assignments.add(assign);
+			add = true;
+		}
+	}
+	return add;
+	
+}
 
-//public boolean deleteAssignment(Assignment assign) {
-//	boolean delete = false;
-//	for(int i = 0; i < assignments.length(); i++) {
-//		if((assignments.get(i).contains(assign))) {
-//			delete = true;
-//			assignments.remove(assign);
-//		}
-//	}
-//	
-//	return delete;
-//}
+/**
+ * 
+ * @param assign to be deleted
+ * @return true or false based on target assignment deletion
+ * 
+ * Deletes target assignment from assignments collection
+ */
+public boolean deleteAssignment(Assignment assign) {
+	boolean delete = false;
+	for(int i = 0; i < assignments.size(); i++) {
+		if((assignments.get(i).equals(assign))) {
+			delete = true;
+			assignments.remove(assign);
+		}
+	}
+	
+	return delete;
+}
 
 /**
  * @return string value of the courseName 
