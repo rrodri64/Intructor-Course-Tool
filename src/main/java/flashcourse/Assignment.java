@@ -3,20 +3,23 @@
  * Author: Ryan Bohorquez
  * Date:4/3/2019
  * Description: This file is used for the creation and storing of assignments. The assignment class holds all the
- *  information for a class, and the ASSIGNEDGROUP enum is used determine who an assignment is for.
+ *  information for a class, and the ASSIGNEDGROUP enum is used determine who an assignment is for. 
  */
 
 package main.java.flashcourse;
 
 import main.java.memoranda.date.*;
 
-public class Assignment {
+/**
+ * Class: Assignment
+ * Description: Assignment extends all the functionality from Task and adds the ability to store a course
+ *  as well as modify its value. By default an assignment needs to be created with a course in mind, but it
+ *  can be removed and have null for its course.
+ */
+public class Assignment extends Task{
 
 	//Member variables
 	private Course course;
-	private CalendarDate dueDate;
-	private ASSIGNEDGROUP assignedGroup;
-	private String name;
 	
 	/*
 	 *Constructor for the Assignment class, intializes local variables based on parameters and calls addAssignment on the passed course
@@ -26,11 +29,9 @@ public class Assignment {
 	 *@param assignedGroup the ASSIGNEDGROUP this task is assigned to
 	 *@param name the name of this assignment for printing purposes.
 	 */
-	public Assignment(Course course, CalendarDate dueDate, ASSIGNEDGROUP assignedGroup, String name) {
+	public Assignment(Course course, CalendarDate dueDate, ASSIGNEDGROUP assignedGroup, String name, String description) {
+		super(dueDate, assignedGroup, name, description);
 		course.addAssignment(this);
-		this.dueDate = dueDate;
-		this.assignedGroup = assignedGroup;
-		this.name = name;
 	}
 	
 	public Course getCourse() {
@@ -44,30 +45,6 @@ public class Assignment {
 		newCourse.addAssignment(this);
 	}
 	
-	public CalendarDate getDueDate() {
-		return this.dueDate;
-	}
-	
-	public void setDueDate(CalendarDate date) {
-		this.dueDate = date;
-	}
-	
-	public ASSIGNEDGROUP getAssignedGroup() {
-		return this.assignedGroup;
-	}
-	
-	public void setAssignedGroup(ASSIGNEDGROUP group) {
-		this.assignedGroup = group;
-	}
-	
-	public String getName() {
-		return this.name;
-	}
-	
-	public void setName(String newName) {
-		this.name = newName;
-	}
-	
 	/*
 	 *removeCourse removes this assignment from its course and sets it to null. Checks to 
 	 * make sure it isnt already null.
@@ -79,13 +56,4 @@ public class Assignment {
 			course = null;
 		}
 	}
-}
-
-/**
- * Enum: ASSIGNEDGROUP
- * Description: This enum is used to set who an assignment is for. This is because Teachers should be able to 
- *  assign only themselves stuff, TA's stuff, or for students.
- */
-enum ASSIGNEDGROUP {
-	Student, TA, Teacher;
 }
