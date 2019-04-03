@@ -33,7 +33,7 @@ public class Assignment {
 		this.name = name;
 	}
 	
-	public course getCourse() {
+	public Course getCourse() {
 		return this.course;
 	}
 	
@@ -75,7 +75,7 @@ public class Assignment {
 	public void removeCourse() {
 		//make sure course isnt already null before attempting to access it
 		if(course != null) {
-			course.removeAssignment(this);
+			course.deleteAssignment(this);
 			course = null;
 		}
 	}
