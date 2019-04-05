@@ -230,6 +230,10 @@ public class JNCalendarPanel extends JPanel {
     refreshView();
   }
 
+  public JNCalendar getJNCalendar() {
+	  return jnCalendar;
+  }
+  
   public CalendarDate get() {
     return _date;
   }
