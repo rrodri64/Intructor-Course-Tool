@@ -43,6 +43,8 @@ import main.java.memoranda.date.DateListener;
 import main.java.memoranda.util.CurrentStorage;
 import main.java.memoranda.util.Local;
 import main.java.memoranda.util.Util;
+import main.java.flashcourse.ui.*;
+
 /**
  * 
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
@@ -62,7 +64,7 @@ public class DailyItemsPanel extends JPanel {
     public EditorPanel editorPanel = new EditorPanel(this);
     JLabel currentDateLabel = new JLabel();
     BorderLayout borderLayout4 = new BorderLayout();
-    TaskPanel tasksPanel = new TaskPanel(this);
+    AssignmentPanel assignmentPanel = new AssignmentPanel(this);
     EventsPanel eventsPanel = new EventsPanel(this);
     AgendaPanel agendaPanel = new AgendaPanel(this);
     ImageIcon expIcon = new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/exp_right.png"));
@@ -205,7 +207,7 @@ public class DailyItemsPanel extends JPanel {
         
         editorsPanel.add(agendaPanel, "AGENDA");
         editorsPanel.add(eventsPanel, "EVENTS");
-        editorsPanel.add(tasksPanel, "TASKS");
+        editorsPanel.add(assignmentPanel, "TASKS");
         editorsPanel.add(editorPanel, "NOTES");
         
         splitPane.add(mainPanel, JSplitPane.RIGHT);
@@ -451,13 +453,13 @@ public class DailyItemsPanel extends JPanel {
             calendar.jnCalendar.renderer.setTask(null);
          //   calendar.jnCalendar.updateUI();
         }
-        if (pan.equals("TASKS") && (tasksPanel.taskTable.getSelectedRow() > -1)) {
+        if (pan.equals("TASKS") && (assignmentPanel.getTaskTable().getSelectedRow() > -1)) {
             Task t =
                 CurrentProject.getTaskList().getTask(
-                    tasksPanel
-                        .taskTable
+                    assignmentPanel
+                        .getTaskTable()
                         .getModel()
-                        .getValueAt(tasksPanel.taskTable.getSelectedRow(), TaskTable.TASK_ID)
+                        .getValueAt(assignmentPanel.getTaskTable().getSelectedRow(), TaskTable.TASK_ID)
                         .toString());
             calendar.jnCalendar.renderer.setTask(t);
        //     calendar.jnCalendar.updateUI();
@@ -472,6 +474,11 @@ public class DailyItemsPanel extends JPanel {
 		CurrentPanel=pan;
     }
 
+    //Getter method for the calendar so I could move UI
+    public JNCalendarPanel getCalendar() {
+    	return calendar;
+    }
+    
 	public String getCurrentPanel() {
 		return CurrentPanel;
 	}
