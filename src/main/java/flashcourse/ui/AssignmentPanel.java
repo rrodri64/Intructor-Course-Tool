@@ -449,10 +449,9 @@ public class AssignmentPanel extends JPanel {
         Dimension frmSize = App.getFrame().getSize();
         Point loc = App.getFrame().getLocation();
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
-        dlg.todoField.setText(t.getText());
+        dlg.titleField.setText(t.getText());
         dlg.descriptionField.setText(t.getDescription());
-        dlg.dueDate.getModel().setValue(t.getStartDate().getDate());         
-        dlg.effortField.setText(Util.getHoursFromMillis(t.getEffort()));
+        dlg.dueDate.getModel().setValue(t.getStartDate().getDate());       
 
         dlg.setVisible(true);
         if (dlg.CANCELLED)
@@ -462,9 +461,8 @@ public class AssignmentPanel extends JPanel {
          CalendarDate ed;
  		
         t.setStartDate(sd);
-        t.setText(dlg.todoField.getText());
+        t.setText(dlg.titleField.getText());
         t.setDescription(dlg.descriptionField.getText());
-        t.setEffort(Util.getMillisFromHours(dlg.effortField.getText()));
         
 //		CurrentProject.getTaskList().adjustParentTasks(t);
 
@@ -487,7 +485,6 @@ public class AssignmentPanel extends JPanel {
         CalendarDate sd = new CalendarDate((Date) dlg.dueDate.getModel().getValue());
 //        CalendarDate ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
           CalendarDate ed;
-        long effort = Util.getMillisFromHours(dlg.effortField.getText());
 		//XXX Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId);
 		//Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),null);
 //		CurrentProject.getTaskList().adjustParentTasks(newTask);
@@ -509,11 +506,10 @@ public class AssignmentPanel extends JPanel {
 		Task parent = CurrentProject.getTaskList().getTask(parentTaskId);
 		CalendarDate todayD = CurrentDate.get();
 		if (todayD.after(parent.getStartDate()))
-			dlg.setStartDate(todayD);
+			dlg.setDueDate(todayD);
 		else
-			dlg.setStartDate(parent.getStartDate());
-		dlg.setStartDateLimit(parent.getStartDate(), parent.getEndDate());
-		dlg.setEndDateLimit(parent.getStartDate(), parent.getEndDate());
+			dlg.setDueDate(parent.getStartDate());
+		dlg.setDueDateLimit(parent.getStartDate(), parent.getEndDate());
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
         dlg.setVisible(true);
         if (dlg.CANCELLED)
@@ -521,7 +517,6 @@ public class AssignmentPanel extends JPanel {
         CalendarDate sd = new CalendarDate((Date) dlg.dueDate.getModel().getValue());
 //        CalendarDate ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
           CalendarDate ed;
-        long effort = Util.getMillisFromHours(dlg.effortField.getText());
 //		CurrentProject.getTaskList().adjustParentTasks(newTask);
 
 		CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
