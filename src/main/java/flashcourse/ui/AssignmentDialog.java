@@ -42,57 +42,69 @@ import main.java.memoranda.util.Local;
 import javax.swing.JCheckBox;
 import main.java.memoranda.ui.*;
 
-/*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
+/**
+ * Class: AssignmentDialog
+ * Description: AssignmentDialog handles setting up the dialog box when creating a new assignment
+ *  It give the user proper feedback when attempting to create an assignment and lets them know when
+ *  it is successful.
+ */
 public class AssignmentDialog extends JDialog {
 	
-	//UI for the window
-    JPanel mPanel = new JPanel(new BorderLayout());
-    JPanel areaPanel = new JPanel(new BorderLayout());
-    JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-    JButton cancelB = new JButton();
-    JButton createButton = new JButton();
-    Border border1;
-    Border border2;
+	//Main panel for everything to go into
+    JPanel panelMain = new JPanel(new BorderLayout());
+    
+    //Panel everything not buttons
+    JPanel panelInputFields = new JPanel(new BorderLayout());
+    
+    //Create buttons for create/cancel and the panel they belong in
+    JPanel panelButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    JButton buttonCancel = new JButton();
+    JButton buttonCreate = new JButton();
+    
+    //Borders around area user will enter information
+    Border borderNotTitle;
+    Border borderInfoArea;
+    
+    //Sets up the panel and label for the header of this window
     JPanel dialogTitlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     JLabel header = new JLabel();
     public boolean CANCELLED = true;
-    JPanel jPanel8 = new JPanel(new GridBagLayout());
-    Border border3;
-    Border border4;
-    JPanel jPanel2 = new JPanel(new GridLayout(3, 2));
-    JTextField todoField = new JTextField();
     
-    JTextField effortField = new JTextField();
+    //Setup panel, border, and labels for title and description fields
+    JPanel panelTitleDesc = new JPanel(new GridBagLayout());
+    Border borderTitleDesc;
+    Border borderHeader;
+    JPanel jPanel2 = new JPanel(new GridLayout(2, 2));
+    JTextField titleField = new JTextField();
     JTextArea descriptionField = new JTextArea();
     JScrollPane descriptionScrollPane = new JScrollPane(descriptionField);
+    JLabel jLabelDescription = new JLabel();
 
-    Border border8;
-    CalendarFrame dueCalFrame = new CalendarFrame();
-    String[] assignee = {Local.getString("Student"), Local.getString("TA"),
-        Local.getString("Teacher")};
+    //Set up label and frames for all other input boxes
+    Border borderInputBoxes;
+    CalendarFrame calFrameDueDate = new CalendarFrame();
+    String[] assignee = {Local.getString("Student"), Local.getString("TA"), Local.getString("Teacher")};
     boolean ignoreStartChanged = false;
     boolean ignoreEndChanged = false;
-    JPanel jPanel4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-    JPanel jPanel6 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    JLabel jLabel6 = new JLabel();
+    JPanel panelAssignTo = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    JPanel panelDueDate = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    JLabel labelDueDate = new JLabel();
     JButton setStartDateB = new JButton();
-    JPanel jPanel1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
     JSpinner dueDate;
-
-    JPanel jPanel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    JPanel jPanelEffort = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    
     JComboBox assigneeCB = new JComboBox(assignee);
-    JLabel jLabel7 = new JLabel();
+    JLabel labelAssignTo = new JLabel();
 
-    JLabel jLabelDescription = new JLabel();
-	
 	//Forbid to set dates outside the bounds
-	CalendarDate startDateMin = CurrentProject.get().getStartDate();
-	CalendarDate startDateMax = CurrentProject.get().getEndDate();
-	CalendarDate endDateMin = startDateMin;
-	CalendarDate endDateMax = startDateMax;
+	CalendarDate dueDateMin = CurrentProject.get().getStartDate();
+	CalendarDate dueDateMax = CurrentProject.get().getEndDate();
     
+	/*
+	 *Constructor for the AssignmentDialog class. Opens a new Dialog box and waits for input.
+	 * Passes info to the superclass constructor
+	 *
+	 *@param frame the frame to open this dialog box in
+	 *@param title the title of the frame
+	 */
     public AssignmentDialog(Frame frame, String title) {
         super(frame, title, true);
         try {
@@ -104,63 +116,62 @@ public class AssignmentDialog extends JDialog {
         }
     }
     
+    /*
+	 *Initializes the dialog window
+	 */
     void jbInit() throws Exception {
     	//Set up window properties
     	this.setResizable(false);
 		this.setSize(new Dimension(430,300));
-        border1 = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-        border2 = BorderFactory.createEtchedBorder(Color.white, 
+        borderNotTitle = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        borderInfoArea = BorderFactory.createEtchedBorder(Color.white, 
             new Color(142, 142, 142));
-        border3 = new TitledBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0), 
-        //Set up Title
-        Local.getString("Title"), TitledBorder.LEFT, TitledBorder.BELOW_TOP);
-        border4 = BorderFactory.createEmptyBorder(0, 5, 0, 5);
-        border8 = BorderFactory.createEtchedBorder(Color.white, 
-            new Color(178, 178, 178));
-        cancelB.setMaximumSize(new Dimension(100, 26));
-        cancelB.setMinimumSize(new Dimension(100, 26));
-        cancelB.setPreferredSize(new Dimension(100, 26));
-        cancelB.setText(Local.getString("Cancel"));
-        cancelB.addActionListener(new java.awt.event.ActionListener() {
+        borderTitleDesc = new TitledBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0), Local.getString("Title"), TitledBorder.LEFT, TitledBorder.BELOW_TOP);
+        borderHeader = BorderFactory.createEmptyBorder(0, 5, 0, 5);
+        borderInputBoxes = BorderFactory.createEtchedBorder(Color.white, new Color(178, 178, 178));
+        dialogTitlePanel.setBackground(Color.WHITE);
+        dialogTitlePanel.setBorder(borderHeader);
+        header.setFont(new java.awt.Font("Dialog", 0, 20));
+        header.setForeground(new Color(0, 0, 124));
+        header.setText(Local.getString("Assignment Creator"));
+        header.setIcon(new ImageIcon(main.java.flashcourse.ui.AssignmentDialog.class.getResource("/ui/icons/task48.png")));
+        
+        //Set up cancel button
+        buttonCancel.setMaximumSize(new Dimension(100, 26));
+        buttonCancel.setMinimumSize(new Dimension(100, 26));
+        buttonCancel.setPreferredSize(new Dimension(100, 26));
+        buttonCancel.setText(Local.getString("Cancel"));
+        buttonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cancelB_actionPerformed(e);
+                cancelButton_actionPerformed(e);
             }
         });
-
-        dueDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
 		
-        //Create button
-        createButton.setMaximumSize(new Dimension(100, 26));
-        createButton.setMinimumSize(new Dimension(100, 26));
-        createButton.setPreferredSize(new Dimension(100, 26));
-        createButton.setText(Local.getString("Create"));
-        createButton.addActionListener(new java.awt.event.ActionListener() {
+        //set up create button
+        buttonCreate.setMaximumSize(new Dimension(100, 26));
+        buttonCreate.setMinimumSize(new Dimension(100, 26));
+        buttonCreate.setPreferredSize(new Dimension(100, 26));
+        buttonCreate.setText(Local.getString("Create"));
+        buttonCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 createButton_actionPerformed(e);
             }
         });
+        this.getRootPane().setDefaultButton(buttonCreate);
+        panelMain.setBorder(borderNotTitle);
+        panelInputFields.setBorder(borderInfoArea);
+       
         
-        this.getRootPane().setDefaultButton(createButton);
-        mPanel.setBorder(border1);
-        areaPanel.setBorder(border2);
-        dialogTitlePanel.setBackground(Color.WHITE);
-        dialogTitlePanel.setBorder(border4);
-        header.setFont(new java.awt.Font("Dialog", 0, 20));
-        header.setForeground(new Color(0, 0, 124));
-        header.setText(Local.getString("Assignment Creator"));
-        header.setIcon(new ImageIcon(main.java.flashcourse.ui.AssignmentDialog.class.getResource(
-            "/ui/icons/task48.png")));
-        
-        GridBagLayout gbLayout = (GridBagLayout) jPanel8.getLayout();
-        jPanel8.setBorder(border3);
+        GridBagLayout gbLayout = (GridBagLayout) panelTitleDesc.getLayout();
+        panelTitleDesc.setBorder(borderTitleDesc);
 				
-        todoField.setBorder(border8);
-        todoField.setPreferredSize(new Dimension(375, 24));
+        //Set up text fields area
+        titleField.setBorder(borderInputBoxes);
+        titleField.setPreferredSize(new Dimension(375, 24));
         GridBagConstraints gbCon = new GridBagConstraints();
         gbCon.gridwidth = GridBagConstraints.REMAINDER;
         gbCon.weighty = 1;
-        gbLayout.setConstraints(todoField,gbCon);
-        
+        gbLayout.setConstraints(titleField,gbCon);
         jLabelDescription.setMaximumSize(new Dimension(100, 16));
         jLabelDescription.setMinimumSize(new Dimension(60, 16));
         jLabelDescription.setText(Local.getString("Description"));
@@ -170,7 +181,7 @@ public class AssignmentDialog extends JDialog {
         gbCon.anchor = GridBagConstraints.WEST;
         gbLayout.setConstraints(jLabelDescription,gbCon);
 
-        descriptionField.setBorder(border8);
+        descriptionField.setBorder(borderInputBoxes);
         descriptionField.setPreferredSize(new Dimension(375, 387)); // 3 additional pixels from 384 so that the last line is not cut off
         descriptionField.setLineWrap(true);
         descriptionField.setWrapStyleWord(true);
@@ -179,17 +190,14 @@ public class AssignmentDialog extends JDialog {
         gbCon.weighty = 3;
         descriptionScrollPane.setPreferredSize(new Dimension(375,96));
         gbLayout.setConstraints(descriptionScrollPane,gbCon);
-
-        effortField.setBorder(border8);
-        effortField.setPreferredSize(new Dimension(30, 24));
-
-        dueDate.setBorder(border8);
+        
+        //Set up due date area
+        dueDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
+        dueDate.setBorder(borderInputBoxes);
         dueDate.setPreferredSize(new Dimension(80, 24));                
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		sdf = (SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT);
-		
 		dueDate.setEditor(new JSpinner.DateEditor(dueDate, sdf.toPattern()));
-
         dueDate.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
             	// it's an ugly hack so that the spinner can increase day by day
@@ -201,23 +209,23 @@ public class AssignmentDialog extends JDialog {
                 ignoreStartChanged = true;
                 Date sd = (Date) dueDate.getModel().getValue();
                 
-				if ((startDateMax != null) && sd.after(startDateMax.getDate())) {
-					dueDate.getModel().setValue(startDateMax.getDate());
-                    sd = startDateMax.getDate();
+				if ((dueDateMax != null) && sd.after(dueDateMax.getDate())) {
+					dueDate.getModel().setValue(dueDateMax.getDate());
+                    sd = dueDateMax.getDate();
 				}
-                if ((startDateMin != null) && sd.before(startDateMin.getDate())) {
-                    dueDate.getModel().setValue(startDateMin.getDate());
-                    sd = startDateMin.getDate();
+                if ((dueDateMin != null) && sd.before(dueDateMin.getDate())) {
+                    dueDate.getModel().setValue(dueDateMin.getDate());
+                    sd = dueDateMin.getDate();
                 }
-                dueCalFrame.cal.set(new CalendarDate(sd));
+                calFrameDueDate.cal.set(new CalendarDate(sd));
                 ignoreStartChanged = false;
             }
         });
 
-        jLabel6.setText(Local.getString("Start date"));
+        labelDueDate.setText(Local.getString("Due date:"));
         //jLabel6.setPreferredSize(new Dimension(60, 16));
-        jLabel6.setMinimumSize(new Dimension(60, 16));
-        jLabel6.setMaximumSize(new Dimension(100, 16));
+        labelDueDate.setMinimumSize(new Dimension(60, 16));
+        labelDueDate.setMaximumSize(new Dimension(100, 16));
         setStartDateB.setMinimumSize(new Dimension(24, 24));
         setStartDateB.setPreferredSize(new Dimension(24, 24));
         setStartDateB.setText("");
@@ -225,72 +233,84 @@ public class AssignmentDialog extends JDialog {
             new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/calendar.png")));
         setStartDateB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                setStartDateB_actionPerformed(e);
+                setDueDateButton_actionPerformed(e);
             }
         });
         
-        jLabel7.setMaximumSize(new Dimension(100, 16));
-        jLabel7.setMinimumSize(new Dimension(60, 16));
+        labelAssignTo.setMaximumSize(new Dimension(100, 16));
+        labelAssignTo.setMinimumSize(new Dimension(60, 16));
         //jLabel7.setPreferredSize(new Dimension(60, 16));
-        jLabel7.setText(Local.getString("Priority"));
+        labelAssignTo.setText(Local.getString("Assign to:"));
 
         assigneeCB.setFont(new java.awt.Font("Dialog", 0, 11));
-        jPanel4.add(jLabel7, null);
-        getContentPane().add(mPanel);
-        mPanel.add(areaPanel, BorderLayout.CENTER);
-        mPanel.add(buttonsPanel, BorderLayout.SOUTH);
-        buttonsPanel.add(createButton, null);
-        buttonsPanel.add(cancelB, null);
+        panelAssignTo.add(labelAssignTo, null);
+        getContentPane().add(panelMain);
+        panelMain.add(panelInputFields, BorderLayout.CENTER);
+        panelMain.add(panelButtons, BorderLayout.SOUTH);
+        panelButtons.add(buttonCreate, null);
+        panelButtons.add(buttonCancel, null);
         this.getContentPane().add(dialogTitlePanel, BorderLayout.NORTH);
         dialogTitlePanel.add(header, null);
-        areaPanel.add(jPanel8, BorderLayout.NORTH);
-        jPanel8.add(todoField, null);
-        jPanel8.add(jLabelDescription);
-        jPanel8.add(descriptionScrollPane, null);
-        areaPanel.add(jPanel2, BorderLayout.CENTER);
-        jPanel2.add(jPanel6, null);
-        jPanel6.add(jLabel6, null);
-        jPanel6.add(dueDate, null);
-        jPanel6.add(setStartDateB, null);
-        jPanel2.add(jPanel1, null);
+        panelInputFields.add(panelTitleDesc, BorderLayout.NORTH);
+        panelTitleDesc.add(titleField, null);
+        panelTitleDesc.add(jLabelDescription);
+        panelTitleDesc.add(descriptionScrollPane, null);
+        panelInputFields.add(jPanel2, BorderLayout.CENTER);
+        jPanel2.add(panelDueDate, null);
+        panelDueDate.add(labelDueDate, null);
+        panelDueDate.add(dueDate, null);
+        panelDueDate.add(setStartDateB, null);
 
-        jPanel2.add(jPanelEffort, null);
-        jPanelEffort.add(effortField, null);
-
-        jPanel2.add(jPanel4, null);
-        jPanel4.add(assigneeCB, null);
-        jPanel2.add(jPanel3, null);
+        jPanel2.add(panelAssignTo, null);
+        panelAssignTo.add(assigneeCB, null);
         
         assigneeCB.setSelectedItem(Local.getString("Normal"));
-        dueCalFrame.cal.addSelectionListener(new ActionListener() {
+        calFrameDueDate.cal.addSelectionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (ignoreStartChanged)
                     return;
-                dueDate.getModel().setValue(dueCalFrame.cal.get().getCalendar().getTime());
+                dueDate.getModel().setValue(calFrameDueDate.cal.get().getCalendar().getTime());
             }
         });
     }
 
-	public void setStartDate(CalendarDate d) {
+    /*
+	 *Sets the due date of the assignment being created
+	 *
+	 *@param d CalenderDate to set due date to
+	 */
+	public void setDueDate(CalendarDate d) {
 		this.dueDate.getModel().setValue(d.getDate());
 	}
 	
-	public void setStartDateLimit(CalendarDate min, CalendarDate max) {
-		this.startDateMin = min;
-		this.startDateMax = max;
+	/*
+	 *Sets the min and max possible dates for the due date of this assignment. The min should be the current day or
+	 * course start date if it hasnt started, the max should be the end of the selected course
+	 *
+	 *@param min minimum date for a due date
+	 *@param max maximum date for a due date
+	 */
+	public void setDueDateLimit(CalendarDate min, CalendarDate max) {
+		this.dueDateMin = min;
+		this.dueDateMax = max;
 	}
 	
-	public void setEndDateLimit(CalendarDate min, CalendarDate max) {
-		this.endDateMin = min;
-		this.endDateMax = max;
-	}
-	
+	/*
+	 *Attempts to create a new assignment for the user, gives errors if unsuccessful, closes frame if successful
+	 *
+	 *@param action of clicking the cancel button
+	 */
     void createButton_actionPerformed(ActionEvent e) {
 	CANCELLED = false;
         this.dispose();
     }
 
-    void cancelB_actionPerformed(ActionEvent e) {
+    /*
+	 *Discards all changes the user has made
+	 *
+	 *@param action of clicking the cancel button
+	 */
+    void cancelButton_actionPerformed(ActionEvent e) {
         this.dispose();
     }
 	
@@ -309,10 +329,15 @@ public class AssignmentDialog extends JDialog {
 	}
 	*/
 
-    void setStartDateB_actionPerformed(ActionEvent e) {
-        dueCalFrame.setLocation(setStartDateB.getLocation());
-        dueCalFrame.setSize(200, 200);
-        this.getLayeredPane().add(dueCalFrame);
-        dueCalFrame.show();
+    /*
+	 *Opens the mini calendar frame for date selection
+	 *
+	 *@param action of clicking on the calender icon to open mini calendar
+	 */
+    void setDueDateButton_actionPerformed(ActionEvent e) {
+        calFrameDueDate.setLocation(setStartDateB.getLocation());
+        calFrameDueDate.setSize(200, 200);
+        this.getLayeredPane().add(calFrameDueDate);
+        calFrameDueDate.show();
     }
 }
