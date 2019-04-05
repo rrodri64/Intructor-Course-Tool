@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -35,12 +36,14 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import main.java.flashcourse.Course;
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.date.CalendarDate;
 import main.java.memoranda.util.Local;
 
 import javax.swing.JCheckBox;
 import main.java.memoranda.ui.*;
+import java.util.HashMap;
 
 /**
  * Class: AssignmentDialog
@@ -74,7 +77,7 @@ public class AssignmentDialog extends JDialog {
     JPanel panelTitleDesc = new JPanel(new GridBagLayout());
     Border borderTitleDesc;
     Border borderHeader;
-    JPanel jPanel2 = new JPanel(new GridLayout(2, 2));
+    JPanel panelInputGrid = new JPanel(new GridLayout(2, 2));
     JTextField titleField = new JTextField();
     JTextArea descriptionField = new JTextArea();
     JScrollPane descriptionScrollPane = new JScrollPane(descriptionField);
@@ -94,10 +97,19 @@ public class AssignmentDialog extends JDialog {
     JComboBox assigneeCB = new JComboBox(assignee);
     JLabel labelAssignTo = new JLabel();
 
+    //Set up things for the courses dropdown
+    JComboBox cbCourses = new JComboBox();  
+    JLabel labelCourses = new JLabel();
+    JPanel panelCourses = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    
 	//Forbid to set dates outside the bounds
 	CalendarDate dueDateMin = CurrentProject.get().getStartDate();
 	CalendarDate dueDateMax = CurrentProject.get().getEndDate();
-    
+	
+	//Setup the output label to correct user input
+	JTextArea labelOutput = new JTextArea(2,18);
+	JPanel panelOutput = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	
 	/*
 	 *Constructor for the AssignmentDialog class. Opens a new Dialog box and waits for input.
 	 * Passes info to the superclass constructor
@@ -223,7 +235,6 @@ public class AssignmentDialog extends JDialog {
         });
 
         labelDueDate.setText(Local.getString("Due date:"));
-        //jLabel6.setPreferredSize(new Dimension(60, 16));
         labelDueDate.setMinimumSize(new Dimension(60, 16));
         labelDueDate.setMaximumSize(new Dimension(100, 16));
         setStartDateB.setMinimumSize(new Dimension(24, 24));
@@ -237,13 +248,29 @@ public class AssignmentDialog extends JDialog {
             }
         });
         
+        //Set up assign-to area
         labelAssignTo.setMaximumSize(new Dimension(100, 16));
         labelAssignTo.setMinimumSize(new Dimension(60, 16));
-        //jLabel7.setPreferredSize(new Dimension(60, 16));
         labelAssignTo.setText(Local.getString("Assign to:"));
-
         assigneeCB.setFont(new java.awt.Font("Dialog", 0, 11));
         panelAssignTo.add(labelAssignTo, null);
+        
+        //Set up courses area
+        getCourses();
+        labelCourses.setMaximumSize(new Dimension(100, 16));
+        labelCourses.setMinimumSize(new Dimension(60, 16));
+        labelCourses.setText(Local.getString("Course:"));
+        cbCourses.setFont(new java.awt.Font("Dialog", 0, 11));
+        panelCourses.add(labelCourses, null);
+        panelCourses.add(cbCourses, null);
+        
+        //Setup output field and panel
+        panelOutput.add(labelOutput);
+        labelOutput.setText("Enter information and click \"Create\"");
+        labelOutput.setWrapStyleWord(true);
+        labelOutput.setLineWrap(true);
+        
+        //Setup main panel stuff
         getContentPane().add(panelMain);
         panelMain.add(panelInputFields, BorderLayout.CENTER);
         panelMain.add(panelButtons, BorderLayout.SOUTH);
@@ -255,16 +282,18 @@ public class AssignmentDialog extends JDialog {
         panelTitleDesc.add(titleField, null);
         panelTitleDesc.add(jLabelDescription);
         panelTitleDesc.add(descriptionScrollPane, null);
-        panelInputFields.add(jPanel2, BorderLayout.CENTER);
-        jPanel2.add(panelDueDate, null);
+        panelInputFields.add(panelInputGrid, BorderLayout.CENTER);
+        panelInputGrid.add(panelDueDate, null);
         panelDueDate.add(labelDueDate, null);
         panelDueDate.add(dueDate, null);
         panelDueDate.add(setStartDateB, null);
 
-        jPanel2.add(panelAssignTo, null);
+        panelInputGrid.add(panelCourses, null);
+        panelInputGrid.add(panelOutput, null);
+        panelInputGrid.add(panelAssignTo, null);
         panelAssignTo.add(assigneeCB, null);
         
-        assigneeCB.setSelectedItem(Local.getString("Normal"));
+        assigneeCB.setSelectedItem(Local.getString("Student"));
         calFrameDueDate.cal.addSelectionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (ignoreStartChanged)
@@ -274,6 +303,28 @@ public class AssignmentDialog extends JDialog {
         });
     }
 
+    /*
+	 *Gets the list of courses currently created 
+	 * TODO actually implement this method, currently returns a dummy list.
+	 *
+	 */
+    private void getCourses() {
+    	HashMap<String, Course> courses = new HashMap<String, Course>();
+    	Course c1 = new Course("SER322");
+    	Course c2 = new Course("SER310");
+    	Course c3 = new Course("SER352");
+    	courses.put(c1.getCourseName(), c1);
+    	courses.put(c2.getCourseName(), c2);
+    	courses.put(c3.getCourseName(), c3);
+    	
+    	cbCourses.removeAllItems();
+    	for (String key : courses.keySet()) {
+    	    cbCourses.addItem(key);
+    	}
+    	
+    	
+    }
+    
     /*
 	 *Sets the due date of the assignment being created
 	 *
