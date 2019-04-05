@@ -25,6 +25,7 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import main.java.flashcourse.ui.CoursePanel;
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.NoteList;
 import main.java.memoranda.Project;
@@ -69,6 +70,7 @@ public class JNCalendarPanel extends JPanel {
   Border border2;
 
   public JNCalendarPanel() {
+	 
     try {
       jbInit();
     }
@@ -76,7 +78,7 @@ public class JNCalendarPanel extends JPanel {
       new ExceptionDialog(ex);
     }
   }
-
+ 
   public Action dayBackAction =
         new AbstractAction(
             "Go one day back",
