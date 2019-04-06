@@ -449,8 +449,8 @@ public class DailyItemsPanel extends JPanel {
     }
 
     public void selectPanel(String pan) {
-        if (calendar.jnCalendar.renderer.getTask() != null) {
-            calendar.jnCalendar.renderer.setTask(null);
+        if (calendar.getJnCalendar().renderer.getTask() != null) {
+            calendar.getJnCalendar().renderer.setTask(null);
          //   calendar.jnCalendar.updateUI();
         }
         if (pan.equals("TASKS") && (assignmentPanel.getTaskTable().getSelectedRow() > -1)) {
@@ -461,7 +461,7 @@ public class DailyItemsPanel extends JPanel {
                         .getModel()
                         .getValueAt(assignmentPanel.getTaskTable().getSelectedRow(), TaskTable.TASK_ID)
                         .toString());
-            calendar.jnCalendar.renderer.setTask(t);
+            calendar.getJnCalendar().renderer.setTask(t);
        //     calendar.jnCalendar.updateUI();
         }
         boolean isAg = pan.equals("AGENDA");
@@ -470,7 +470,7 @@ public class DailyItemsPanel extends JPanel {
         	agendaPanel.refresh(CurrentDate.get());
         cardLayout1.show(editorsPanel, pan);
         cardLayout2.show(mainTabsPanel, pan + "TAB");
-		calendar.jnCalendar.updateUI();
+		calendar.getJnCalendar().updateUI();
 		CurrentPanel=pan;
     }
 

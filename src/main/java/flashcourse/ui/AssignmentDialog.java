@@ -36,9 +36,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import main.java.flashcourse.*;
+import main.java.flashcourse.Assignment;
 import main.java.flashcourse.Course;
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.date.CalendarDate;
+import main.java.memoranda.date.CurrentDate;
 import main.java.memoranda.util.Local;
 
 import javax.swing.JCheckBox;
@@ -112,6 +115,9 @@ public class AssignmentDialog extends JDialog {
 	
 	//TODO Remove this, testing purposes only
 	HashMap<String, Course> courses = new HashMap<String, Course>();
+	
+	//TODO Remove this, when we have a place to actually store assignments
+	ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 	
 	/*
 	 *Constructor for the AssignmentDialog class. Opens a new Dialog box and waits for input.
@@ -213,30 +219,7 @@ public class AssignmentDialog extends JDialog {
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		sdf = (SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT);
 		dueDate.setEditor(new JSpinner.DateEditor(dueDate, sdf.toPattern()));
-        dueDate.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-            	// it's an ugly hack so that the spinner can increase day by day
-            	SpinnerDateModel sdm = new SpinnerDateModel((Date)dueDate.getModel().getValue(),null,null,Calendar.DAY_OF_WEEK);
-            	dueDate.setModel(sdm);
-
-                if (ignoreStartChanged)
-                    return;
-                ignoreStartChanged = true;
-                Date sd = (Date) dueDate.getModel().getValue();
-                
-				if ((dueDateMax != null) && sd.after(dueDateMax.getDate())) {
-					dueDate.getModel().setValue(dueDateMax.getDate());
-                    sd = dueDateMax.getDate();
-				}
-                if ((dueDateMin != null) && sd.before(dueDateMin.getDate())) {
-                    dueDate.getModel().setValue(dueDateMin.getDate());
-                    sd = dueDateMin.getDate();
-                }
-                calFrameDueDate.cal.set(new CalendarDate(sd));
-                ignoreStartChanged = false;
-            }
-        });
-
+		
         labelDueDate.setText(Local.getString("Due date:"));
         labelDueDate.setMinimumSize(new Dimension(60, 16));
         labelDueDate.setMaximumSize(new Dimension(100, 16));
@@ -321,6 +304,10 @@ public class AssignmentDialog extends JDialog {
     	Course c1 = new Course("SER322");
     	Course c2 = new Course("SER310");
     	Course c3 = new Course("SER352");
+    	c1.setCourseStartDate(new CalendarDate(3,4,2019));
+    	c2.setCourseStartDate(new CalendarDate(7,5,2019));
+    	c1.setCourseEndDate(new CalendarDate(5,4,2019));
+    	c2.setCourseEndDate(new CalendarDate(5,7,2019));
     	courses.put(c1.getCourseName(), c1);
     	courses.put(c2.getCourseName(), c2);
     	courses.put(c3.getCourseName(), c3);
@@ -350,10 +337,8 @@ public class AssignmentDialog extends JDialog {
 	 *@param max maximum date for a due date
 	 */
 	public void setDueDateLimit(String course) {
-		
-		if ()
-		this.dueDateMin = ;
-		this.dueDateMax = max;
+		this.dueDateMin = courses.get(course).getCourseStartDate();
+		this.dueDateMax = courses.get(course).getCourseEndDate();
 	}
 	
 	/*
@@ -362,6 +347,11 @@ public class AssignmentDialog extends JDialog {
 	 *@param action of clicking the cancel button
 	 */
     void createButton_actionPerformed(ActionEvent e) {
+    	CalendarDate selectedDate = new CalendarDate(new SimpleDateFormat("dd/MM/yyyy").format(dueDate.getValue()));
+    	//Gross hack to get an actual current date because the CurrentDate.get() method returns a 0 based index month
+    	CalendarDate currentDate = new CalendarDate(CurrentDate.get().getDay(), CurrentDate.get().getMonth()+1, CurrentDate.get().getYear());
+
+    	//Check for all possible error in users selections
 		if (titleField.getText().equals("")) {
 			labelOutput.setText("Please enter a title for the assignment");
 		} else if (descriptionField.getText().equals("")) {
@@ -370,7 +360,22 @@ public class AssignmentDialog extends JDialog {
 			labelOutput.setText("Please select what class this assignment is for");
 		} else if (cbAssignee.getSelectedItem().toString().equals("Select")) {
 			labelOutput.setText("Please select who this assignment is for");
+		} else if (dueDateMax.before(currentDate)){
+			labelOutput.setText("This class has already ended");
+		} else  if (selectedDate.before(currentDate)){
+			labelOutput.setText("This date has already passed");
+		} else if (selectedDate.before(dueDateMin)) {
+			labelOutput.setText("This due date is before this class starts");
+		} else  if (dueDateMax.before(selectedDate)){
+			labelOutput.setText("This due date is after the class ends");
 		} else {
+			//If all checks succeed, create the new assignment.
+			assignments.add(new Assignment(
+					courses.get(cbCourses.getSelectedItem().toString()),
+					selectedDate,
+					ASSIGNEDGROUP.valueOf(cbAssignee.getSelectedItem().toString()),
+					titleField.getText(),
+					descriptionField.getText()));
 			this.dispose();
 		}
     }
@@ -383,21 +388,6 @@ public class AssignmentDialog extends JDialog {
     void cancelButton_actionPerformed(ActionEvent e) {
         this.dispose();
     }
-	
-    /* Saving in case can be used later
-	void chkEndDate_actionPerformed(ActionEvent e) {
-		endDate.setEnabled(chkEndDate.isSelected());
-		setEndDateB.setEnabled(chkEndDate.isSelected());
-		jLabel2.setEnabled(chkEndDate.isSelected());
-		if(chkEndDate.isSelected()) {
-			Date currentEndDate = (Date) endDate.getModel().getValue();
-			Date currentStartDate = (Date) dueDate.getModel().getValue();
-			if(currentEndDate.getTime() < currentStartDate.getTime()) {
-				endDate.getModel().setValue(currentStartDate);
-			}
-		}
-	}
-	*/
 
     /*
 	 *Opens the mini calendar frame for date selection
