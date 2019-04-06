@@ -1,12 +1,13 @@
 package main.java.flashcourse;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.HashMap;
+//import java.util.HashMap;
 
 /**
  * Class to hold a collection of Courses and manage changes to the collection
  * @author Caleb Schafer
- *
+ * File: Courses.java
+ * 5 April 2019
  */
 public class Courses {
 	private ArrayList<Course> courses;
@@ -38,7 +39,7 @@ public class Courses {
 	/**
 	 * Add a Course to the collection
 	 * @param course the Course to be added
-	 * @return true if the Course doesn't already exist in the collection
+	 * @return true if the Course doesn't already exist in the collection, and can be added
 	 */
 	public boolean addCourse(Course course) {
 		if(courses.contains(course)) {
@@ -49,6 +50,48 @@ public class Courses {
 			return true;
 		}
 	}
+	
+	/**
+	 * Create a new empty Course and add it to the collection
+	 * @param name The name of the Course to be created and added
+	 * @return true if successful, false if a course of that name already exists
+	 */
+	public boolean addCourse(String name) {
+		if(this.hasCourse(name)) {
+			return false;
+		}
+		Course course = new Course(name);
+		this.addCourse(course);
+		return true;
+	}
+	
+	
+	/**
+	 * Check if the collection has a Course with the matching name
+	 * @param name Name to search for
+	 * @return true if the course is contained
+	 */
+	public boolean hasCourse(String name) {
+		for(Course c : courses) {
+			if(c.getCourseName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Check if a specific Course object is in the collection
+	 * @param course The Course to check for
+	 * @return true if the Course is in the collection
+	 */
+	public boolean hasCourse(Course course) {
+		if(courses.contains(course)) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * Removes a Course from the collection based on the name of the course
@@ -64,20 +107,18 @@ public class Courses {
 				return temp;
 			}
 		}
-		
 		return null;
 	}
 	
 	/**
 	 * Removes a specific Course object from the collection
 	 * @param course
-	 * @return
+	 * @return 
 	 */
 	public boolean removeCourse(Course course) {
-		for(Course c : courses) {
-			if(c.equals(course)) {
-				return true;
-			}
+		if(courses.contains(course)) {
+			courses.remove(course);
+			return true;
 		}
 		return false;
 	}
