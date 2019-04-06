@@ -86,7 +86,7 @@ public class AssignmentDialog extends JDialog {
     //Set up label and frames for all other input boxes
     Border borderInputBoxes;
     CalendarFrame calFrameDueDate = new CalendarFrame();
-    String[] assignee = {Local.getString("Student"), Local.getString("TA"), Local.getString("Teacher")};
+    String[] assignee = {Local.getString("Select"), Local.getString("Student"), Local.getString("TA"), Local.getString("Teacher")};
     boolean ignoreStartChanged = false;
     boolean ignoreEndChanged = false;
     JPanel panelAssignTo = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -94,7 +94,7 @@ public class AssignmentDialog extends JDialog {
     JLabel labelDueDate = new JLabel();
     JButton setStartDateB = new JButton();
     JSpinner dueDate;
-    JComboBox assigneeCB = new JComboBox(assignee);
+    JComboBox cbAssignee = new JComboBox(assignee);
     JLabel labelAssignTo = new JLabel();
 
     //Set up things for the courses dropdown
@@ -109,6 +109,9 @@ public class AssignmentDialog extends JDialog {
 	//Setup the output label to correct user input
 	JTextArea labelOutput = new JTextArea(2,18);
 	JPanel panelOutput = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	
+	//TODO Remove this, testing purposes only
+	HashMap<String, Course> courses = new HashMap<String, Course>();
 	
 	/*
 	 *Constructor for the AssignmentDialog class. Opens a new Dialog box and waits for input.
@@ -252,7 +255,7 @@ public class AssignmentDialog extends JDialog {
         labelAssignTo.setMaximumSize(new Dimension(100, 16));
         labelAssignTo.setMinimumSize(new Dimension(60, 16));
         labelAssignTo.setText(Local.getString("Assign to:"));
-        assigneeCB.setFont(new java.awt.Font("Dialog", 0, 11));
+        cbAssignee.setFont(new java.awt.Font("Dialog", 0, 11));
         panelAssignTo.add(labelAssignTo, null);
         
         //Set up courses area
@@ -263,6 +266,12 @@ public class AssignmentDialog extends JDialog {
         cbCourses.setFont(new java.awt.Font("Dialog", 0, 11));
         panelCourses.add(labelCourses, null);
         panelCourses.add(cbCourses, null);
+        cbCourses.addActionListener (new ActionListener() {
+        	public void actionPerformed (ActionEvent e) {
+        		setDueDateLimit(((JComboBox)e.getSource()).getSelectedItem().toString());
+        	}
+        	
+        });
         
         //Setup output field and panel
         panelOutput.add(labelOutput);
@@ -291,9 +300,9 @@ public class AssignmentDialog extends JDialog {
         panelInputGrid.add(panelCourses, null);
         panelInputGrid.add(panelOutput, null);
         panelInputGrid.add(panelAssignTo, null);
-        panelAssignTo.add(assigneeCB, null);
+        panelAssignTo.add(cbAssignee, null);
         
-        assigneeCB.setSelectedItem(Local.getString("Student"));
+        cbAssignee.setSelectedItem(Local.getString("Select"));
         calFrameDueDate.cal.addSelectionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (ignoreStartChanged)
@@ -308,8 +317,7 @@ public class AssignmentDialog extends JDialog {
 	 * TODO actually implement this method, currently returns a dummy list.
 	 *
 	 */
-    private void getCourses() {
-    	HashMap<String, Course> courses = new HashMap<String, Course>();
+    private void getCourses() { 	
     	Course c1 = new Course("SER322");
     	Course c2 = new Course("SER310");
     	Course c3 = new Course("SER352");
@@ -318,11 +326,11 @@ public class AssignmentDialog extends JDialog {
     	courses.put(c3.getCourseName(), c3);
     	
     	cbCourses.removeAllItems();
+    	cbCourses.addItem("Select");
     	for (String key : courses.keySet()) {
     	    cbCourses.addItem(key);
     	}
-    	
-    	
+    	cbCourses.setSelectedItem("Select");
     }
     
     /*
@@ -341,8 +349,10 @@ public class AssignmentDialog extends JDialog {
 	 *@param min minimum date for a due date
 	 *@param max maximum date for a due date
 	 */
-	public void setDueDateLimit(CalendarDate min, CalendarDate max) {
-		this.dueDateMin = min;
+	public void setDueDateLimit(String course) {
+		
+		if ()
+		this.dueDateMin = ;
 		this.dueDateMax = max;
 	}
 	
@@ -352,8 +362,17 @@ public class AssignmentDialog extends JDialog {
 	 *@param action of clicking the cancel button
 	 */
     void createButton_actionPerformed(ActionEvent e) {
-	CANCELLED = false;
-        this.dispose();
+		if (titleField.getText().equals("")) {
+			labelOutput.setText("Please enter a title for the assignment");
+		} else if (descriptionField.getText().equals("")) {
+			labelOutput.setText("Please enter a description for the assignment");
+		} else if (cbCourses.getSelectedItem().toString().equals("Select")) {
+			labelOutput.setText("Please select what class this assignment is for");
+		} else if (cbAssignee.getSelectedItem().toString().equals("Select")) {
+			labelOutput.setText("Please select who this assignment is for");
+		} else {
+			this.dispose();
+		}
     }
 
     /*
