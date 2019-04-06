@@ -356,7 +356,7 @@ public class EventsPanel extends JPanel {
 	CurrentStorage.get().storeEventsManager();
         eventsTable.refresh();
         EventsScheduler.init();
-        parentPanel.calendar.jnCalendar.updateUI();
+        parentPanel.calendar.getJnCalendar().updateUI();
         parentPanel.updateIndicators();
     }
 

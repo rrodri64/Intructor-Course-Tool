@@ -509,7 +509,7 @@ public class AssignmentPanel extends JPanel {
 			dlg.setDueDate(todayD);
 		else
 			dlg.setDueDate(parent.getStartDate());
-		dlg.setDueDateLimit(parent.getStartDate(), parent.getEndDate());
+		//dlg.setDueDateLimit(parent.getStartDate(), parent.getEndDate());
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
         dlg.setVisible(true);
         if (dlg.CANCELLED)
