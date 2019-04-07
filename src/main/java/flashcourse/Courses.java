@@ -65,6 +65,20 @@ public class Courses {
 		return true;
 	}
 	
+	/**
+	 * Search for and return a Course based on name if it exists in the collection
+	 * @param name Name of course to be searched for
+	 * @return Course object if the name matches one in the collection, null if not
+	 */
+	public Course getCourse(String name) {
+		for(Course c : courses) {
+			if(c.getCourseName().equals(name)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
 	
 	/**
 	 * Check if the collection has a Course with the matching name
@@ -95,19 +109,17 @@ public class Courses {
 	
 	/**
 	 * Removes a Course from the collection based on the name of the course
-	 * returns null if the course doesn't exist
 	 * @param name Name of the course to be removed
-	 * @return the course that has been removed
+	 * @return true if the course existed in the collection and is removed, false otherwise
 	 */
-	public Course removeCourse(String name) {
+	public boolean removeCourse(String name) {
 		for(Course c : courses) {
 			if(c.getCourseName().equals(name)) {
-				Course temp = c;
 				courses.remove(c);
-				return temp;
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 	
 	/**
@@ -121,6 +133,10 @@ public class Courses {
 			return true;
 		}
 		return false;
+	}
+	
+	public int numOfCourses() {
+		return courses.size();
 	}
 	
 	
