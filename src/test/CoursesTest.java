@@ -1,11 +1,7 @@
 package test;
 
 import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import main.java.flashcourse.Course;
@@ -25,15 +21,6 @@ public class CoursesTest {
 		 SER230 = new Course("SER230");
 		 SER334 = new Course("SER334");
 		 courses = new Courses();
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-
-	@After
-	public void tearDown() throws Exception {
 	}
 	
 	
