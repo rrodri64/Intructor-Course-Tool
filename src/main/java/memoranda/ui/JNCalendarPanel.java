@@ -55,10 +55,10 @@ public class JNCalendarPanel extends JPanel {
   JButton dayBackB = new JButton();
   JComboBox monthsCB = new JComboBox(Local.getMonthNames());
   BorderLayout borderLayout4 = new BorderLayout();
-  JNCalendar jnCalendar = new JNCalendar(CurrentDate.get());
+  private JNCalendar jnCalendar = new JNCalendar(CurrentDate.get());
   JPanel jnCalendarPanel = new JPanel();
   BorderLayout borderLayout5 = new BorderLayout();
-  JSpinner yearSpin = new JSpinner(new SpinnerNumberModel(jnCalendar.get().getYear(), 1980, 2999, 1));
+  JSpinner yearSpin = new JSpinner(new SpinnerNumberModel(getJnCalendar().get().getYear(), 1980, 2999, 1));
   JSpinner.NumberEditor yearSpinner = new JSpinner.NumberEditor(yearSpin, "####");
 
   boolean ignoreChange = false;
@@ -166,9 +166,9 @@ public class JNCalendarPanel extends JPanel {
     navbPanel.setMinimumSize(new Dimension(202, 30));
     navbPanel.setOpaque(false);
     navbPanel.setPreferredSize(new Dimension(155, 30));
-    jnCalendar.getTableHeader().setFont(new java.awt.Font("Dialog", 1, 10));
-    jnCalendar.setFont(new java.awt.Font("Dialog", 0, 10));
-    jnCalendar.setGridColor(Color.lightGray);
+    getJnCalendar().getTableHeader().setFont(new java.awt.Font("Dialog", 1, 10));
+    getJnCalendar().setFont(new java.awt.Font("Dialog", 0, 10));
+    getJnCalendar().setGridColor(Color.lightGray);
     jnCalendarPanel.setLayout(borderLayout5);
     todayBPanel.setMinimumSize(new Dimension(68, 24));
     todayBPanel.setOpaque(false);
@@ -185,12 +185,12 @@ public class JNCalendarPanel extends JPanel {
     mntyPanel.add(monthsCB, BorderLayout.CENTER);
     mntyPanel.add(yearSpin,  BorderLayout.EAST);
     this.add(jnCalendarPanel,  BorderLayout.CENTER);
-    jnCalendar.getTableHeader().setPreferredSize(new Dimension(200, 15));
-    jnCalendarPanel.add(jnCalendar.getTableHeader(), BorderLayout.NORTH);
-    jnCalendarPanel.add(jnCalendar, BorderLayout.CENTER);
-    jnCalendar.addSelectionListener(new ActionListener()  {
+    getJnCalendar().getTableHeader().setPreferredSize(new Dimension(200, 15));
+    jnCalendarPanel.add(getJnCalendar().getTableHeader(), BorderLayout.NORTH);
+    jnCalendarPanel.add(getJnCalendar(), BorderLayout.CENTER);
+    getJnCalendar().addSelectionListener(new ActionListener()  {
       public void actionPerformed(ActionEvent e) {
-        setCurrentDateDay(jnCalendar.get(), jnCalendar.get().getDay());
+        setCurrentDateDay(getJnCalendar().get(), getJnCalendar().get().getDay());
       }
     });
     /*CurrentDate.addChangeListener(new ActionListener()  {
@@ -215,7 +215,7 @@ public class JNCalendarPanel extends JPanel {
     CurrentProject.addProjectListener(new ProjectListener() {
             public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {}
             public void projectWasChanged() {
-                jnCalendar.updateUI();
+                getJnCalendar().updateUI();
             }
         });
 
@@ -230,6 +230,10 @@ public class JNCalendarPanel extends JPanel {
     refreshView();
   }
 
+  public JNCalendar getJNCalendar() {
+	  return getJnCalendar();
+  }
+  
   public CalendarDate get() {
     return _date;
   }
@@ -252,7 +256,7 @@ public class JNCalendarPanel extends JPanel {
 
   private void refreshView() {
     ignoreChange = true;
-    jnCalendar.set(_date);
+    getJnCalendar().set(_date);
     monthsCB.setSelectedIndex(new Integer(_date.getMonth()));
     yearSpin.setValue(new Integer(_date.getYear()));
     ignoreChange = false;
@@ -261,14 +265,14 @@ public class JNCalendarPanel extends JPanel {
   void monthsCB_actionPerformed(ActionEvent e) {
     if (ignoreChange) return;
     _date = new CalendarDate(_date.getDay(), monthsCB.getSelectedIndex(), _date.getYear());
-    jnCalendar.set(_date);
+    getJnCalendar().set(_date);
     notifyListeners();
   }
 
   void yearSpin_actionPerformed() {
     if (ignoreChange) return;
     _date = new CalendarDate(_date.getDay(), _date.getMonth(), ((Integer)yearSpin.getValue()).intValue());
-    jnCalendar.set(_date);
+    getJnCalendar().set(_date);
     notifyListeners();
   }
 
@@ -293,6 +297,20 @@ public class JNCalendarPanel extends JPanel {
     refreshView();
     notifyListeners();
   }
+
+/**
+ * @return the jnCalendar
+ */
+public JNCalendar getJnCalendar() {
+	return jnCalendar;
+}
+
+/**
+ * @param jnCalendar the jnCalendar to set
+ */
+public void setJnCalendar(JNCalendar jnCalendar) {
+	this.jnCalendar = jnCalendar;
+}
 
 
 

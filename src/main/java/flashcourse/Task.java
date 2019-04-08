@@ -69,12 +69,3 @@ public abstract class Task {
 		this.description = description;
 	}
 }
-
-/**
- * Enum: ASSIGNEDGROUP
- * Description: This enum is used to set who an assignment is for. This is because Teachers should be able to 
- *  assign only themselves stuff, TA's stuff, or for students.
- */
-enum ASSIGNEDGROUP {
-	Student, TA, Teacher;
-}
