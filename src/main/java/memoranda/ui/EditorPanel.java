@@ -85,6 +85,8 @@ public class EditorPanel extends JPanel {
 	JButton previewB = new JButton();
 
 	DailyItemsPanel parentPanel = null;
+	
+	DocumentsPanel resources = new DocumentsPanel();
 
 	public EditorPanel(DailyItemsPanel parent) {
 		try {
@@ -331,10 +333,12 @@ public class EditorPanel extends JPanel {
 		editorToolBar.add(exportB, null);
 		editorToolBar.addSeparator(new Dimension(8, 24));
 		editorToolBar.add(previewB, null);
-		// editorToolBar.add(printB, null);
-		jPanel1.add(editorToolBar, BorderLayout.NORTH);
-		jPanel1.add(editor, BorderLayout.CENTER);
-		this.add(titleBar, BorderLayout.NORTH);
+	//	editorToolBar.add(printB, null);
+	//	jPanel1.add(editorToolBar, BorderLayout.NORTH);
+		//jPanel1.add(editor, BorderLayout.CENTER);
+	//	this.add(titleBar, BorderLayout.NORTH);
+		
+		this.add(resources, BorderLayout.NORTH);
 		titleBar.add(titleLabel, null);
 		titleBar.add(titleField, null);
 		initCSS();
