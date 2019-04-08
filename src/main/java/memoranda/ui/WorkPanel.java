@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import main.java.flashcourse.ui.DocumentsPanel;
 import main.java.memoranda.util.Context;
 import main.java.memoranda.util.Local;
 

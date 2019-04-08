@@ -1,4 +1,4 @@
-package main.java.memoranda.ui;
+package main.java.flashcourse.ui;
 
 import main.java.flashcourse.Course;
 import java.awt.BorderLayout;
@@ -28,9 +28,17 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 
+import main.java.memoranda.ui.ExceptionDialog;
 import main.java.memoranda.util.Local;
 
 /*$Id: AddResourceDialog.java,v 1.12 2007/03/20 06:21:46 alexeya Exp $*/
+
+/*
+ * @author Jessica Tinaza 
+ * This class has been edited to support adding teacher support to add and display documents.
+ * The teacher is able to select a file, preview the file, and upload the file to a specified 
+ * class.
+ */
 public class TeacherDocumentDialog extends JDialog {
     Course SER321 = new Course("SER321");
     JPanel dialogTitlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -42,9 +50,6 @@ public class TeacherDocumentDialog extends JDialog {
     JLabel jLabel1 = new JLabel();
     public JTextField pathField = new JTextField();
     JButton browseB = new JButton();
-   // JLabel jLabel2 = new JLabel();
-   // public JRadioButton inetShortcutRB = new JRadioButton();
-   //public JTextField urlField = new JTextField();
     JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 15));
     JButton uploadB = new JButton();
     JButton cancelB = new JButton();
@@ -78,7 +83,7 @@ public class TeacherDocumentDialog extends JDialog {
         header.setFont(new java.awt.Font("Dialog", 0, 20));
         header.setForeground(new Color(0, 0, 124));
         header.setText(Local.getString("New Document"));
-        header.setIcon(new ImageIcon(main.java.memoranda.ui.TeacherDocumentDialog.class.getResource(
+        header.setIcon(new ImageIcon(main.java.flashcourse.ui.TeacherDocumentDialog.class.getResource(
             "/ui/icons/resource48.png")));
         dialogTitlePanel.add(header);
         this.getContentPane().add(dialogTitlePanel, BorderLayout.NORTH);
@@ -139,18 +144,13 @@ public class TeacherDocumentDialog extends JDialog {
         gbc.insets = new Insets(5, 10, 5, 15);
         gbc.anchor = GridBagConstraints.WEST;
         areaPanel.add(browseB, gbc);
-//        inetShortcutRB.setText(Local.getString("Internet shortcut"));
-//        inetShortcutRB.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                inetShortcutRB_actionPerformed(e);
-//            }
-//        });
+
         gbc = new GridBagConstraints();
         gbc.gridx = 0; gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(5, 15, 5, 15);
         gbc.anchor = GridBagConstraints.WEST;
-      //  areaPanel.add(inetShortcutRB, gbc);
+      
       
         gbc = new GridBagConstraints();
         gbc.gridx = 0; gbc.gridy = 3;
@@ -166,6 +166,7 @@ public class TeacherDocumentDialog extends JDialog {
        
         this.getContentPane().add(areaPanel, BorderLayout.CENTER);
         
+        //Add preview button to dialog box
         previewB.setEnabled(false);
         previewB.setMaximumSize(new Dimension(100, 26));
         previewB.setMinimumSize(new Dimension(100, 26));
@@ -178,6 +179,7 @@ public class TeacherDocumentDialog extends JDialog {
         });
         this.getRootPane().setDefaultButton(previewB);
         
+        //Edit upload button
         uploadB.setEnabled(false);
         uploadB.setMaximumSize(new Dimension(100, 26));
         uploadB.setMinimumSize(new Dimension(100, 26));
@@ -206,6 +208,7 @@ public class TeacherDocumentDialog extends JDialog {
         this.getContentPane().add(buttonsPanel, BorderLayout.SOUTH);
     }
 
+    //If preview is selected, the file will be opened with most appropriate app
 	protected void previewB_actionPerformed(ActionEvent e) {	
             try {
                 deskTop.open(file);
@@ -225,7 +228,6 @@ public class TeacherDocumentDialog extends JDialog {
 	 */
 	 
     void uploadB_actionPerformed(ActionEvent e) {
-       // SER321.addDocument(file);
         CANCELLED = false;
 		this.dispose();
     }
@@ -246,7 +248,6 @@ public class TeacherDocumentDialog extends JDialog {
     void localFileRB_actionPerformed(ActionEvent e) {
 		enableFields();
         checkOkEnabled();
-		//urlField.select(0,0);
 		pathField.select(0,pathField.getText().length());
 		pathField.requestFocus();
 	}
@@ -281,7 +282,7 @@ public class TeacherDocumentDialog extends JDialog {
     }
 
 	
-    
+    //Only allow preview to be usable after a file has been selected
     void checkPreviewEnabled() {
         previewB.setEnabled(
                 (localFileRB.isSelected() && pathField.getText().length() > 0)
@@ -308,8 +309,5 @@ public class TeacherDocumentDialog extends JDialog {
 		 jLabel1.setEnabled(localFileRB.isSelected());
 		 browseB.setEnabled(localFileRB.isSelected());
 		
-		 
-		// urlField.setEnabled(inetShortcutRB.isSelected());
-		// jLabel2.setEnabled(inetShortcutRB.isSelected());
 	}
 }

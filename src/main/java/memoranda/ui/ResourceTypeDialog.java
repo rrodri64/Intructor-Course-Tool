@@ -32,7 +32,7 @@ public class ResourceTypeDialog extends JDialog {
     Border border2;
     TitledBorder titledBorder2;
     public String ext = "";
-    boolean CANCELLED = true;
+    private boolean CANCELLED = true;
 
     public ResourceTypeDialog(JFrame frame, String title) {
         super(frame, title, true);
@@ -93,12 +93,20 @@ public class ResourceTypeDialog extends JDialog {
         this.dispose();
     }
     void okB_actionPerformed(ActionEvent e) {
-        CANCELLED = false;
+        setCANCELLED(false);
         this.dispose();
     }
 
     public JList getTypesList() {
       return areaPanel.typesList;
+    }
+
+    public boolean isCANCELLED() {
+        return CANCELLED;
+    }
+
+    public void setCANCELLED(boolean cANCELLED) {
+        CANCELLED = cANCELLED;
     }
 
 
