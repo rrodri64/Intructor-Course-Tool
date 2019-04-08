@@ -26,6 +26,7 @@ import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.text.html.HTMLDocument;
 
+import main.java.flashcourse.ui.DocumentsPanel;
 import main.java.memoranda.CurrentNote;
 import main.java.memoranda.History;
 import main.java.memoranda.Note;
@@ -338,7 +339,7 @@ public class EditorPanel extends JPanel {
 		//jPanel1.add(editor, BorderLayout.CENTER);
 	//	this.add(titleBar, BorderLayout.NORTH);
 		
-		this.add(resources, BorderLayout.NORTH);
+		this.add(resources, BorderLayout.CENTER);
 		titleBar.add(titleLabel, null);
 		titleBar.add(titleField, null);
 		initCSS();
