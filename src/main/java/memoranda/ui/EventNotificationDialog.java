@@ -21,7 +21,7 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 import java.io.File;
 import java.net.URL;
-
+import main.java.flashcourse.ui.*;
 
 /*$Id: EventNotificationDialog.java,v 1.8 2004/10/18 19:08:56 ivanrise Exp $*/
 public class EventNotificationDialog extends JFrame {
@@ -47,7 +47,7 @@ public class EventNotificationDialog extends JFrame {
       new ExceptionDialog(ex);
     }
     timeLabel.setText(time);
-    timeLabel.setIcon(new ImageIcon(main.java.memoranda.ui.TaskDialog.class.getResource(
+    timeLabel.setIcon(new ImageIcon(main.java.flashcourse.ui.AssignmentDialog.class.getResource(
             "/ui/icons/event48.png")));
     textLabel.setText(text);
     this.setSize(300,200);

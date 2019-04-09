@@ -1,4 +1,4 @@
-package main.java.memoranda.ui;
+package main.java.flashcourse.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,9 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import main.java.memoranda.util.Local;
-
+import main.java.memoranda.ui.*;
 /*$Id: TaskCalcDialog.java,v 1.3 2005/06/10 18:36:24 velhonoja Exp $*/
-public class TaskCalcDialog extends JDialog {
+public class AssignmentCalcDialog extends JDialog {
 	JPanel topPanel = new JPanel(new BorderLayout());
 	JPanel generalPanel = new JPanel(new GridBagLayout());
 	GridBagConstraints gbc;
@@ -36,7 +36,7 @@ public class TaskCalcDialog extends JDialog {
 	JLabel label1 = new JLabel();
 	JLabel label2 = new JLabel();
 
-	public TaskCalcDialog(Frame frame) {
+	public AssignmentCalcDialog(Frame frame) {
 		super(frame, Local.getString("Preferences"), true);
 		try {
 			jbInit();
@@ -45,7 +45,7 @@ public class TaskCalcDialog extends JDialog {
 		}
 	}
 
-	public TaskCalcDialog() {
+	public AssignmentCalcDialog() {
 		this(null);
 	}
 	void jbInit() throws Exception {
