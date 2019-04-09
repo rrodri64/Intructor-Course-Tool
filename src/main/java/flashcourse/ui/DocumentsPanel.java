@@ -1,7 +1,8 @@
-package main.java.memoranda.ui;
+package main.java.flashcourse.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -9,10 +10,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,6 +25,12 @@ import javax.swing.event.ListSelectionListener;
 
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.Resource;
+import main.java.memoranda.ui.App;
+import main.java.memoranda.ui.AppFrame;
+import main.java.memoranda.ui.ExceptionDialog;
+import main.java.memoranda.ui.ResourceTypeDialog;
+import main.java.memoranda.ui.ResourcesTable;
+import main.java.memoranda.ui.SetAppDialog;
 import main.java.memoranda.util.AppList;
 import main.java.memoranda.util.CurrentStorage;
 import main.java.memoranda.util.Local;
@@ -34,21 +41,33 @@ import main.java.memoranda.util.Util;
 import java.io.*;
 
 /*$Id: ResourcesPanel.java,v 1.13 2007/03/20 08:22:41 alexeya Exp $*/
-public class ResourcesPanel extends JPanel {
+
+/**
+ * 
+ * @author Jessica Tinaza
+ * This class has been edited to display a relevant tool bar for teacher functionality 
+ * The buttons are add, delete and refresh. The icons have also been redesigned. 
+ *
+ */
+public class DocumentsPanel extends JPanel {
     BorderLayout borderLayout1 = new BorderLayout();
     JToolBar toolBar = new JToolBar();
-    JButton newResB = new JButton();
     ResourcesTable resourcesTable = new ResourcesTable();
-    JButton removeResB = new JButton();
+    JButton deleteB = new JButton();
     JScrollPane scrollPane = new JScrollPane();
     JButton refreshB = new JButton();
-  JPopupMenu resPPMenu = new JPopupMenu();
-  JMenuItem ppRun = new JMenuItem();
-  JMenuItem ppRemoveRes = new JMenuItem();
-  JMenuItem ppNewRes = new JMenuItem();
-  JMenuItem ppRefresh = new JMenuItem();
+    JButton uploadB = new JButton();
+    JPopupMenu resPPMenu = new JPopupMenu();
+    JMenuItem ppRun = new JMenuItem();
+    JMenuItem ppRemoveRes = new JMenuItem();
+    JMenuItem ppNewRes = new JMenuItem();
+    JMenuItem ppRefresh = new JMenuItem();
+    JMenuItem ppUpload = new JMenuItem();
+  
+    JFileChooser chooser; 
+    Desktop deskTop; //Desktop tool to open and select relevant files
 
-    public ResourcesPanel() {
+    public DocumentsPanel() {
         try {
             jbInit();
         }
@@ -57,41 +76,51 @@ public class ResourcesPanel extends JPanel {
         }
     }
     void jbInit() throws Exception {
+        
+        chooser = new JFileChooser();
+        deskTop = Desktop.getDesktop();
         toolBar.setFloatable(false);
         this.setLayout(borderLayout1);
-        newResB.setIcon(
-            new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/addresource.png")));
-        newResB.setEnabled(true);
-        newResB.setMaximumSize(new Dimension(24, 24));
-        newResB.setMinimumSize(new Dimension(24, 24));
-        newResB.setToolTipText(Local.getString("New resource"));
-        newResB.setRequestFocusEnabled(false);
-        newResB.setPreferredSize(new Dimension(24, 24));
-        newResB.setFocusable(false);
-        newResB.addActionListener(new java.awt.event.ActionListener() {
+        
+        //Upload icon button set up
+        uploadB.setIcon(
+                new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/Upload.png")));
+        uploadB.setEnabled(true);
+        uploadB.setMaximumSize(new Dimension(24, 24));
+        uploadB.setMinimumSize(new Dimension(24, 24));
+        uploadB.setToolTipText(Local.getString("Upload Document"));
+        uploadB.setRequestFocusEnabled(false);
+        uploadB.setPreferredSize(new Dimension(24, 24));
+        uploadB.setFocusable(false);
+        uploadB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                newResB_actionPerformed(e);
+                uploadB_actionPerformed(e);
             }
         });
-        newResB.setBorderPainted(false);
+        
+        uploadB.setBorderPainted(false);
         resourcesTable.setMaximumSize(new Dimension(32767, 32767));
         resourcesTable.setRowHeight(24);
-        removeResB.setBorderPainted(false);
-        removeResB.setFocusable(false);
-        removeResB.addActionListener(new java.awt.event.ActionListener() {
+        toolBar.addSeparator(new Dimension(8, 24));
+        toolBar.addSeparator(new Dimension(8, 24));
+        
+        //Set up delete icon button
+        deleteB.setBorderPainted(false);
+        deleteB.setFocusable(false);
+        deleteB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                removeResB_actionPerformed(e);
+                deleteB_actionPerformed(e);
             }
         });
-        removeResB.setPreferredSize(new Dimension(24, 24));
-        removeResB.setRequestFocusEnabled(false);
-        removeResB.setToolTipText(Local.getString("Remove resource"));
-        removeResB.setMinimumSize(new Dimension(24, 24));
-        removeResB.setMaximumSize(new Dimension(24, 24));
-        removeResB.setIcon(
+        deleteB.setPreferredSize(new Dimension(24, 24));
+        deleteB.setRequestFocusEnabled(false);
+        deleteB.setToolTipText(Local.getString("Delete Document"));
+        deleteB.setMinimumSize(new Dimension(24, 24));
+        deleteB.setMaximumSize(new Dimension(24, 24));
+        deleteB.setIcon(
             new ImageIcon(
-                main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/removeresource.png")));
-        removeResB.setEnabled(false);
+                main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/Delete.png")));
+        deleteB.setEnabled(false);
         scrollPane.getViewport().setBackground(Color.white);
         toolBar.addSeparator(new Dimension(8, 24));
         toolBar.addSeparator(new Dimension(8, 24));
@@ -105,10 +134,12 @@ public class ResourcesPanel extends JPanel {
             public void valueChanged(ListSelectionEvent e) {
                 boolean enbl = (resourcesTable.getRowCount() > 0) && (resourcesTable.getSelectedRow() > -1);
 
-                removeResB.setEnabled(enbl); ppRemoveRes.setEnabled(enbl);
+                deleteB.setEnabled(enbl); ppRemoveRes.setEnabled(enbl);
                 ppRun.setEnabled(enbl);
             }
         });
+        
+        //Refresh icon button set up
         refreshB.setBorderPainted(false);
         refreshB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -123,7 +154,7 @@ public class ResourcesPanel extends JPanel {
         refreshB.setMaximumSize(new Dimension(24, 24));
         refreshB.setEnabled(true);
         refreshB.setIcon(
-            new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/refreshres.png")));
+            new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/Refresh.png")));
         resPPMenu.setFont(new java.awt.Font("Dialog", 1, 10));
     ppRun.setFont(new java.awt.Font("Dialog", 1, 11));
     ppRun.setText(Local.getString("Open resource")+"...");
@@ -141,7 +172,7 @@ public class ResourcesPanel extends JPanel {
                 ppRemoveRes_actionPerformed(e);
             }
         });
-    ppRemoveRes.setIcon(new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/removeresource.png")));
+    ppRemoveRes.setIcon(new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/Delete.png")));
     ppRemoveRes.setEnabled(false);
     ppNewRes.setFont(new java.awt.Font("Dialog", 1, 11));
     ppNewRes.setText(Local.getString("New resource")+"...");
@@ -150,7 +181,7 @@ public class ResourcesPanel extends JPanel {
                 ppNewRes_actionPerformed(e);
             }
         });
-    ppNewRes.setIcon(new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/addresource.png")));
+    ppNewRes.setIcon(new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/Search.png")));
 
     ppRefresh.setFont(new java.awt.Font("Dialog", 1, 11));
     ppRefresh.setText(Local.getString("Refresh"));
@@ -159,10 +190,11 @@ public class ResourcesPanel extends JPanel {
         ppRefresh_actionPerformed(e);
       }
     });
-    ppRefresh.setIcon(new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/refreshres.png")));
+    ppRefresh.setIcon(new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/Refresh.png")));
 
-    toolBar.add(newResB, null);
-        toolBar.add(removeResB, null);
+    toolBar.add(uploadB, null);
+    toolBar.addSeparator();
+        toolBar.add(deleteB, null);
         toolBar.addSeparator();
         toolBar.add(refreshB, null);
         this.add(scrollPane, BorderLayout.CENTER);
@@ -187,8 +219,12 @@ public class ResourcesPanel extends JPanel {
 		});
     }
 
-    void newResB_actionPerformed(ActionEvent e) {
-        AddResourceDialog dlg = new AddResourceDialog(App.getFrame(), Local.getString("New resource"));
+    protected void newResB_actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+    void uploadB_actionPerformed(ActionEvent e) {
+        TeacherDocumentDialog dlg = new TeacherDocumentDialog(App.getFrame(), Local.getString("Course Document Manager"));
         Dimension frmSize = App.getFrame().getSize();
         Point loc = App.getFrame().getLocation();
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
@@ -206,10 +242,7 @@ public class ResourcesPanel extends JPanel {
             if (!checkApp(mt))
                 return;
             // if file if projectFile, than copy the file and change url.
-            if (dlg.projectFileCB.isSelected()) {
-            	fpath = copyFileToProjectDir(fpath);
-            	CurrentProject.getResourcesList().addResource(fpath, false, true);
-            }
+           
             else
             	CurrentProject.getResourcesList().addResource(fpath);            	     	
             
@@ -218,12 +251,12 @@ public class ResourcesPanel extends JPanel {
         else {
             if (!Util.checkBrowser())
                 return;
-            CurrentProject.getResourcesList().addResource(dlg.urlField.getText(), true, false);
+         //   CurrentProject.getResourcesList().addResource(dlg.urlField.getText(), true, false);
             resourcesTable.tableChanged();
         }
     }
 
-    void removeResB_actionPerformed(ActionEvent e) {
+    void deleteB_actionPerformed(ActionEvent e) {
         int[] toRemove = resourcesTable.getSelectedRows();
         String msg = "";
         if (toRemove.length == 1)
@@ -262,7 +295,7 @@ public class ResourcesPanel extends JPanel {
         dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x, (frmSize.height - dlgSize.height) / 2 + loc.y);
         dlg.ext = MimeTypesList.getExtension(fpath);
         dlg.setVisible(true);
-        if (dlg.CANCELLED)
+        if (dlg.isCANCELLED())
             return null;
         int ix = dlg.getTypesList().getSelectedIndex();
         MimeType mt = (MimeType) MimeTypesList.getAllMimeTypes().toArray()[ix];
@@ -349,8 +382,15 @@ public class ResourcesPanel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             if ((e.getClickCount() == 2) && (resourcesTable.getSelectedRow() > -1)) {
                 String path = (String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 3);
-                if (path.length() >0)
-                    runApp(path);
+                File fileFromPath = new File(path);
+                if (path.length() >0) {
+                    try {
+                        deskTop.open(fileFromPath);
+                    } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                }
                 else
                     runBrowser((String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 0));
             }
@@ -377,14 +417,21 @@ public class ResourcesPanel extends JPanel {
     }
 
   void ppRun_actionPerformed(ActionEvent e) {
+    
     String path = (String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 3);
+    File fileFromPath = new File(path);
                 if (path.length() >0)
-                    runApp(path);
+                    try {
+                        deskTop.open(fileFromPath);
+                    } catch (IOException e1) {
+                       
+                        e1.printStackTrace();
+                    }
                 else
                     runBrowser((String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 0));
   }
   void ppRemoveRes_actionPerformed(ActionEvent e) {
-    removeResB_actionPerformed(e);
+    deleteB_actionPerformed(e);
   }
   void ppNewRes_actionPerformed(ActionEvent e) {
     newResB_actionPerformed(e);
