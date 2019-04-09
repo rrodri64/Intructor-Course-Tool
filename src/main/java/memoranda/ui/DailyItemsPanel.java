@@ -71,7 +71,7 @@ public class DailyItemsPanel extends JPanel {
     ImageIcon collIcon = new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/exp_left.png"));
     ImageIcon bookmarkIcon = new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/star8.png"));
     boolean expanded = true;
-
+    
     Note currentNote;
 	CalendarDate currentDate;
 
@@ -210,6 +210,7 @@ public class DailyItemsPanel extends JPanel {
         editorsPanel.add(assignmentPanel, "TASKS");
         editorsPanel.add(editorPanel, "NOTES");
         
+        
         splitPane.add(mainPanel, JSplitPane.RIGHT);
         splitPane.add(controlPanel, JSplitPane.LEFT);
         controlPanel.add(toggleToolBar, BorderLayout.SOUTH);
@@ -300,11 +301,17 @@ public class DailyItemsPanel extends JPanel {
         editorPanel.setDocument(currentNote);
         History.add(new HistoryItem(CurrentDate.get(), CurrentProject.get()));
         cmainPanel.add(mainTabsPanel, BorderLayout.CENTER);
-        mainTabsPanel.add(eventsTabbedPane, "EVENTSTAB");
-        mainTabsPanel.add(tasksTabbedPane, "TASKSTAB");
+      //  mainTabsPanel.add(eventsTabbedPane, "EVENTSTAB");
+        mainTabsPanel.add(notesControlPane, "EVENTSTAB");
+        
+      //  mainTabsPanel.add(tasksTabbedPane, "TASKSTAB");
+        mainTabsPanel.add(notesControlPane, "TASKSTAB");
+        
         mainTabsPanel.add(notesControlPane, "NOTESTAB");
-		mainTabsPanel.add(agendaTabbedPane, "AGENDATAB");
-		mainTabsPanel.add(to_do_TabbedPane, "TO_DO_TAB");
+		//mainTabsPanel.add(agendaTabbedPane, "AGENDATAB");
+		mainTabsPanel.add(notesControlPane, "AGENDATAB");
+		//mainTabsPanel.add(to_do_TabbedPane, "TO_DO_TAB");
+		
         updateIndicators(CurrentDate.get(), CurrentProject.getTaskList());
         mainPanel.setBorder(null);
     }

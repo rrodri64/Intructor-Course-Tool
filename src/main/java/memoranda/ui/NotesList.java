@@ -2,7 +2,9 @@ package main.java.memoranda.ui;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.AbstractListModel;
@@ -13,6 +15,8 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 
+import main.java.flashcourse.Course;
+import main.java.flashcourse.Courses;
 import main.java.memoranda.CurrentNote;
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.Note;
@@ -34,13 +38,24 @@ public class NotesList extends JList {
     public static final int ALL = 1;
     public static final int BOOKMARKS = 2;
 
-    private Vector notes = null;
+   private Course SER321 =  new Course("SER321");
+   private Course SER334 = new Course("SER334");
+   private Course SER222 = new Course("SER222");
+
+    
+   private Courses courseCollection = new Courses();
+  
     boolean sortOrderDesc = false;
 
     int _type = ALL;
 
     public NotesList(int type) {
+        
         super();
+        
+        courseCollection.addCourse(SER321);
+        courseCollection.addCourse(SER222);
+        courseCollection.addCourse(SER334);
 		if(Configuration.get("NOTES_SORT_ORDER").toString().equalsIgnoreCase("true")) {
 			sortOrderDesc = true;
 		}
@@ -78,37 +93,43 @@ public class NotesList extends JList {
             update(CurrentProject.getNoteList());
 		}
         else {
-			update(new Vector());
+			update(new Courses());
 		}
     }
 
     public void update(NoteList nl) {
-        if (_type == ALL)
-            notes = (Vector) nl.getAllNotes();
-        else
-            notes = (Vector) nl.getMarkedNotes();
+        ArrayList<Course> courses = courseCollection.getCourses();
+//        courses = (Courses) n1.
+//        courseCollection =
+//        if (_type == ALL)
+//            courseCollection = (Courses) nl.getAllNotes();
+//        else
+//            courseCollection = (Courses) nl.getMarkedNotes();
         
-//        Util.debug("No. of notes in noteList " + notes.size());
-        //NotesVectorSorter.sort(notes);
-		Collections.sort(notes);
-		if (sortOrderDesc) {
-			Collections.reverse(notes);		    
-		}
+//        Util.debug("No. of courseCollection in noteList " + courseCollection.size());
+        //NotesVectorSorter.sort(courseCollection);
+	//	Collections.sort((List<T>) courseCollection);
+//		if (sortOrderDesc) {
+//			Collections.reverse((List<?>) courseCollection);		    
+//		}
         updateUI();
     }
 
-    public void update(Vector ns) {
-        notes = ns;
-        // NotesVectorSorter.sort(notes);
-		Collections.sort(notes);
+    public void update(Courses ns) {
+        courseCollection = ns;
+        // NotesVectorSorter.sort(courseCollection);
+	//	Collections.sort((List<T>) courseCollection);
 		if (sortOrderDesc) {
-			Collections.reverse(notes);		    
+			Collections.reverse((List<?>) courseCollection);		    
 		}		
         updateUI();
     }
 
-    public Note getNote(int index){
-        return (Note) notes.get(index);
+    public Course getNote(int index){
+        ArrayList<Course> indexCourse = courseCollection.getCourses();
+        
+        Course course = indexCourse.get(index);
+        return course;
     }
     
     void invertSortOrder() {
@@ -124,12 +145,14 @@ public class NotesListModel extends AbstractListModel {
         }
 
         public Object getElementAt(int i) {
-            Note note = (Note)notes.get(i);
-            return note.getDate().getShortDateString() + " " + note.getTitle();
+            ArrayList<Course> indexCourse = courseCollection.getCourses();
+          
+            Course course = indexCourse.get(i);
+            return course.toString();
         }
 
         public int getSize() {
-            return notes.size();
+            return courseCollection.numOfCourses();
         }
 
     }
@@ -151,11 +174,11 @@ public class NotesListModel extends AbstractListModel {
          label.setText(s);
          //Note currentNote = CurrentProject.getNoteList().getActiveNote();
 		 Note currentNote = CurrentNote.get();
-         if (currentNote != null) {
-            if (getNote(index).getId().equals(currentNote.getId()))
-                label.setFont(label.getFont().deriveFont(Font.BOLD));
-         }
-         if (getNote(index).isMarked())
+//         if (currentNote != null) {
+//            if (getNote(index).getId().equals(currentNote.getId()))
+//                label.setFont(label.getFont().deriveFont(Font.BOLD));
+//         }
+//         if (getNote(index).isMarked())
             label.setIcon(bookmarkIcon);
          //setIcon();
        /*if (isSelected) {

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import main.java.memoranda.date.*;
+import nu.xom.Attribute;
+import nu.xom.Element;
 
 /**
  * 
@@ -33,6 +35,7 @@ private Map<String, CalendarDate> lectureTimes;
 private Map<String, CalendarDate> holidays;
 private Map<String, CalendarDate> freeDays;
 private ArrayList<Assignment> assignments;
+private Element _el;
 
 /**
  * 
@@ -53,6 +56,7 @@ public Course(String course) {
 	holidays = new HashMap<>();
 	freeDays = new HashMap<>();
 	assignments = new ArrayList<>();
+	_el = null;
 }
 
 public String getCourseName() {
@@ -270,6 +274,24 @@ public boolean deleteAssignment(Assignment assign) {
 @Override
 public String toString() {
 	return courseName;
+}
+
+public boolean isMarked() {
+   
+        return _el.getAttribute("courses") != null;        
+    
+  
+}
+
+public void setMark(boolean mark) {
+    Attribute ma = _el.getAttribute("courses");        
+    if (ma == null) {
+        if (mark)
+            _el.addAttribute(new Attribute("courses", "yes"));
+        return;
+    }
+    else if (!mark)
+        _el.removeAttribute(ma);
 }
 
 
