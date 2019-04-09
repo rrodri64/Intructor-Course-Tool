@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import main.java.flashcourse.ui.DocumentsPanel;
 import main.java.memoranda.util.Context;
 import main.java.memoranda.util.Local;
 
@@ -33,7 +34,7 @@ public class WorkPanel extends JPanel {
 
 	public JButton notesB = new JButton();  // Documents Button
 	public DailyItemsPanel dailyItemsPanel = new DailyItemsPanel(this);
-	public ResourcesPanel filesPanel = new ResourcesPanel();
+	public DocumentsPanel filePanel = new DocumentsPanel();
 	public JButton agendaB = new JButton();  // Calendar Button
 	public JButton tasksB = new JButton();  // Assignments Button
 	public JButton eventsB = new JButton(); // Lectures Button
@@ -229,7 +230,7 @@ public class WorkPanel extends JPanel {
 		this.add(toolBar, BorderLayout.WEST);
 		this.add(panel, BorderLayout.CENTER);
 		panel.add(dailyItemsPanel, "DAILYITEMS");
-		panel.add(filesPanel, "FILES");
+		panel.add(filePanel, "FILES");
 		toolBar.add(agendaB, null);
 		toolBar.add(eventsB, null);
 		toolBar.add(tasksB, null);
@@ -252,7 +253,7 @@ public class WorkPanel extends JPanel {
 		toolBar.setBorder(null);
 		panel.setBorder(null);
 		dailyItemsPanel.setBorder(null);
-		filesPanel.setBorder(null);
+		filePanel.setBorder(null);
 
 	}
 
