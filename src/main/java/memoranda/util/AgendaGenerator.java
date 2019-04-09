@@ -367,7 +367,7 @@ public class AgendaGenerator {
 				.class
 				.getResource("/ui/agenda/removesticker.gif")
 				.toExternalForm();
-		 String s = "<hr><hr><table border=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td><a href=\"memoranda:importstickers\"><b>"+/*Local.getString("Import sticky note")*/"Import sticky note"+"</b></a></td><td><a href=\"memoranda:exportstickerst\"><b>"+/*Local.getString("Export sticky note to .txt")*/"Export sticky note to .txt"+"</b></a><td><a href=\"memoranda:exportstickersh\"><b>"+/*Local.getString("Export sticky note to .html")*/"Export sticky note to .html"+"</b></a></td></tr></table>"
+		 String s = "<hr><hr><table border=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td><a href=\"memoranda:importstickers\"><b>"+Local.getString("Import sticky note")+"</b></a></td><td><a href=\"memoranda:exportstickerst\"><b>"+Local.getString("Export sticky note to .txt")+"</b></a><td><a href=\"memoranda:exportstickersh\"><b>"+Local.getString("Export sticky note to .html")+"</b></a></td></tr></table>"
 				 +   "<table border=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td><a href=\"memoranda:addsticker\"><img align=\"left\" width=\"22\" height=\"22\" src=\""				
 				 + iurl
 				+ "\" border=\"0\"  hspace=\"0\" vspace=\"0\" alt=\"New sticker\"></a></td><td width=\"100%\"><a href=\"memoranda:addsticker\"><b>&nbsp;"
@@ -379,7 +379,7 @@ public class AgendaGenerator {
 		String txt = el.getValue();
             s += "\n<table border=\"0\" cellpadding=\"0\" width=\"100%\"><table width=\"100%\"><tr bgcolor=\"#E0E0E0\"><td><a href=\"memoranda:editsticker#"+id+"\">"+Local.getString("EDIT")+"</a></td><td width=\"70%\"><a href=\"memoranda:expandsticker#"+id+"\">"+Local.getString("OPEN IN A NEW WINDOW")+"</></td><td align=\"right\">" +
                     "&nbsp;" + // without this removesticker link takes klicks from whole cell
-                      "<a href=\"memoranda:removesticker#"+id+"\"><img align=\"left\" width=\"14\" height=\"14\" src=\""
+                      "<a href=\"memoranda:removesticker#"+id+"\">" + Local.getString("DELETE") + "</a\"left\" width=\"14\" height=\"14\" src=\""
                     + iurl2
                     + "\" border=\"0\"  hspace=\"0\" vspace=\"0\" alt=\"Remove sticker\"></a></td></table></tr><tr><td>"+txt+"</td></tr></table>";
         }
