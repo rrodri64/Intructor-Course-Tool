@@ -22,7 +22,6 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import main.java.memoranda.CurrentCourse;
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.EventNotificationListener;
 import main.java.memoranda.EventsScheduler;
@@ -44,6 +43,7 @@ import main.java.memoranda.util.CurrentStorage;
 import main.java.memoranda.util.Local;
 import main.java.memoranda.util.Util;
 import main.java.flashcourse.Course;
+import main.java.flashcourse.CurrentCourse;
 import main.java.flashcourse.ui.*;
 
 /**
@@ -93,7 +93,7 @@ public class DailyItemsPanel extends JPanel {
     FlowLayout flowLayout1 = new FlowLayout();
     JButton taskB = new JButton();
     JPanel mainTabsPanel = new JPanel();
-    NotesControlPanel notesControlPane = new NotesControlPanel();
+    CourseControlPanel notesControlPane = new CourseControlPanel();
     CardLayout cardLayout2 = new CardLayout();
         
     JTabbedPane tasksTabbedPane = new JTabbedPane();

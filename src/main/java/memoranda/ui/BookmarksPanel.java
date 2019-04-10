@@ -13,11 +13,13 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import main.java.flashcourse.ui.CourseList;
+
 /*$Id: BookmarksPanel.java,v 1.4 2004/04/05 10:05:44 alexeya Exp $*/
 public class BookmarksPanel extends JPanel {
   BorderLayout borderLayout1 = new BorderLayout();
   JScrollPane scrollPane = new JScrollPane();
-  public NotesList notesList = new NotesList(NotesList.BOOKMARKS);
+  public CourseList courseList = new CourseList(CourseList.BOOKMARKS);
 
   public BookmarksPanel() {
     try {
@@ -30,7 +32,7 @@ public class BookmarksPanel extends JPanel {
   void jbInit() throws Exception {
     this.setLayout(borderLayout1);
     this.add(scrollPane, BorderLayout.CENTER);
-    scrollPane.getViewport().add(notesList, null);
+    scrollPane.getViewport().add(courseList, null);
 
     
   }

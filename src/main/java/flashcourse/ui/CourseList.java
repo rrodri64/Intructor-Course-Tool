@@ -1,4 +1,4 @@
-package main.java.memoranda.ui;
+package main.java.flashcourse.ui;
 
 import java.awt.Component;
 import java.awt.Font;
@@ -17,7 +17,7 @@ import javax.swing.ListSelectionModel;
 
 import main.java.flashcourse.Course;
 import main.java.flashcourse.Courses;
-import main.java.memoranda.CurrentCourse;
+import main.java.flashcourse.CurrentCourse;
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.Note;
 import main.java.memoranda.NoteList;
@@ -29,10 +29,11 @@ import main.java.memoranda.TaskList;
 import main.java.memoranda.date.CalendarDate;
 import main.java.memoranda.date.CurrentDate;
 import main.java.memoranda.date.DateListener;
+import main.java.memoranda.ui.AppFrame;
 import main.java.memoranda.util.Configuration;
 
 /*$Id: NotesList.java,v 1.9 2005/05/05 16:19:16 ivanrise Exp $*/
-public class NotesList extends JList {
+public class CourseList extends JList {
 
     public static final int EMPTY = 0;    
     public static final int ALL = 1;
@@ -49,7 +50,7 @@ public class NotesList extends JList {
 
     int _type = ALL;
 
-    public NotesList(int type) {
+    public CourseList(int type) {
         
         super();
         
@@ -86,7 +87,7 @@ public class NotesList extends JList {
         this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     }
 
-    public NotesList() {
+    public CourseList() {
         this(ALL);
     }
 

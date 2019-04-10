@@ -1,9 +1,9 @@
-package main.java.memoranda;
+package main.java.flashcourse;
 
 import java.util.Collection;
 import java.util.Vector;
 
-import main.java.flashcourse.Course;
+import main.java.memoranda.CourseListener;
 
 public class CurrentCourse {
 

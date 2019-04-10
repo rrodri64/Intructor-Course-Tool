@@ -1,9 +1,10 @@
-package main.java.memoranda.ui;
+package main.java.flashcourse.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,20 +25,22 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import main.java.flashcourse.Course;
-import main.java.memoranda.ui.NotesList;
+import main.java.memoranda.ui.App;
+import main.java.memoranda.ui.AppFrame;
+import main.java.memoranda.ui.ExceptionDialog;
 import main.java.memoranda.util.Local;
 
 /*$Id: NotesControlPanel.java,v 1.16 2005/05/05 16:19:16 ivanrise Exp $*/
-public class NotesControlPanel extends JPanel {
+public class CourseControlPanel extends JPanel {
     BorderLayout borderLayout1 = new BorderLayout();
  //  SearchPanel searchPanel = new SearchPanel();
-   NotesListPanel notesListPanel = new NotesListPanel();
+   CourseListPanel courseListPanel = new CourseListPanel();
     //BookmarksPanel bookmarksListPanel = new BookmarksPanel();
     JTabbedPane tabbedPane = new JTabbedPane();
     JToolBar toolBar = new JToolBar();
 
-    NotesList notesList = null;
-
+    CourseList courseList = null;
+   
     FlowLayout flowLayout1 = new FlowLayout();
     JButton courseMgtB = new JButton();
     JPanel buttonsPanel = new JPanel();
@@ -54,7 +57,7 @@ public class NotesControlPanel extends JPanel {
     
    
     
-    public NotesControlPanel() {
+    public CourseControlPanel() {
         
         try {
             jbInit();
@@ -130,7 +133,7 @@ public class NotesControlPanel extends JPanel {
         ppRemoveCourse.setIcon(
             new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/Delete.png")));
         ppRemoveCourse.setEnabled(true);
-        tabbedPane.add(notesListPanel, Local.getString("Courses"));
+        tabbedPane.add(courseListPanel, Local.getString("Courses"));
         //tabbedPane.add(bookmarksListPanel, Local.getString("Bookmarks"));
         //tabbedPane.add(searchPanel, Local.getString("Search"));
         this.add(toolBar, BorderLayout.NORTH);
@@ -140,14 +143,14 @@ public class NotesControlPanel extends JPanel {
         this.add(tabbedPane, BorderLayout.CENTER);
 
         PopupListener lst = new PopupListener();
-        notesListPanel.notesList.addMouseListener(lst);
+        courseListPanel.courseList.addMouseListener(lst);
        // bookmarksListPanel.notesList.addMouseListener(lst);
        // searchPanel.notesList.addMouseListener(lst);
        
        // notesListPanel.notesList.getSelectionModel().addListSelectionListener(lsl);
        // bookmarksListPanel.notesList.getSelectionModel().addListSelectionListener(lsl);
        // searchPanel.notesList.getSelectionModel().addListSelectionListener(lsl);
-        notesList = notesListPanel.notesList;
+        courseList = courseListPanel.courseList;
      
         notesPPMenu.add(ppRemoveCourse);
         
@@ -166,33 +169,41 @@ public class NotesControlPanel extends JPanel {
             public void keyTyped(KeyEvent e){} 
         };
         
-        notesListPanel.notesList.addKeyListener(delNotes);
+        courseListPanel.courseList.addKeyListener(delNotes);
     //  bookmarksListPanel.notesList.addKeyListener(delNotes);
     //  searchPanel.notesList.addKeyListener(delNotes);
     }
 
     protected void addCourse_actionPerformed(ActionEvent e) {
+        CourseDialog dlg = new CourseDialog(App.getFrame(), Local.getString("Create a new Course"));
+        Dimension frmSize = App.getFrame().getSize();
+        Point loc = App.getFrame().getLocation();
+        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+    
+        dlg.setVisible(true);
+        if (dlg.CANCELLED)
+            return;
         
              Course SER111 = new Course("SER111");
-             notesList.getCourses().addCourse(SER111);
+             courseList.getCourses().addCourse(SER111);
         
             
-       notesListPanel.notesList.update();
+       courseListPanel.courseList.update();
     ppSetEnabled();
-        notesList.updateUI();
-    notesList.clearSelection();
+        courseList.updateUI();
+    courseList.clearSelection();
     ((AppFrame)App.getFrame()).workPanel.dailyItemsPanel.editorPanel.editor.requestFocus(); 
     }
         
 
     public void refresh() {
-        notesListPanel.notesList.update();
+        courseListPanel.courseList.update();
       //  bookmarksListPanel.notesList.update();
     }
 
     void tabbedPane_stateChanged(ChangeEvent e) {
-    if(notesList!=null) notesList.clearSelection();
-     notesList = notesListPanel.notesList;
+    if(courseList!=null) courseList.clearSelection();
+     courseList = courseListPanel.courseList;
     ppAddBkmrk.setEnabled(false);
     ppRemoveCourse.setEnabled(false);
     }
@@ -225,11 +236,11 @@ public class NotesControlPanel extends JPanel {
 
     void ppRemoveCourse_actionPerformed(ActionEvent e) {
         String msg;
-        if (notesList.getSelectedIndices().length > 1)
+        if (courseList.getSelectedIndices().length > 1)
             msg =
                 Local.getString(Local.getString("Clear"))
                     + " "
-                    + notesList.getSelectedIndices().length
+                    + courseList.getSelectedIndices().length
                     + " "
                     + Local.getString("courses")
                     + "\n"
@@ -238,7 +249,7 @@ public class NotesControlPanel extends JPanel {
             msg =
                 Local.getString("Clear course")
                     + "\n'"
-                    + ((Course) notesList.getCourse(notesList.getSelectedIndex())).toString()
+                    + ((Course) courseList.getCourse(courseList.getSelectedIndex())).toString()
                     + "'\n"
                     + Local.getString("Are you sure?");
 
@@ -250,22 +261,22 @@ public class NotesControlPanel extends JPanel {
                 JOptionPane.YES_NO_OPTION);
         if (n != JOptionPane.YES_OPTION)
             return;
-        for (int i = 0; i < notesList.getSelectedIndices().length; i++) {
-            Course course = (Course) notesList.getCourse(notesList.getSelectedIndices()[i]);
-             notesList.getCourses(i).removeCourse(course);
+        for (int i = 0; i < courseList.getSelectedIndices().length; i++) {
+            Course course = (Course) courseList.getCourse(courseList.getSelectedIndices()[i]);
+             courseList.getCourses(i).removeCourse(course);
         }
-       notesListPanel.notesList.update();
+       courseListPanel.courseList.update();
     ppSetEnabled();
-        notesList.updateUI();
-    notesList.clearSelection();
+        courseList.updateUI();
+    courseList.clearSelection();
     ((AppFrame)App.getFrame()).workPanel.dailyItemsPanel.editorPanel.editor.requestFocus(); 
     }
 
     void ppSetEnabled() {
-    boolean enbl = (notesList.getModel().getSize() > 0) && (notesList.getSelectedIndex() > -1);
+    boolean enbl = (courseList.getModel().getSize() > 0) && (courseList.getSelectedIndex() > -1);
 
     ppRemoveCourse.setEnabled(enbl
-                    || notesList.getSelectedIndices().length > 1);
+                    || courseList.getSelectedIndices().length > 1);
     
     }
 }
