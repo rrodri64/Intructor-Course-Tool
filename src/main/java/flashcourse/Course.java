@@ -278,16 +278,16 @@ public String toString() {
 
 public boolean isMarked() {
    
-        return _el.getAttribute("courses") != null;        
+        return _el.getAttribute("course") != null;        
     
   
 }
 
 public void setMark(boolean mark) {
-    Attribute ma = _el.getAttribute("courses");        
+    Attribute ma = _el.getAttribute("course");        
     if (ma == null) {
         if (mark)
-            _el.addAttribute(new Attribute("courses", "yes"));
+            _el.addAttribute(new Attribute("course", "yes"));
         return;
     }
     else if (!mark)

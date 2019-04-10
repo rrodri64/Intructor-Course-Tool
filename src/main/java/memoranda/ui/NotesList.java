@@ -17,11 +17,11 @@ import javax.swing.ListSelectionModel;
 
 import main.java.flashcourse.Course;
 import main.java.flashcourse.Courses;
-import main.java.memoranda.CurrentNote;
+import main.java.memoranda.CurrentCourse;
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.Note;
 import main.java.memoranda.NoteList;
-import main.java.memoranda.NoteListener;
+import main.java.memoranda.CourseListener;
 import main.java.memoranda.Project;
 import main.java.memoranda.ProjectListener;
 import main.java.memoranda.ResourcesList;
@@ -68,9 +68,15 @@ public class NotesList extends JList {
             }
         });
 		
-        CurrentNote.addNoteListener(new NoteListener() {
-            public void noteChange(Note n, boolean toSaveCurrentNote) {
+        CurrentCourse.addCourseListener(new CourseListener() {
+            public void courseChange(Note n, boolean toSaveCurrentNote) {
                 updateUI();
+            }
+
+            @Override
+            public void courseChange(Course course, boolean toSaveCurrentNote) {
+                // TODO Auto-generated method stub
+                
             }
         });
 
@@ -125,11 +131,16 @@ public class NotesList extends JList {
         updateUI();
     }
 
-    public Course getNote(int index){
+    public Course getCourse(int index){
         ArrayList<Course> indexCourse = courseCollection.getCourses();
         
         Course course = indexCourse.get(index);
+        System.out.println(course.toString());
         return course;
+    }
+    
+    public Courses getCourses(int index) {
+        return courseCollection;
     }
     
     void invertSortOrder() {
@@ -173,7 +184,7 @@ public class NotesListModel extends AbstractListModel {
          String s = value.toString();
          label.setText(s);
          //Note currentNote = CurrentProject.getNoteList().getActiveNote();
-		 Note currentNote = CurrentNote.get();
+		 Course currentCourse = CurrentCourse.get();
 //         if (currentNote != null) {
 //            if (getNote(index).getId().equals(currentNote.getId()))
 //                label.setFont(label.getFont().deriveFont(Font.BOLD));

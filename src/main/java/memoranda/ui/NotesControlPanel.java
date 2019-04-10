@@ -25,9 +25,10 @@ import javax.swing.event.ListSelectionListener;
 
 import main.java.flashcourse.Course;
 import main.java.flashcourse.Courses;
-import main.java.memoranda.CurrentNote;
+import main.java.memoranda.CurrentCourse;
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.Note;
+import main.java.memoranda.ui.NotesList;
 import main.java.memoranda.date.CurrentDate;
 import main.java.memoranda.util.Configuration;
 import main.java.memoranda.util.CurrentStorage;
@@ -36,9 +37,9 @@ import main.java.memoranda.util.Local;
 /*$Id: NotesControlPanel.java,v 1.16 2005/05/05 16:19:16 ivanrise Exp $*/
 public class NotesControlPanel extends JPanel {
     BorderLayout borderLayout1 = new BorderLayout();
- //   SearchPanel searchPanel = new SearchPanel();
-    NotesListPanel notesListPanel = new NotesListPanel();
-    BookmarksPanel bookmarksListPanel = new BookmarksPanel();
+ //  SearchPanel searchPanel = new SearchPanel();
+   NotesListPanel notesListPanel = new NotesListPanel();
+    //BookmarksPanel bookmarksListPanel = new BookmarksPanel();
     JTabbedPane tabbedPane = new JTabbedPane();
     JToolBar toolBar = new JToolBar();
 
@@ -53,7 +54,7 @@ public class NotesControlPanel extends JPanel {
 	JCheckBoxMenuItem ppInvertSort = new JCheckBoxMenuItem();
     JPopupMenu notesPPMenu = new JPopupMenu();
     JMenuItem ppOpenNote = new JMenuItem();
-    JMenuItem ppRemoveBkmrk = new JMenuItem();
+    JMenuItem ppRemoveCourse = new JMenuItem();
     
    
     
@@ -112,16 +113,7 @@ public class NotesControlPanel extends JPanel {
         });
         ppAddBkmrk.setIcon(
             new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/addbookmark.png")));
-        ppClearNote.setFont(new java.awt.Font("Dialog", 1, 11));
-        ppClearNote.setText(Local.getString("Clear note"));
-        ppClearNote.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ppClearNote_actionPerformed(e);
-            }
-        });
-        ppClearNote.setIcon(
-            new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/editdelete.png")));
-        ppClearNote.setEnabled(false);
+       
         notesPPMenu.setFont(new java.awt.Font("Dialog", 1, 10));
         ppOpenNote.setFont(new java.awt.Font("Dialog", 1, 11));
         ppOpenNote.setText(Local.getString("Go to note"));
@@ -134,16 +126,16 @@ public class NotesControlPanel extends JPanel {
 
         
 		
-        ppRemoveBkmrk.setFont(new java.awt.Font("Dialog", 1, 11));
-        ppRemoveBkmrk.setText(Local.getString("Remove Course"));
-        ppRemoveBkmrk.addActionListener(new java.awt.event.ActionListener() {
+        ppRemoveCourse.setFont(new java.awt.Font("Dialog", 1, 11));
+        ppRemoveCourse.setText(Local.getString("Remove Course"));
+        ppRemoveCourse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ppRemoveBkmrk_actionPerformed(e);
+                ppRemoveCourse_actionPerformed(e);
             }
         });
-        ppRemoveBkmrk.setIcon(
+        ppRemoveCourse.setIcon(
             new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/removebookmark.png")));
-        ppRemoveBkmrk.setEnabled(true);
+        ppRemoveCourse.setEnabled(true);
         tabbedPane.add(notesListPanel, Local.getString("Courses"));
         //tabbedPane.add(bookmarksListPanel, Local.getString("Bookmarks"));
         //tabbedPane.add(searchPanel, Local.getString("Search"));
@@ -170,7 +162,7 @@ public class NotesControlPanel extends JPanel {
         notesPPMenu.add(ppInvertSort);
         notesPPMenu.addSeparator();        
         notesPPMenu.add(ppAddBkmrk);
-        notesPPMenu.add(ppRemoveBkmrk);
+        notesPPMenu.add(ppRemoveCourse);
         notesPPMenu.addSeparator();
         notesPPMenu.add(ppClearNote);
 
@@ -178,7 +170,7 @@ public class NotesControlPanel extends JPanel {
 		KeyListener delNotes = new KeyListener() {
 			public void keyPressed(KeyEvent e){
 				if(e.getKeyCode()==KeyEvent.VK_DELETE) {
-					ppClearNote_actionPerformed(null);
+					ppRemoveCourse_actionPerformed(null);
 				}
 			}
 			public void	keyReleased(KeyEvent e){}
@@ -199,7 +191,7 @@ public class NotesControlPanel extends JPanel {
 	if(notesList!=null) notesList.clearSelection();
 	 notesList = notesListPanel.notesList;
 	ppAddBkmrk.setEnabled(false);
-	ppRemoveBkmrk.setEnabled(false);
+	ppRemoveCourse.setEnabled(false);
     }
 
     class PopupListener extends MouseAdapter {
@@ -225,9 +217,9 @@ public class NotesControlPanel extends JPanel {
     }
 
     void setActiveNote() {
-        Note note = (Note) notesList.getNote(notesList.getSelectedIndex());
-        CurrentDate.set(note.getDate());
-		CurrentNote.set(note,true);
+        Course course = (Course) notesList.getCourse(notesList.getSelectedIndex());
+        CurrentDate.set(course.getCourseStartDate());
+		CurrentCourse.set(course,true);
     }
    
 
@@ -240,59 +232,16 @@ public class NotesControlPanel extends JPanel {
 
     void ppAddBkmrk_actionPerformed(ActionEvent e) {
         for (int i = 0; i < notesList.getSelectedIndices().length; i++) {
-            Note note = (Note) notesList.getNote(notesList.getSelectedIndices()[i]);
-            note.setMark(true);
+            Course course = (Course) notesList.getCourse(notesList.getSelectedIndices()[i]);
+            course.setMark(true);
         }
         notesList.updateUI();
      //   bookmarksListPanel.notesList.update();
 	ppSetEnabled();
     }
 
-    void ppClearNote_actionPerformed(ActionEvent e) {
-        String msg;
-        if (notesList.getSelectedIndices().length > 1)
-            msg =
-                Local.getString(Local.getString("Clear"))
-                    + " "
-                    + notesList.getSelectedIndices().length
-                    + " "
-                    + Local.getString("notes")
-                    + "\n"
-                    + Local.getString("Are you sure?");
-        else
-            msg =
-                Local.getString("Clear note")
-                    + "\n'"
-                    + ((Note) notesList.getNote(notesList.getSelectedIndex())).getDate().getFullDateString()
-                    + "'\n"
-                    + Local.getString("Are you sure?");
-
-        int n =
-            JOptionPane.showConfirmDialog(
-                App.getFrame(),
-                msg,
-                Local.getString("Delete Course"),
-                JOptionPane.YES_NO_OPTION);
-        if (n != JOptionPane.YES_OPTION)
-            return;
-
-        for (int i = 0; i < notesList.getSelectedIndices().length; i++) {
-            Note note = (Note) notesList.getNote(notesList.getSelectedIndices()[i]);
-			if(CurrentProject.getNoteList().getActiveNote() != null && note.getDate().equals(CurrentProject.getNoteList().getActiveNote().getDate())){ 
-				/*Debug*/ System.out.println("[DEBUG] Current note removed");
-				CurrentNote.set(null,true);
-			}
-			CurrentProject.getNoteList().removeNote(note.getDate(), note.getId());
-			CurrentStorage.get().removeNote(note);
-        }
-     //   bookmarksListPanel.notesList.update();
-	//	searchPanel.notesList.update();
-		notesListPanel.notesList.update();
-        notesList.updateUI();
-		notesList.clearSelection();
-//		notesList.requestFocus();*/
-//		((AppFrame)App.getFrame()).workPanel.dailyItemsPanel.editorPanel.editor.requestFocus();
-    }
+   
+        
 	
     void ppOpenNote_actionPerformed(ActionEvent e) {
         setActiveNote();
@@ -307,12 +256,38 @@ public class NotesControlPanel extends JPanel {
         notesList.update();
     }
 
-    void ppRemoveBkmrk_actionPerformed(ActionEvent e) {
+    void ppRemoveCourse_actionPerformed(ActionEvent e) {
+        String msg;
+        if (notesList.getSelectedIndices().length > 1)
+            msg =
+                Local.getString(Local.getString("Clear"))
+                    + " "
+                    + notesList.getSelectedIndices().length
+                    + " "
+                    + Local.getString("courses")
+                    + "\n"
+                    + Local.getString("Are you sure?");
+        else
+            msg =
+                Local.getString("Clear course")
+                    + "\n'"
+                    + ((Course) notesList.getCourse(notesList.getSelectedIndex())).toString()
+                    + "'\n"
+                    + Local.getString("Are you sure?");
+
+        int n =
+            JOptionPane.showConfirmDialog(
+                App.getFrame(),
+                msg,
+                Local.getString("Delete Course"),
+                JOptionPane.YES_NO_OPTION);
+        if (n != JOptionPane.YES_OPTION)
+            return;
         for (int i = 0; i < notesList.getSelectedIndices().length; i++) {
-            Course course = (Course) notesList.getNote(notesList.getSelectedIndices()[i]);
-            course.setMark(false);
+            Course course = (Course) notesList.getCourse(notesList.getSelectedIndices()[i]);
+             notesList.getCourses(i).removeCourse(course);
         }
-        bookmarksListPanel.notesList.update();
+       notesListPanel.notesList.update();
 	ppSetEnabled();
         notesList.updateUI();
 	notesList.clearSelection();
@@ -322,9 +297,9 @@ public class NotesControlPanel extends JPanel {
     void ppSetEnabled() {
     boolean enbl = (notesList.getModel().getSize() > 0) && (notesList.getSelectedIndex() > -1);
 
-    ppRemoveBkmrk.setEnabled(enbl && (((Course) notesList.getNote(notesList.getSelectedIndex())).isMarked())
+    ppRemoveCourse.setEnabled(enbl
     				|| notesList.getSelectedIndices().length > 1);
-    ppAddBkmrk.setEnabled(enbl && !(((Note) notesList.getNote(notesList.getSelectedIndex())).isMarked())
+    ppAddBkmrk.setEnabled(enbl 
     				|| notesList.getSelectedIndices().length > 1);
     ppOpenNote.setEnabled(enbl);
     ppClearNote.setEnabled(enbl);
