@@ -69,15 +69,11 @@ public class NotesList extends JList {
         });
 		
         CurrentCourse.addCourseListener(new CourseListener() {
-            public void courseChange(Note n, boolean toSaveCurrentNote) {
+            public void courseChange(Course n, boolean toSaveCurrentNote) {
                 updateUI();
             }
 
-            @Override
-            public void courseChange(Course course, boolean toSaveCurrentNote) {
-                // TODO Auto-generated method stub
-                
-            }
+        
         });
 
         CurrentProject.addProjectListener(new ProjectListener() {
@@ -143,6 +139,10 @@ public class NotesList extends JList {
         return courseCollection;
     }
     
+    public Courses getCourses() {
+        return courseCollection;
+    }
+    
     void invertSortOrder() {
         sortOrderDesc = !sortOrderDesc;
     }
@@ -168,7 +168,7 @@ public class NotesListModel extends AbstractListModel {
 
     }
 
-    ImageIcon bookmarkIcon = new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/star8.png"));
+    ImageIcon bookmarkIcon = new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/lightning.png"));
 
     public ListCellRenderer getCellRenderer() {
         return new DefaultListCellRenderer()  {

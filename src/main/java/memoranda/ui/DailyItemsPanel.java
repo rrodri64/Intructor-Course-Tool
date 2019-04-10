@@ -70,7 +70,7 @@ public class DailyItemsPanel extends JPanel {
     AgendaPanel agendaPanel = new AgendaPanel(this);
     ImageIcon expIcon = new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/exp_right.png"));
     ImageIcon collIcon = new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/exp_left.png"));
-    ImageIcon bookmarkIcon = new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/star8.png"));
+    ImageIcon courseSelectIcon = new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/lightning.png"));
     boolean expanded = true;
     
     Note currentNote;
@@ -354,7 +354,7 @@ public class DailyItemsPanel extends JPanel {
 
 		currentDateLabel.setText(newdate.getFullDateString());
         if ((currentNote != null) && (currentNote.isMarked())) {
-            currentDateLabel.setIcon(bookmarkIcon);
+            currentDateLabel.setIcon(courseSelectIcon);
             currentDateLabel.setHorizontalTextPosition(SwingConstants.LEFT);
         }
         else {
