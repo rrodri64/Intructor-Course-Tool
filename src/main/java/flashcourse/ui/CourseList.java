@@ -138,7 +138,7 @@ public class CourseList extends JList {
     public void update(Courses ns) {
         courseCollection = ns;
         // NotesVectorSorter.sort(courseCollection);
-	//	Collections.sort((List<T>) courseCollection);
+	//Collections.sort((List<T>) courseCollection);
 		if (sortOrderDesc) {
 			Collections.reverse((List<?>) courseCollection);		    
 		}		
@@ -146,6 +146,18 @@ public class CourseList extends JList {
     }
     
 
+    public Course getCourse(String courseName) {
+        Course result = null;
+        ArrayList<Course> courseLookUp = courseCollection.getCourses();
+        for(Course c : courseLookUp) {
+            if(c.getCourseName().equals(courseName)) {
+                result = c;
+            }
+        }
+        
+        return result;
+       
+    }
     public Course getCourse(int index){
         ArrayList<Course> indexCourse = courseCollection.getCourses();
         

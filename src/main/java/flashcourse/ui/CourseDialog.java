@@ -32,6 +32,9 @@ import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.swing.JTextField;
 import javax.swing.BoxLayout;
@@ -62,6 +65,7 @@ public class CourseDialog extends JDialog {
     private JTextField lectures;
     public Date date;
     public CourseList courseList;
+    public Course newCourse;
 
    /**
     * 
@@ -70,6 +74,7 @@ public class CourseDialog extends JDialog {
     */
     public CourseDialog(Frame frame, String title) {
         super(frame, title, true);
+        newCourse = null;
         try {
             jbInit();            
             pack();
@@ -343,14 +348,41 @@ public class CourseDialog extends JDialog {
          * @throws ParseException Catches bad parsing from user input
          */
         void addCourseButton_actionPerformed(ActionEvent e) throws ParseException {
-           
+            
             SimpleDateFormat simple = new SimpleDateFormat("dd/MM/YY");
-            Course newCourse = new Course(courseNameInput.getText());
+            
+            String courseName = courseNameInput.getText();
+            newCourse = new Course(courseName);
+            
+            //Date inputs
             String holidaysInput = holidays.getText();
             String freeDays = freeDaysInput.getText();
-            String lectures;
+            String lectureDates = lectures.getText();
             
-            try {
+            //Tokenizers for separating out comma separated list of dates
+            StringTokenizer holidayToken = new StringTokenizer(holidaysInput, ",");
+            StringTokenizer freeToken = new StringTokenizer(freeDays, ",");
+            StringTokenizer lectureToken = new StringTokenizer(lectureDates, ",");
+            
+            //Set holiday dates 
+            while(holidayToken.hasMoreTokens()) {
+                date = simple.parse(holidayToken.nextToken());
+                newCourse.addHolidayDates(new CalendarDate(date), courseName);
+            }
+            
+            //Set free days dates
+            while(freeToken.hasMoreTokens()) {
+                date = simple.parse(freeToken.nextToken());
+                newCourse.addFreeDays(new CalendarDate(date), courseName);
+            }
+            
+            //Set lectures dates
+            while(lectureToken.hasMoreTokens()) {
+                date = simple.parse(lectureToken.nextToken());
+                newCourse.addLectureDates(new CalendarDate(date), courseName);
+            }
+            
+           
             //Set the start date
             date = simple.parse(startDateInput.getText());
             newCourse.setCourseStartDate(new CalendarDate(date));
@@ -373,11 +405,7 @@ public class CourseDialog extends JDialog {
             
             //Close dialog
             this.dispose();
-            }
-            catch(ParseException p) {
-                p.getCause();
-                this.dispose();
-            }
+           
             
         }
         
@@ -388,6 +416,15 @@ public class CourseDialog extends JDialog {
          */
         public String getCourseName() {
             return courseNameInput.getText();
+        }
+        
+        //Testing Method to make sure dates are storing properly
+        public int getDateCount(Map<CalendarDate, String> dates) {
+            return dates.size();
+        }
+        
+        public Course getCourse() {
+            return newCourse;
         }
 
 }

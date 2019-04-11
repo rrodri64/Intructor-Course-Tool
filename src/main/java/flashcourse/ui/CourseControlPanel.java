@@ -19,6 +19,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
@@ -193,13 +194,7 @@ public class CourseControlPanel extends JPanel {
     
     }
     
-    /**
-     * 
-     * @return course name
-     */
-    public String getCourseName() {
-        return courseName;
-    }
+
     
    /**
     * 
@@ -213,13 +208,14 @@ public class CourseControlPanel extends JPanel {
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
         
         dlg.setVisible(true);
+        
+        //Local course with all fields of interest from course creation
+        Course courseCreated = dlg.getCourse();
+       
+            System.out.println(dlg.getDateCount(courseCreated.getHolidayDates()));
+            if(courseCreated.getCourseName().length() >= 1) {
+            courseList.getCourses().addCourse(courseCreated.getCourseName());
             
-            //Obtain the course name from course creation
-            courseName = dlg.getCourseName();
-          
-            if(courseName.length() >= 1) {
-            courseList.getCourses().addCourse(courseName);
-            System.out.println(courseName);
             courseListPanel.courseList.update();
             }
     ppSetEnabled();
