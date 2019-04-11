@@ -59,6 +59,7 @@ public class CourseDialog extends JDialog {
     private JTextField breakEndDate;
     private JTextField holidays;
     private JTextField freeDaysInput;
+    private JTextField lectures;
     public Date date;
     public CourseList courseList;
 
@@ -94,7 +95,7 @@ public class CourseDialog extends JDialog {
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         contentPanel.setLayout(gridBagLayout);
         {
-            JLabel titleLabel = new JLabel("Course Creator");
+            JLabel titleLabel = new JLabel("Course Creator (dd/MM/YY)");
             titleLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
             GridBagConstraints gbc_titleLabel = new GridBagConstraints();
             gbc_titleLabel.fill = GridBagConstraints.VERTICAL;
@@ -209,14 +210,14 @@ public class CourseDialog extends JDialog {
             contentPanel.add(breakStartInput, gbc_breakStartInput);
         }
         {
-            //Course lecture time label
-            JLabel lectureTimes = new JLabel("Lecture Times(Separate with comas)");
-            GridBagConstraints gbc_lectureTimes = new GridBagConstraints();
-            gbc_lectureTimes.anchor = GridBagConstraints.EAST;
-            gbc_lectureTimes.insets = new Insets(0, 0, 5, 5);
-            gbc_lectureTimes.gridx = 0;
-            gbc_lectureTimes.gridy = 6;
-            contentPanel.add(lectureTimes, gbc_lectureTimes);
+            //Course break end label
+            JLabel breakEndDate = new JLabel("Course Break End Date");
+            GridBagConstraints gbc_breakEndDate = new GridBagConstraints();
+            gbc_breakEndDate.anchor = GridBagConstraints.EAST;
+            gbc_breakEndDate.insets = new Insets(0, 0, 5, 5);
+            gbc_breakEndDate.gridx = 0;
+            gbc_breakEndDate.gridy = 6;
+            contentPanel.add(breakEndDate, gbc_breakEndDate);
         }
         {
             //Course break end date input
@@ -229,6 +230,30 @@ public class CourseDialog extends JDialog {
             gbc_breakEndDate.gridy = 6;
             contentPanel.add(breakEndDate, gbc_breakEndDate);
         }
+        
+        {
+            //Course lectures label
+            JLabel lectures = new JLabel("Lectures(Separate with comas)");
+            GridBagConstraints gbc_lectures = new GridBagConstraints();
+            gbc_lectures.anchor = GridBagConstraints.EAST;
+            gbc_lectures.insets = new Insets(0, 0, 5, 5);
+            gbc_lectures.gridx = 0;
+            gbc_lectures.gridy = 7;
+            contentPanel.add(lectures, gbc_lectures);
+        }
+        {
+            //Course lectures input
+            lectures = new JTextField();
+            lectures.setColumns(10);
+            GridBagConstraints gbc_lecturesInput = new GridBagConstraints();
+            gbc_lecturesInput.insets = new Insets(0, 0, 5, 0);
+            gbc_lecturesInput.fill = GridBagConstraints.HORIZONTAL;
+            gbc_lecturesInput.gridx = 1;
+            gbc_lecturesInput.gridy = 7;
+            contentPanel.add(lectures, gbc_lecturesInput);
+        }
+        
+        
         {
             //Course holidays label
             JLabel Holidays = new JLabel("Holidays(Separate with comas)");
@@ -236,7 +261,7 @@ public class CourseDialog extends JDialog {
             gbc_Holidays.anchor = GridBagConstraints.EAST;
             gbc_Holidays.insets = new Insets(0, 0, 5, 5);
             gbc_Holidays.gridx = 0;
-            gbc_Holidays.gridy = 7;
+            gbc_Holidays.gridy = 8;
             contentPanel.add(Holidays, gbc_Holidays);
         }
         {
@@ -247,7 +272,7 @@ public class CourseDialog extends JDialog {
             gbc_holidays.insets = new Insets(0, 0, 5, 0);
             gbc_holidays.fill = GridBagConstraints.HORIZONTAL;
             gbc_holidays.gridx = 1;
-            gbc_holidays.gridy = 7;
+            gbc_holidays.gridy = 8;
             contentPanel.add(holidays, gbc_holidays);
         }
         {
@@ -257,7 +282,7 @@ public class CourseDialog extends JDialog {
             gbc_freeDays.anchor = GridBagConstraints.EAST;
             gbc_freeDays.insets = new Insets(0, 0, 0, 5);
             gbc_freeDays.gridx = 0;
-            gbc_freeDays.gridy = 8;
+            gbc_freeDays.gridy = 9;
             contentPanel.add(freeDays, gbc_freeDays);
         }
         {
@@ -267,7 +292,7 @@ public class CourseDialog extends JDialog {
             GridBagConstraints gbc_freeDaysInput = new GridBagConstraints();
             gbc_freeDaysInput.fill = GridBagConstraints.HORIZONTAL;
             gbc_freeDaysInput.gridx = 1;
-            gbc_freeDaysInput.gridy = 8;
+            gbc_freeDaysInput.gridy = 9;
             contentPanel.add(freeDaysInput, gbc_freeDaysInput);
         }
         {
@@ -321,6 +346,9 @@ public class CourseDialog extends JDialog {
            
             SimpleDateFormat simple = new SimpleDateFormat("dd/MM/YY");
             Course newCourse = new Course(courseNameInput.getText());
+            String holidaysInput = holidays.getText();
+            String freeDays = freeDaysInput.getText();
+            String lectures;
             
             try {
             //Set the start date

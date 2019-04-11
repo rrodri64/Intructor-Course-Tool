@@ -269,6 +269,9 @@ public class CourseControlPanel extends JPanel {
 
     void ppRemoveCourse_actionPerformed(ActionEvent e) {
         String msg;
+        if(courseList.getSelectedIndices().length == 0) {
+           return;
+        }
         if (courseList.getSelectedIndices().length > 1)
             msg =
                 Local.getString(Local.getString("Clear"))
