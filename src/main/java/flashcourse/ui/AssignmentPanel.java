@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.JTabbedPane;
 
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.History;
