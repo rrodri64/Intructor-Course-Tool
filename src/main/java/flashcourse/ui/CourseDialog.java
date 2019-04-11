@@ -423,6 +423,10 @@ public class CourseDialog extends JDialog {
             return dates.size();
         }
         
+        /**
+         * 
+         * @return the newly created course with all attributes created
+         */
         public Course getCourse() {
             return newCourse;
         }

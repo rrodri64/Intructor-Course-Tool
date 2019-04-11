@@ -67,6 +67,7 @@ public class CourseList extends JList {
 
     int _type = ALL;
 
+    
     public CourseList(int type) {
         
         super();

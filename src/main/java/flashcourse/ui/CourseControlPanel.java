@@ -118,10 +118,11 @@ public class CourseControlPanel extends JPanel {
             }
         });
         courseMgtB.setIcon(
-            new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/nopen.png")));
+            new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/manageCourses.png")));
+        courseMgtB.setToolTipText(Local.getString("Manage Courses"));
+        
         buttonsPanel.setMinimumSize(new Dimension(70, 22));
         buttonsPanel.setOpaque(false);
-        //buttonsPanel.setPreferredSize(new Dimension(80, 22));
         buttonsPanel.setRequestFocusEnabled(false);
         buttonsPanel.setLayout(flowLayout1);
         
@@ -136,7 +137,7 @@ public class CourseControlPanel extends JPanel {
        
         
         addCourse.setIcon(
-                new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/addbookmark.png")));
+                new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/createCourse.png")));
         addCourse.setEnabled(true);
         
         removeCourseFromSelector.setFont(new java.awt.Font("Dialog", 1, 11));
@@ -147,7 +148,7 @@ public class CourseControlPanel extends JPanel {
             }
         });
         removeCourseFromSelector.setIcon(
-            new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/Delete.png")));
+            new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/removeCourse.png")));
         removeCourseFromSelector.setEnabled(true);
        
         ppRemoveCourse.setFont(new java.awt.Font("Dialog", 1, 11));
@@ -230,16 +231,13 @@ public class CourseControlPanel extends JPanel {
       
     }
 
-    void tabbedPane_stateChanged(ChangeEvent e) {
-    if(courseList!=null) courseList.clearSelection();
-     courseList = courseListPanel.courseList;
-    ppAddBkmrk.setEnabled(false);
-    ppRemoveCourse.setEnabled(false);
-    }
-
+   /**
+    * 
+    * Class for listening mouse events for pop ups
+    *
+    */
     class PopupListener extends MouseAdapter {
         
-
         public void mousePressed(MouseEvent e) {
              maybeShowPopup(e);
          }
@@ -256,6 +254,10 @@ public class CourseControlPanel extends JPanel {
     }
 
   
+    /**
+     * 
+     * @param e action event for when the create course button is pressed
+     */
     void courseMgtB_actionPerformed(ActionEvent e) {
         courseControlMenu.show(
             toolBar,
@@ -263,6 +265,10 @@ public class CourseControlPanel extends JPanel {
             (int) courseMgtB.getLocation().getY() + 24);
     }
 
+    /**
+     * 
+     * @param e action event for when the delete course button is pressed
+     */
     void ppRemoveCourse_actionPerformed(ActionEvent e) {
         String msg;
         if(courseList.getSelectedIndices().length == 0) {
@@ -304,6 +310,9 @@ public class CourseControlPanel extends JPanel {
     ((AppFrame)App.getFrame()).workPanel.dailyItemsPanel.editorPanel.editor.requestFocus(); 
     }
 
+    /**
+     * Set buttons to enabled
+     */
     void ppSetEnabled() {
     boolean enbl = (courseList.getModel().getSize() > 0) && (courseList.getSelectedIndex() > -1);
 
