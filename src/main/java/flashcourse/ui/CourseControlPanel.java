@@ -38,8 +38,10 @@ public class CourseControlPanel extends JPanel {
     //BookmarksPanel bookmarksListPanel = new BookmarksPanel();
     JTabbedPane tabbedPane = new JTabbedPane();
     JToolBar toolBar = new JToolBar();
+    
+    private String courseName = " ";
 
-    CourseList courseList = null;
+    static CourseList courseList = null;
    
     FlowLayout flowLayout1 = new FlowLayout();
     JButton courseMgtB = new JButton();
@@ -173,20 +175,26 @@ public class CourseControlPanel extends JPanel {
     //  bookmarksListPanel.notesList.addKeyListener(delNotes);
     //  searchPanel.notesList.addKeyListener(delNotes);
     }
+    
+    public String getCourseName() {
+        return courseName;
+    }
+    
+   
 
     protected void addCourse_actionPerformed(ActionEvent e) {
         CourseDialog dlg = new CourseDialog(App.getFrame(), Local.getString("Create a new Course"));
         Dimension frmSize = App.getFrame().getSize();
         Point loc = App.getFrame().getLocation();
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
-    
+        
         dlg.setVisible(true);
-        if (dlg.CANCELLED)
-            return;
+//        if (dlg.CANCELLED)
+//            return;
         
-             Course SER111 = new Course("SER111");
-             courseList.getCourses().addCourse(SER111);
-        
+            courseName = dlg.getCourseName();
+            courseList.getCourses().addCourse(courseName);
+            System.out.println(courseName);
             
        courseListPanel.courseList.update();
     ppSetEnabled();
@@ -279,4 +287,6 @@ public class CourseControlPanel extends JPanel {
                     || courseList.getSelectedIndices().length > 1);
     
     }
+    
+  
 }

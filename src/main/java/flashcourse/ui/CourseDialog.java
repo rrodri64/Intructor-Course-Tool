@@ -8,7 +8,10 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import main.java.flashcourse.Course;
+import main.java.memoranda.date.CalendarDate;
 import main.java.memoranda.ui.ExceptionDialog;
+import main.java.flashcourse.ui.CourseList;
 
 import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
@@ -16,6 +19,9 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JTextField;
 import javax.swing.BoxLayout;
@@ -31,9 +37,11 @@ public class CourseDialog extends JDialog {
     private JTextField finalDate;
     private JTextField breakStartInput;
     private JTextField breakEndDate;
-    private JTextField textField;
+    private JTextField holidays;
     private JTextField textField_1;
+    public Date date;
     public boolean CANCELLED = true;
+    public CourseList courseList;
 
     /**
      * Launch the application.
@@ -201,14 +209,14 @@ public class CourseDialog extends JDialog {
             contentPanel.add(Holidays, gbc_Holidays);
         }
         {
-            textField = new JTextField();
-            textField.setColumns(10);
-            GridBagConstraints gbc_textField = new GridBagConstraints();
-            gbc_textField.insets = new Insets(0, 0, 5, 0);
-            gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-            gbc_textField.gridx = 1;
-            gbc_textField.gridy = 7;
-            contentPanel.add(textField, gbc_textField);
+            holidays = new JTextField();
+            holidays.setColumns(10);
+            GridBagConstraints gbc_holidays = new GridBagConstraints();
+            gbc_holidays.insets = new Insets(0, 0, 5, 0);
+            gbc_holidays.fill = GridBagConstraints.HORIZONTAL;
+            gbc_holidays.gridx = 1;
+            gbc_holidays.gridy = 7;
+            contentPanel.add(holidays, gbc_holidays);
         }
         {
             JLabel freeDays = new JLabel("Free Days (Separate with comas)");
@@ -238,6 +246,17 @@ public class CourseDialog extends JDialog {
                 createButton.setActionCommand("CreateClass");
                 buttonPane.add(createButton);
                 getRootPane().setDefaultButton(createButton);
+                
+                createButton.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            addCourseButton_actionPerformed(e);
+                        } catch (ParseException e1) {
+                            
+                            e1.printStackTrace();
+                        }
+                    }
+                });
             }
             {
                 JButton cancelButton = new JButton("Cancel");
@@ -254,6 +273,37 @@ public class CourseDialog extends JDialog {
         
         void cancelButton_actionPerformed(ActionEvent e) {
             this.dispose();
+        }
+        
+        void addCourseButton_actionPerformed(ActionEvent e) throws ParseException {
+           
+            
+            //Date date =new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);  
+            SimpleDateFormat simple = new SimpleDateFormat("dd/MM/YY");
+            Course newCourse = new Course(courseNameInput.getText());
+            
+            try {
+            date = simple.parse(startDateInput.getText());
+            newCourse.setCourseStartDate(new CalendarDate(date));
+            date = simple.parse(endDateInput.getText());
+            newCourse.setCourseEndDate(new CalendarDate(date));
+            date = simple.parse(finalDate.getText());
+            newCourse.setFinalExamDate(new CalendarDate(date));
+            date = simple.parse(breakStartInput.getText());
+            newCourse.setCourseBreakStart(new CalendarDate(date));
+            date = simple.parse(breakEndDate.getText());
+            newCourse.setCourseBreakEnd(new CalendarDate(date));
+            this.dispose();
+            }
+            catch(ParseException p) {
+                System.out.println("Empty Field");
+                this.dispose();
+            }
+            
+        }
+        
+        public String getCourseName() {
+            return courseNameInput.getText();
         }
 
 }

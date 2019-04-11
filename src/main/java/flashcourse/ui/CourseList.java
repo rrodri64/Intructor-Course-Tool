@@ -32,6 +32,7 @@ import main.java.memoranda.date.DateListener;
 import main.java.memoranda.ui.AppFrame;
 import main.java.memoranda.util.Configuration;
 
+
 /*$Id: NotesList.java,v 1.9 2005/05/05 16:19:16 ivanrise Exp $*/
 public class CourseList extends JList {
 
@@ -127,6 +128,7 @@ public class CourseList extends JList {
 		}		
         updateUI();
     }
+    
 
     public Course getCourse(int index){
         ArrayList<Course> indexCourse = courseCollection.getCourses();
@@ -168,6 +170,8 @@ public class NotesListModel extends AbstractListModel {
         }
 
     }
+
+
 
     ImageIcon bookmarkIcon = new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/lightning.png"));
 
