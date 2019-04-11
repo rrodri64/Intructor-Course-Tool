@@ -1,3 +1,14 @@
+/**
+ * 
+ * @author Jessica Tinaza
+ * 
+ * File Name: CourseList.java
+ * 
+ * Date 4/7/19
+ */
+
+
+
 package main.java.flashcourse.ui;
 
 import java.awt.Component;
@@ -32,7 +43,12 @@ import main.java.memoranda.date.DateListener;
 import main.java.memoranda.ui.AppFrame;
 import main.java.memoranda.util.Configuration;
 
-
+/**
+ * 
+ * This class keeps track of the list of courses that are displayed on
+ * the course control panel.
+ *
+ */
 /*$Id: NotesList.java,v 1.9 2005/05/05 16:19:16 ivanrise Exp $*/
 public class CourseList extends JList {
 
@@ -40,11 +56,11 @@ public class CourseList extends JList {
     public static final int ALL = 1;
     public static final int BOOKMARKS = 2;
 
+    //Hard coded classes for testing purposes
    private Course SER321 =  new Course("SER321");
    private Course SER334 = new Course("SER334");
    private Course SER222 = new Course("SER222");
 
-    
    private Courses courseCollection = new Courses();
   
     boolean sortOrderDesc = false;

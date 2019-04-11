@@ -1,3 +1,14 @@
+/**
+ * 
+ * @author Jessica Tinaza 
+ * 
+ * File Name: CourseControlPanel.java
+ * 
+ * Date: 4/8/19
+ * 
+ */
+
+
 package main.java.flashcourse.ui;
 
 import java.awt.BorderLayout;
@@ -30,16 +41,24 @@ import main.java.memoranda.ui.AppFrame;
 import main.java.memoranda.ui.ExceptionDialog;
 import main.java.memoranda.util.Local;
 
+/**
+ * 
+ * This class controls the display and selection of the courses displayed on it.
+ * Teachers can delete courses by right clicking and selecting delete, or highlight
+ * a course and hit the delete key. Courses that are created are displayed here, and 
+ * this module is what controls what is displayed where.
+ *
+ */
 /*$Id: NotesControlPanel.java,v 1.16 2005/05/05 16:19:16 ivanrise Exp $*/
 public class CourseControlPanel extends JPanel {
     BorderLayout borderLayout1 = new BorderLayout();
- //  SearchPanel searchPanel = new SearchPanel();
-   CourseListPanel courseListPanel = new CourseListPanel();
-    //BookmarksPanel bookmarksListPanel = new BookmarksPanel();
+ 
+    CourseListPanel courseListPanel = new CourseListPanel();
+    
     JTabbedPane tabbedPane = new JTabbedPane();
     JToolBar toolBar = new JToolBar();
     
-    private String courseName = " ";
+    private String courseName = null;
 
     static CourseList courseList = null;
    
@@ -48,7 +67,6 @@ public class CourseControlPanel extends JPanel {
     JPanel buttonsPanel = new JPanel();
     JMenuItem ppAddBkmrk = new JMenuItem();
     JMenuItem ppClearNote = new JMenuItem();
-//    JMenuItem ppInvertSort = new JMenuItem();
     JCheckBoxMenuItem ppInvertSort = new JCheckBoxMenuItem();
     JPopupMenu notesPPMenu = new JPopupMenu();
     JPopupMenu courseControlMenu = new JPopupMenu();
@@ -58,7 +76,9 @@ public class CourseControlPanel extends JPanel {
     JMenuItem addCourse = new JMenuItem();
     
    
-    
+    /**
+     * This constructor calls the panel initiation method
+     */
     public CourseControlPanel() {
         
         try {
@@ -70,6 +90,10 @@ public class CourseControlPanel extends JPanel {
         }
     }
 
+    /**
+     * 
+     * @throws Exception
+     */
     void jbInit() throws Exception {
         tabbedPane.setFont(new java.awt.Font("Dialog", 1, 10));
        
@@ -136,8 +160,7 @@ public class CourseControlPanel extends JPanel {
             new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/Delete.png")));
         ppRemoveCourse.setEnabled(true);
         tabbedPane.add(courseListPanel, Local.getString("Courses"));
-        //tabbedPane.add(bookmarksListPanel, Local.getString("Bookmarks"));
-        //tabbedPane.add(searchPanel, Local.getString("Search"));
+        
         this.add(toolBar, BorderLayout.NORTH);
         buttonsPanel.add(courseMgtB, null);
         toolBar.add(buttonsPanel, null);
@@ -146,12 +169,7 @@ public class CourseControlPanel extends JPanel {
 
         PopupListener lst = new PopupListener();
         courseListPanel.courseList.addMouseListener(lst);
-       // bookmarksListPanel.notesList.addMouseListener(lst);
-       // searchPanel.notesList.addMouseListener(lst);
-       
-       // notesListPanel.notesList.getSelectionModel().addListSelectionListener(lsl);
-       // bookmarksListPanel.notesList.getSelectionModel().addListSelectionListener(lsl);
-       // searchPanel.notesList.getSelectionModel().addListSelectionListener(lsl);
+  
         courseList = courseListPanel.courseList;
      
         notesPPMenu.add(ppRemoveCourse);
@@ -172,31 +190,38 @@ public class CourseControlPanel extends JPanel {
         };
         
         courseListPanel.courseList.addKeyListener(delNotes);
-    //  bookmarksListPanel.notesList.addKeyListener(delNotes);
-    //  searchPanel.notesList.addKeyListener(delNotes);
+    
     }
     
+    /**
+     * 
+     * @return course name
+     */
     public String getCourseName() {
         return courseName;
     }
     
-   
-
+   /**
+    * 
+    * @param e is the action event being listened for when the add course button is selected
+    */
     protected void addCourse_actionPerformed(ActionEvent e) {
+        //Create a new Course Dialog
         CourseDialog dlg = new CourseDialog(App.getFrame(), Local.getString("Create a new Course"));
         Dimension frmSize = App.getFrame().getSize();
         Point loc = App.getFrame().getLocation();
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
         
         dlg.setVisible(true);
-//        if (dlg.CANCELLED)
-//            return;
-        
+            
+            //Obtain the course name from course creation
             courseName = dlg.getCourseName();
+          
+            if(courseName.length() >= 1) {
             courseList.getCourses().addCourse(courseName);
             System.out.println(courseName);
-            
-       courseListPanel.courseList.update();
+            courseListPanel.courseList.update();
+            }
     ppSetEnabled();
         courseList.updateUI();
     courseList.clearSelection();
@@ -206,7 +231,7 @@ public class CourseControlPanel extends JPanel {
 
     public void refresh() {
         courseListPanel.courseList.update();
-      //  bookmarksListPanel.notesList.update();
+      
     }
 
     void tabbedPane_stateChanged(ChangeEvent e) {

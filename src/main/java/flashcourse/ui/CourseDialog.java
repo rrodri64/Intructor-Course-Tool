@@ -1,3 +1,13 @@
+/**
+ * 
+ * @author Jessica Tinaza 
+ * 
+ * File Name: CourseDialog.java
+ * 
+ * Date: 4/10/2019
+ * 
+ */
+
 package main.java.flashcourse.ui;
 
 import java.awt.BorderLayout;
@@ -28,9 +38,19 @@ import javax.swing.BoxLayout;
 import java.awt.Font;
 import java.awt.Frame;
 
+/**
+ * 
+ * This class creates a dialog box when a teacher user creates 
+ * a new class. All fields that make up a course are to be filled 
+ * in by the teacher.
+ *
+ */
 public class CourseDialog extends JDialog {
 
+    //Panel for content to go on
     private final JPanel contentPanel = new JPanel();
+    
+    //All text fields for user input
     private JTextField courseNameInput;
     private JTextField startDateInput;
     private JTextField endDateInput;
@@ -38,19 +58,15 @@ public class CourseDialog extends JDialog {
     private JTextField breakStartInput;
     private JTextField breakEndDate;
     private JTextField holidays;
-    private JTextField textField_1;
+    private JTextField freeDaysInput;
     public Date date;
-    public boolean CANCELLED = true;
     public CourseList courseList;
 
-    /**
-     * Launch the application.
-     */
-
-
-    /**
-     * Create the dialog.
-     */
+   /**
+    * 
+    * @param frame that this will be built
+    * @param title of the dialog 
+    */
     public CourseDialog(Frame frame, String title) {
         super(frame, title, true);
         try {
@@ -62,7 +78,9 @@ public class CourseDialog extends JDialog {
         }
     }
     
-    
+        /**
+         * Initialize all components and action handling of dialog
+         */
         private void jbInit() {
       
         setBounds(100, 100, 796, 324);
@@ -86,6 +104,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(titleLabel, gbc_titleLabel);
         }
         {
+            //Course name label 
             JLabel courseName = new JLabel("Course Name:");
             GridBagConstraints gbc_courseName = new GridBagConstraints();
             gbc_courseName.anchor = GridBagConstraints.EAST;
@@ -95,6 +114,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(courseName, gbc_courseName);
         }
         {
+            //Course name input
             courseNameInput = new JTextField();
             GridBagConstraints gbc_courseNameInput = new GridBagConstraints();
             gbc_courseNameInput.insets = new Insets(0, 0, 5, 0);
@@ -105,6 +125,7 @@ public class CourseDialog extends JDialog {
             courseNameInput.setColumns(10);
         }
         {
+            //Course start day label
             JLabel courseStartDate = new JLabel("Start Date:");
             GridBagConstraints gbc_courseStartDate = new GridBagConstraints();
             gbc_courseStartDate.anchor = GridBagConstraints.EAST;
@@ -114,6 +135,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(courseStartDate, gbc_courseStartDate);
         }
         {
+            //Course start day input
             startDateInput = new JTextField();
             GridBagConstraints gbc_startDateInput = new GridBagConstraints();
             gbc_startDateInput.insets = new Insets(0, 0, 5, 0);
@@ -124,6 +146,7 @@ public class CourseDialog extends JDialog {
             startDateInput.setColumns(10);
         }
         {
+            //Course end date label
             JLabel endDate = new JLabel("End Date:");
             GridBagConstraints gbc_endDate = new GridBagConstraints();
             gbc_endDate.anchor = GridBagConstraints.EAST;
@@ -133,6 +156,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(endDate, gbc_endDate);
         }
         {
+            //Course end date input
             endDateInput = new JTextField();
             endDateInput.setColumns(10);
             GridBagConstraints gbc_endDateInput = new GridBagConstraints();
@@ -143,6 +167,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(endDateInput, gbc_endDateInput);
         }
         {
+            //Course final exam date label
             JLabel finalExamDate = new JLabel("Final Exam Date:");
             GridBagConstraints gbc_finalExamDate = new GridBagConstraints();
             gbc_finalExamDate.anchor = GridBagConstraints.EAST;
@@ -152,6 +177,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(finalExamDate, gbc_finalExamDate);
         }
         {
+            //Course final exam input
             finalDate = new JTextField();
             finalDate.setColumns(10);
             GridBagConstraints gbc_finalDate = new GridBagConstraints();
@@ -162,6 +188,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(finalDate, gbc_finalDate);
         }
         {
+            //Course break start date label
             JLabel courseBreakStart = new JLabel("Course Break Start Date:");
             GridBagConstraints gbc_courseBreakStart = new GridBagConstraints();
             gbc_courseBreakStart.anchor = GridBagConstraints.EAST;
@@ -171,6 +198,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(courseBreakStart, gbc_courseBreakStart);
         }
         {
+            //Course break start date input
             breakStartInput = new JTextField();
             breakStartInput.setColumns(10);
             GridBagConstraints gbc_breakStartInput = new GridBagConstraints();
@@ -181,6 +209,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(breakStartInput, gbc_breakStartInput);
         }
         {
+            //Course lecture time label
             JLabel lectureTimes = new JLabel("Lecture Times(Separate with comas)");
             GridBagConstraints gbc_lectureTimes = new GridBagConstraints();
             gbc_lectureTimes.anchor = GridBagConstraints.EAST;
@@ -190,6 +219,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(lectureTimes, gbc_lectureTimes);
         }
         {
+            //Course break end date input
             breakEndDate = new JTextField();
             breakEndDate.setColumns(10);
             GridBagConstraints gbc_breakEndDate = new GridBagConstraints();
@@ -200,6 +230,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(breakEndDate, gbc_breakEndDate);
         }
         {
+            //Course holidays label
             JLabel Holidays = new JLabel("Holidays(Separate with comas)");
             GridBagConstraints gbc_Holidays = new GridBagConstraints();
             gbc_Holidays.anchor = GridBagConstraints.EAST;
@@ -209,6 +240,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(Holidays, gbc_Holidays);
         }
         {
+            //Course holidays text field
             holidays = new JTextField();
             holidays.setColumns(10);
             GridBagConstraints gbc_holidays = new GridBagConstraints();
@@ -219,6 +251,7 @@ public class CourseDialog extends JDialog {
             contentPanel.add(holidays, gbc_holidays);
         }
         {
+            //Course free days label
             JLabel freeDays = new JLabel("Free Days (Separate with comas)");
             GridBagConstraints gbc_freeDays = new GridBagConstraints();
             gbc_freeDays.anchor = GridBagConstraints.EAST;
@@ -228,23 +261,26 @@ public class CourseDialog extends JDialog {
             contentPanel.add(freeDays, gbc_freeDays);
         }
         {
-            textField_1 = new JTextField();
-            textField_1.setColumns(10);
-            GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-            gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-            gbc_textField_1.gridx = 1;
-            gbc_textField_1.gridy = 8;
-            contentPanel.add(textField_1, gbc_textField_1);
+            //Course free days input
+            freeDaysInput = new JTextField();
+            freeDaysInput.setColumns(10);
+            GridBagConstraints gbc_freeDaysInput = new GridBagConstraints();
+            gbc_freeDaysInput.fill = GridBagConstraints.HORIZONTAL;
+            gbc_freeDaysInput.gridx = 1;
+            gbc_freeDaysInput.gridy = 8;
+            contentPanel.add(freeDaysInput, gbc_freeDaysInput);
         }
         {
-            JPanel buttonPane = new JPanel();
-            getContentPane().add(buttonPane, BorderLayout.EAST);
-            buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.X_AXIS));
+            //Button panel
+            JPanel buttonPanel = new JPanel();
+            getContentPane().add(buttonPanel, BorderLayout.EAST);
+            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
             {
+                //Create Class button
                 JButton createButton = new JButton("Create Class ");
                 createButton.setHorizontalAlignment(SwingConstants.LEFT);
                 createButton.setActionCommand("CreateClass");
-                buttonPane.add(createButton);
+                buttonPanel.add(createButton);
                 getRootPane().setDefaultButton(createButton);
                 
                 createButton.addActionListener(new java.awt.event.ActionListener() {
@@ -259,9 +295,10 @@ public class CourseDialog extends JDialog {
                 });
             }
             {
+                //Cancel Button
                 JButton cancelButton = new JButton("Cancel");
                 cancelButton.setActionCommand("Cancel");
-                buttonPane.add(cancelButton);
+                buttonPanel.add(cancelButton);
                 cancelButton.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                        cancelButton_actionPerformed(e);
@@ -275,33 +312,52 @@ public class CourseDialog extends JDialog {
             this.dispose();
         }
         
+        /**
+         * 
+         * @param e action event of pressing create course button
+         * @throws ParseException Catches bad parsing from user input
+         */
         void addCourseButton_actionPerformed(ActionEvent e) throws ParseException {
            
-            
-            //Date date =new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);  
             SimpleDateFormat simple = new SimpleDateFormat("dd/MM/YY");
             Course newCourse = new Course(courseNameInput.getText());
             
             try {
+            //Set the start date
             date = simple.parse(startDateInput.getText());
             newCourse.setCourseStartDate(new CalendarDate(date));
+            
+            //Set end date
             date = simple.parse(endDateInput.getText());
             newCourse.setCourseEndDate(new CalendarDate(date));
+            
+            //Set final exam date
             date = simple.parse(finalDate.getText());
             newCourse.setFinalExamDate(new CalendarDate(date));
+            
+            //Set break start
             date = simple.parse(breakStartInput.getText());
             newCourse.setCourseBreakStart(new CalendarDate(date));
+            
+            //Set break end
             date = simple.parse(breakEndDate.getText());
             newCourse.setCourseBreakEnd(new CalendarDate(date));
+            
+            //Close dialog
             this.dispose();
             }
             catch(ParseException p) {
-                System.out.println("Empty Field");
+                p.getCause();
                 this.dispose();
             }
             
         }
         
+        /**
+         * 
+         * @return returns the string of the course created to 
+         * be added to the course selection module
+         */
         public String getCourseName() {
             return courseNameInput.getText();
         }
