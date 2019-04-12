@@ -34,7 +34,7 @@ public class Local {
 	        		System.out.println(" - found");
 	        	}
 	        	catch (IOException ex) {
-	        		// Do nothing ...
+	        		// Do nothing 
 	        		System.out.println(" - not found");
 	        		ex.printStackTrace();
 	        	}
@@ -46,7 +46,7 @@ public class Local {
 		                    "localmessages/"+fn));            
 		        }
 		        catch (Exception e) {
-		            // Do nothing ...
+		            // Do nothing 
 		        }
 	        }
     	}

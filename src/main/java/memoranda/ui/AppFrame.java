@@ -376,7 +376,7 @@ public class AppFrame extends JFrame {
          workPanel.setPreferredSize(new Dimension(1073, 300));*/
         splitPane.setDividerLocation(28);
 
-        /* jMenuFileNewPrj.setText(Local.getString("New project") + "...");
+        /* jMenuFileNewPrj.setText(Local.getString("New project"));
          jMenuFileNewPrj.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
          ProjectDialog.newProject();
@@ -771,7 +771,7 @@ public class AppFrame extends JFrame {
     }
 
     public void doPrjPack() {
-        // Fix until Sun's JVM supports more locales...
+        // Fix until Sun's JVM supports more locales
         UIManager.put("FileChooser.saveInLabelText", Local
                 .getString("Save in:"));
         UIManager.put("FileChooser.upFolderToolTipText", Local.getString(
@@ -827,7 +827,7 @@ public class AppFrame extends JFrame {
     }
 
     public void doPrjUnPack() {
-        // Fix until Sun's JVM supports more locales...
+        // Fix until Sun's JVM supports more locales
         UIManager.put("FileChooser.lookInLabelText", Local
                 .getString("Look in:"));
         UIManager.put("FileChooser.upFolderToolTipText", Local.getString(
@@ -891,7 +891,7 @@ public class AppFrame extends JFrame {
     }
     
             protected void ppExport_actionPerformed(ActionEvent e) {
-                // Fix until Sun's JVM supports more locales...
+                // Fix until Sun's JVM supports more locales
                 UIManager.put(
                         "FileChooser.lookInLabelText",
                         Local.getString("Save in:"));

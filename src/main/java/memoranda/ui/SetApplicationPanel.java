@@ -91,7 +91,7 @@ public class SetApplicationPanel extends JPanel {
     }
     
     void selectAppBrowseB_actionPerformed(ActionEvent e) {
-        // Fix until Sun's JVM supports more locales...
+        // Fix until Sun's JVM supports more locales
         UIManager.put("FileChooser.lookInLabelText", Local.getString("Look in:"));
         UIManager.put("FileChooser.upFolderToolTipText", Local.getString("Up One Level"));
         UIManager.put("FileChooser.newFolderToolTipText", Local.getString("Create New Folder"));
