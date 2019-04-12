@@ -237,11 +237,15 @@ public ArrayList<Assignment> getAssignments(){
  */
 public boolean addAssignment(Assignment assign) {
 	boolean add = false;
-	for(int i = 0; i < assignments.size(); i++) {
-		if(!(assignments.get(i).equals(assign))) {
+	if(assignments.size() == 0) {
+	    assignments.add(assign);
+	    return true;
+	}
+	
+		if(!(assignments.contains(assign))){
 			assignments.add(assign);
 			add = true;
-		}
+		
 	}
 	return add;
 	
@@ -256,11 +260,11 @@ public boolean addAssignment(Assignment assign) {
  */
 public boolean deleteAssignment(Assignment assign) {
 	boolean delete = false;
-	for(int i = 0; i < assignments.size(); i++) {
-		if((assignments.get(i).equals(assign))) {
-			delete = true;
+	
+		if((assignments.contains(assign))) {
 			assignments.remove(assign);
-		}
+			delete = true;
+		
 	}
 	
 	return delete;
