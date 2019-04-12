@@ -23,6 +23,7 @@ import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.Resource;
 import main.java.memoranda.ui.App;
