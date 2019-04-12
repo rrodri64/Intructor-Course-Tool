@@ -236,19 +236,21 @@ public ArrayList<Assignment> getAssignments(){
  * Adds assignment to assignments collection
  */
 public boolean addAssignment(Assignment assign) {
-    boolean add = false;
-    if(assignments.size() == 0) {
-        assignments.add(assign);
-        return true;
-    }
-    
-        if(!(assignments.contains(assign))){
-            assignments.add(assign);
-            add = true;
-        
-    }
-    return add;
-    
+
+	boolean add = false;
+	if(assignments.size() == 0) {
+	    assignments.add(assign);
+	    return true;
+	}
+	
+		if(!(assignments.contains(assign))){
+			assignments.add(assign);
+			add = true;
+		
+	}
+	return add;
+	
+
 }
 
 /**
@@ -259,15 +261,16 @@ public boolean addAssignment(Assignment assign) {
  * Deletes target assignment from assignments collection
  */
 public boolean deleteAssignment(Assignment assign) {
-    boolean delete = false;
-    
-        if((assignments.contains(assign))) {
-            assignments.remove(assign);
-            delete = true;
-        
-    }
-    
-    return delete;
+	boolean delete = false;
+	
+		if((assignments.contains(assign))) {
+			assignments.remove(assign);
+			delete = true;
+		
+	}
+	
+	return delete;
+
 }
 
 /**
