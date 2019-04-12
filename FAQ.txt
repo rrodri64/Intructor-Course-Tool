@@ -126,7 +126,7 @@ A.: 1) Find the "messages_patterns.properties" file in the
     6) Run the Memoranda (check if the "Enable localization" option of the 
        Preferences dialog is turned on) and test your labels.
 
-         ... and (optionally),
+          and (optionally),
     7) Send us your file for including it into distribution.
     
     You can also put your file into some external location and add the line into

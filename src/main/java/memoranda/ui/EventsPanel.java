@@ -137,7 +137,7 @@ public class EventsPanel extends JPanel {
         eventsTable.setRowHeight(24);
         eventPPMenu.setFont(new java.awt.Font("Dialog", 1, 10));
         ppEditEvent.setFont(new java.awt.Font("Dialog", 1, 11));
-        ppEditEvent.setText(Local.getString("Edit event") + "...");
+        ppEditEvent.setText(Local.getString("Edit event"));
         ppEditEvent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ppEditEvent_actionPerformed(e);
@@ -157,7 +157,7 @@ public class EventsPanel extends JPanel {
             new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/event_remove.png")));
         ppRemoveEvent.setEnabled(false);
         ppNewEvent.setFont(new java.awt.Font("Dialog", 1, 11));
-        ppNewEvent.setText(Local.getString("New event") + "...");
+        ppNewEvent.setText(Local.getString("New event"));
         ppNewEvent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ppNewEvent_actionPerformed(e);
@@ -356,7 +356,7 @@ public class EventsPanel extends JPanel {
 	CurrentStorage.get().storeEventsManager();
         eventsTable.refresh();
         EventsScheduler.init();
-        parentPanel.calendar.jnCalendar.updateUI();
+        parentPanel.calendar.getJnCalendar().updateUI();
         parentPanel.updateIndicators();
     }
 

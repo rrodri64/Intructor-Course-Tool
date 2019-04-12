@@ -501,7 +501,7 @@ public class HTMLEditor extends JPanel {
 			Local.getString("Cite"),
 			Local.getString("Superscript"),
 			Local.getString("Subscript"),
-			Local.getString("Custom style") + "..." };
+			Local.getString("Custom style")};
 	public JComboBox inlineCB = new JComboBox(inlineTypes);
 	boolean inlineCBEventsLock = false;
 
@@ -2072,7 +2072,7 @@ public class HTMLEditor extends JPanel {
 		dlg.idField.setText(id);
 		dlg.classField.setText(cls);
 		dlg.styleField.setText(sty);
-		// Uncommented, returns a simple p into the header... fix needed ?
+		// Uncommented, returns a simple p into the header fix needed ?
 		//dlg.header.setText(el.getName());
 		dlg.setVisible(true);
 		if (dlg.CANCELLED)
