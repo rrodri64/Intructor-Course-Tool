@@ -209,10 +209,11 @@ public class AssignmentPanel extends JPanel {
 		// added by rawsushi
         
         
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////
         //US#60
         assignmentFilterPP.setFont(new java.awt.Font("Dialog", 1, 10));
         
+        //Create the three menu items, and add an action listener to have functionality added in the future
         showAllAssignPP.setFont(new java.awt.Font("Dialog", 1, 11));
         showAllAssignPP.setText(" "+Local.getString("Show all assignments"));
         showAllAssignPP.addActionListener(new java.awt.event.ActionListener() {
@@ -240,17 +241,19 @@ public class AssignmentPanel extends JPanel {
         });
         showPastAssignPP.setEnabled(true);
         
-        
+        //add the menu items to the pop up menu
         assignmentFilterPP.add(showAllAssignPP);
         assignmentFilterPP.add(showUpcomingAssignPP);
         assignmentFilterPP.add(showPastAssignPP);
         
-        assignmentFilterPP.addMouseListener(new MouseAdapter() {
-        	public void mouseClicked(MouseEvent e) {
-        		assignmentFilterPP.show(e.getComponent(),e.getX(),e.getY());
-        	}
-        });
+        //If this listener is needed, it's here to add functionality to, currently unnecessary
+//        assignmentFilterPP.addMouseListener(new MouseAdapter() {
+//        	public void mouseClicked(MouseEvent e) {
+//        		//assignmentFilterPP.show(e.getComponent(),e.getX(),e.getY());
+//        	}
+//        });
         
+        //Create the button to add to the toolbar that will open the Filter menu
         assignFilterPPbutton.setText(Local.getString("Filter"));
         assignFilterPPbutton.setFont(new java.awt.Font("Dialog", 1, 10));
         assignFilterPPbutton.setMaximumSize(new Dimension(34, 20));
@@ -263,14 +266,15 @@ public class AssignmentPanel extends JPanel {
         assignFilterPPbutton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//System.out.println(e.getActionCommand());
-				assignmentFilterPP.show(
-						tasksToolBar,
+				assignmentFilterPP.show(tasksToolBar,
+						//offset the menu location from the max size button avoiding overlap
 						(int) (assignFilterPPbutton.getLocation().getX() + 34),
 						(int) assignFilterPPbutton.getLocation().getY());
 			}
 		});
+        //button will be added to the toolbar further down
         //End US#60
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////
 
         
         
@@ -397,7 +401,7 @@ public class AssignmentPanel extends JPanel {
         tasksToolBar.addSeparator(new Dimension(8, 24));
         tasksToolBar.add(editTaskB, null);
         tasksToolBar.add(completeTaskB, null);
-        tasksToolBar.add(assignFilterPPbutton, null);//US#60 Filter button 
+        tasksToolBar.add(assignFilterPPbutton, null);//US#60 Filter button added to toolbar
 
 		//tasksToolBar.add(showActiveOnly, null);
         
