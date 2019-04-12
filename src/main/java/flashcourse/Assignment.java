@@ -56,4 +56,11 @@ public class Assignment extends Task{
 			course = null;
 		}
 	}
+	
+	/*
+     *toString returns the name of this assignment
+     */
+    public String toString() {
+        return this.getName();
+    }
 }
