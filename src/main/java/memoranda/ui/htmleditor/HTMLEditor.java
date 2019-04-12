@@ -501,7 +501,7 @@ public class HTMLEditor extends JPanel {
 			Local.getString("Cite"),
 			Local.getString("Superscript"),
 			Local.getString("Subscript"),
-			Local.getString("Custom style") + "..." };
+			Local.getString("Custom style")};
 	public JComboBox inlineCB = new JComboBox(inlineTypes);
 	boolean inlineCBEventsLock = false;
 
