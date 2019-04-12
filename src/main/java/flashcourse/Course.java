@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import main.java.memoranda.date.*;
+import nu.xom.Attribute;
+import nu.xom.Element;
 
 /**
  * 
@@ -29,10 +31,11 @@ private CalendarDate courseEndDate;
 private CalendarDate finalExam;
 private CalendarDate courseBreakStart;
 private CalendarDate courseBreakEnd;
-private Map<String, CalendarDate> lectureTimes;
-private Map<String, CalendarDate> holidays;
-private Map<String, CalendarDate> freeDays;
+private Map<CalendarDate, String> lectureTimes;
+private Map<CalendarDate, String> holidays;
+private Map<CalendarDate, String> freeDays;
 private ArrayList<Assignment> assignments;
+private Element _el;
 
 /**
  * 
@@ -53,6 +56,7 @@ public Course(String course) {
 	holidays = new HashMap<>();
 	freeDays = new HashMap<>();
 	assignments = new ArrayList<>();
+	_el = null;
 }
 
 public String getCourseName() {
@@ -93,7 +97,7 @@ public void setFinalExamDate(CalendarDate fExam) {
 	finalExam = fExam;
 }
 
-public Map<String, CalendarDate> getLectureDates(){
+public Map<CalendarDate, String> getLectureDates(){
 	return lectureTimes;
 }
 
@@ -124,8 +128,8 @@ public void setCourseBreakEnd(CalendarDate end) {
  * 
  * Adds lecture times to the lectureTime collection
  */
-public void addLectureTimes(String lectureName, CalendarDate lectureDate) {
-	lectureTimes.put(lectureName, lectureDate);
+public void addLectureDates(CalendarDate lectureDate, String courseName) {
+	lectureTimes.put(lectureDate, courseName);
 }
 
 /**
@@ -136,11 +140,11 @@ public void addLectureTimes(String lectureName, CalendarDate lectureDate) {
  * 
  * Deletes target lecture time from LectureTimes collection
  */
-public boolean deleteLectureTimes(String lectureName, CalendarDate lectureDate) {
+public boolean deleteLectureTimes(CalendarDate lectureDate, String courseName) {
 	boolean deleted = false;
-	for(String key : lectureTimes.keySet()) {
-		if(lectureName.equals(key)) {
-			lectureTimes.remove(lectureName);
+	for(CalendarDate key : lectureTimes.keySet()) {
+		if(lectureDate.equals(key)) {
+			lectureTimes.remove(lectureDate);
 			deleted = true;
 		}
 	}
@@ -149,7 +153,7 @@ public boolean deleteLectureTimes(String lectureName, CalendarDate lectureDate) 
 	
 }
 
-public Map<String, CalendarDate> getHolidayDates(){
+public Map<CalendarDate, String> getHolidayDates(){
 	return holidays;
 }
 
@@ -160,8 +164,8 @@ public Map<String, CalendarDate> getHolidayDates(){
  * 
  * Adds holiday date to holidays collection
  */
-public void addHolidayDates(String holidayName, CalendarDate holidayDate) {
-	holidays.put(holidayName, holidayDate);
+public void addHolidayDates(CalendarDate holidayDate, String courseName) {
+	holidays.put(holidayDate, courseName);
 }
 
 /**
@@ -172,11 +176,11 @@ public void addHolidayDates(String holidayName, CalendarDate holidayDate) {
  * 
  * Deletes target holiday date from holidays collection
  */
-public boolean deleteHolidayDate(String holidayName, CalendarDate holidayDate) {
+public boolean deleteHolidayDate(CalendarDate holidayDate, String courseName) {
 	boolean deleted = false;
-	for(String key : holidays.keySet()) {
-		if(holidayName.equals(key)) {
-			holidays.remove(holidayName);
+	for(CalendarDate key : holidays.keySet()) {
+		if(holidayDate.equals(key)) {
+			holidays.remove(holidayDate);
 			deleted = true;
 		}
 	}
@@ -185,7 +189,7 @@ public boolean deleteHolidayDate(String holidayName, CalendarDate holidayDate) {
 }
 
 
-public Map<String, CalendarDate> getfreeDays(){
+public Map<CalendarDate, String> getfreeDays(){
 	return freeDays;
 }
 
@@ -196,8 +200,8 @@ public Map<String, CalendarDate> getfreeDays(){
  * 
  * Adds free day date to freeDays collection
  */
-public void addfreeDays(String freeDayName, CalendarDate freeDayDate) {
-	freeDays.put(freeDayName, freeDayDate);
+public void addFreeDays(CalendarDate freeDayDate, String courseName) {
+	freeDays.put(freeDayDate, courseName);
 }
 
 /**
@@ -207,11 +211,11 @@ public void addfreeDays(String freeDayName, CalendarDate freeDayDate) {
  * 
  * Deletes target free day from FreeDays collection
  */
-public boolean deleteFreeDay(String freeDayName, CalendarDate freeDayDate) {
+public boolean deleteFreeDay(CalendarDate freeDayDate, String courseName) {
 	boolean delete = false;
-	for(String key : freeDays.keySet()) {
-		if(freeDayName.equals(key)) {
-			freeDays.remove(freeDayName);
+	for(CalendarDate key : freeDays.keySet()) {
+		if(freeDayDate.equals(key)) {
+			freeDays.remove(freeDayDate);
 			delete = true;
 		}
 	}
@@ -270,6 +274,24 @@ public boolean deleteAssignment(Assignment assign) {
 @Override
 public String toString() {
 	return courseName;
+}
+
+public boolean isMarked() {
+   
+        return _el.getAttribute("course") != null;        
+    
+  
+}
+
+public void setMark(boolean mark) {
+    Attribute ma = _el.getAttribute("course");        
+    if (ma == null) {
+        if (mark)
+            _el.addAttribute(new Attribute("course", "yes"));
+        return;
+    }
+    else if (!mark)
+        _el.removeAttribute(ma);
 }
 
 

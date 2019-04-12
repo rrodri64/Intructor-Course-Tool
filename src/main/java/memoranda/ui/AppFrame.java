@@ -145,7 +145,7 @@ public class AppFrame extends JFrame {
      * Other actions for misc menu item buttons if we need to change later
      */
     public Action exportNotesAction =
-                new AbstractAction(Local.getString("Export notes") + "...") {
+                new AbstractAction(Local.getString("Export notes")) {
 
                 public void actionPerformed(ActionEvent e) {
                         ppExport_actionPerformed(e);
@@ -385,12 +385,10 @@ public class AppFrame extends JFrame {
          */
         jMenuFileNewPrj.setAction(projectsPanel.newProjectAction);
 
-        jMenuFileUnpackPrj.setText(Local.getString("Unpack project") + "...");
-        jMenuFileExportNote.setText(Local.getString("Export current note")
-                + "...");
-        jMenuFileImportNote.setText(Local.getString("Import one note")
-                + "...");
-        jMenuFilePackPrj.setText(Local.getString("Pack project") + "...");
+        jMenuFileUnpackPrj.setText(Local.getString("Unpack project"));
+        jMenuFileExportNote.setText(Local.getString("Export current note"));
+        jMenuFileImportNote.setText(Local.getString("Import one note"));
+        jMenuFilePackPrj.setText(Local.getString("Pack project"));
         jMenuFileMin.setText(Local.getString("Close the window"));
         jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10,
                 InputEvent.ALT_MASK));
@@ -411,17 +409,17 @@ public class AppFrame extends JFrame {
         jMenuEditPasteSpec.setToolTipText(Local.getString("Paste special"));
         jMenuEditSelectAll.setText(Local.getString("Select all"));
 
-        jMenuEditFind.setText(Local.getString("Find & replace") + "...");
+        jMenuEditFind.setText(Local.getString("Find & replace"));
 
-        jMenuEditPref.setText(Local.getString("Preferences") + "...");
+        jMenuEditPref.setText(Local.getString("Preferences"));
 
         jMenuInsert.setText(Local.getString("Insert"));
 
-        jMenuInsertImage.setText(Local.getString("Image") + "...");
+        jMenuInsertImage.setText(Local.getString("Image"));
         jMenuInsertImage.setToolTipText(Local.getString("Insert Image"));
-        jMenuInsertTable.setText(Local.getString("Table") + "...");
+        jMenuInsertTable.setText(Local.getString("Table"));
         jMenuInsertTable.setToolTipText(Local.getString("Insert Table"));
-        jMenuInsertLink.setText(Local.getString("Hyperlink") + "...");
+        jMenuInsertLink.setText(Local.getString("Hyperlink"));
         jMenuInsertLink.setToolTipText(Local.getString("Insert Hyperlink"));
         jMenuInsertList.setText(Local.getString("List"));
 
@@ -435,12 +433,12 @@ public class AppFrame extends JFrame {
 
         jMenuInsertListOL.setToolTipText(Local.getString("Insert Ordered"));
 
-        jMenuInsertChar.setText(Local.getString("Special character") + "...");
+        jMenuInsertChar.setText(Local.getString("Special character"));
         jMenuInsertChar.setToolTipText(Local.getString(
                 "Insert Special character"));
         jMenuInsertDate.setText(Local.getString("Current date"));
         jMenuInsertTime.setText(Local.getString("Current time"));
-        jMenuInsertFile.setText(Local.getString("File") + "...");
+        jMenuInsertFile.setText(Local.getString("File"));
 
         jMenuFormat.setText(Local.getString("Format"));
         jMenuFormatPStyle.setText(Local.getString("Paragraph style"));
@@ -461,7 +459,7 @@ public class AppFrame extends JFrame {
         jMenuFormatChCite.setText(Local.getString("Cite"));
         jMenuFormatChSUP.setText(Local.getString("Superscript"));
         jMenuFormatChSUB.setText(Local.getString("Subscript"));
-        jMenuFormatChCustom.setText(Local.getString("Custom style") + "...");
+        jMenuFormatChCustom.setText(Local.getString("Custom style"));
         jMenuFormatChB.setText(Local.getString("Bold"));
         jMenuFormatChB.setToolTipText(Local.getString("Bold"));
         jMenuFormatChI.setText(Local.getString("Italic"));
@@ -478,8 +476,7 @@ public class AppFrame extends JFrame {
         jMenuFormatTable.setText(Local.getString("Table"));
         jMenuFormatTableInsR.setText(Local.getString("Insert row"));
         jMenuFormatTableInsC.setText(Local.getString("Insert cell"));
-        jMenuFormatProperties.setText(Local.getString("Object properties")
-                + "...");
+        jMenuFormatProperties.setText(Local.getString("Object properties"));
         jMenuFormatProperties.setToolTipText(Local.getString(
                 "Object properties"));
 
