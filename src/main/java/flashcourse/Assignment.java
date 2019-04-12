@@ -31,7 +31,7 @@ public class Assignment extends Task{
 	 */
 	public Assignment(Course course, CalendarDate dueDate, ASSIGNEDGROUP assignedGroup, String name, String description) {
 		super(dueDate, assignedGroup, name, description);
-		course.addAssignment(this);
+		setCourse(course);
 	}
 	
 	public Course getCourse() {

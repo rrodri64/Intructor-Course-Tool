@@ -155,7 +155,6 @@ public class AssignmentTest {
         Assignment ass1 = new Assignment(ser334, ass1Due, ASSIGNEDGROUP.Student, "Task1", "Complete homework 1");
         ass1.setCourse(ser315);
         assertFalse(ser334.getAssignments().contains(ass1));
-        System.out.println(ser334.getAssignments());
-        //assertTrue(ser315.getAssignments().contains(ass1));
+        assertTrue(ser315.getAssignments().contains(ass1));
     }
 }
