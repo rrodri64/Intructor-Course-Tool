@@ -413,7 +413,7 @@ public class EditorPanel extends JPanel {
 	}
 
 	void exportB_actionPerformed(ActionEvent e) {
-		// Fix until Sun's JVM supports more locales...
+		// Fix until Sun's JVM supports more locales
 		UIManager.put("FileChooser.lookInLabelText", Local
 				.getString("Save in:"));
 		UIManager.put("FileChooser.upFolderToolTipText", Local
@@ -532,7 +532,7 @@ public class EditorPanel extends JPanel {
 	}
 
 	void importB_actionPerformed(ActionEvent e) {
-		// Fix until Sun's JVM supports more locales...
+		// Fix until Sun's JVM supports more locales
 		UIManager.put("FileChooser.lookInLabelText", Local
 				.getString("Look in:"));
 		UIManager.put("FileChooser.upFolderToolTipText", Local

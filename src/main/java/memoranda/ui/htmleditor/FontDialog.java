@@ -216,7 +216,7 @@ public class FontDialog extends JDialog {
     }
    
     void colorB_actionPerformed(ActionEvent e) {
-		// Fix until Sun's JVM supports more locales...
+		// Fix until Sun's JVM supports more locales
 		UIManager.put(
 			"ColorChooser.swatchesNameText",
 			Local.getString("Swatches"));

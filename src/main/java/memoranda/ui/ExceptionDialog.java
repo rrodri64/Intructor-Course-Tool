@@ -94,7 +94,7 @@ public class ExceptionDialog extends JDialog {
     reportB.setMaximumSize(new Dimension(120, 25));
     reportB.setMinimumSize(new Dimension(120, 25));
     reportB.setPreferredSize(new Dimension(120, 25));
-    reportB.setText("Report bug...");
+    reportB.setText("Report bug");
     reportB.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(ActionEvent e) {
         reportB_actionPerformed(e);

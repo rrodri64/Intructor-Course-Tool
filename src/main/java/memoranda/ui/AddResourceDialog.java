@@ -239,7 +239,7 @@ public class AddResourceDialog extends JDialog {
 	 */
 	 
     void browseB_actionPerformed(ActionEvent e) {
-        // Fix until Sun's JVM supports more locales...
+        // Fix until Sun's JVM supports more locales
         UIManager.put("FileChooser.lookInLabelText", 
             Local.getString("Look in:"));
         UIManager.put("FileChooser.upFolderToolTipText", 
