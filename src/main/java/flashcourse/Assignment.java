@@ -31,7 +31,7 @@ public class Assignment extends Task{
 	 */
 	public Assignment(Course course, CalendarDate dueDate, ASSIGNEDGROUP assignedGroup, String name, String description) {
 		super(dueDate, assignedGroup, name, description);
-		course.addAssignment(this);
+		setCourse(course);
 	}
 	
 	public Course getCourse() {
@@ -56,4 +56,11 @@ public class Assignment extends Task{
 			course = null;
 		}
 	}
+	
+	/*
+     *toString returns the name of this assignment
+     */
+    public String toString() {
+        return this.getName();
+    }
 }

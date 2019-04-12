@@ -1,6 +1,7 @@
-/**AssignmentTest.java is designed to test the functionality and correctness of Assignment.java
- * @author Bryan Culver
- * @version 1.0 10 Apr 2019
+/**AssignmentTest.java is designed to test the functionality and correctness of Assignment.java. 
+ *  Tests added by ryan can be found under commented header
+ * @author Bryan Culver, Ryan Bohorquez
+ * @version 1.1 11 Apr 2019
  */
 package test;
 
@@ -14,7 +15,7 @@ import main.java.flashcourse.ASSIGNEDGROUP;
 import main.java.memoranda.date.CalendarDate;
 
 /**
- * @author Bryan Culver
+ * @author Bryan Culver, Ryan Bohorquez
  *
  */
 public class AssignmentTest {
@@ -73,7 +74,7 @@ public class AssignmentTest {
     /**
      * @throws java.lang.Exception
      */
-    @Before
+    //@Before
     public void setUp() throws Exception {
         ser316 = new Course("SER316");
         ser230 = new Course("SER230");
@@ -91,7 +92,7 @@ public class AssignmentTest {
         assign3 = new Assignment(null, startSpringB19, Student, weekTwoB, descSpace);
     }
 
-    @Test
+    //@Test
     public void getCourseTest() {
         Course getSer316 = assign1.getCourse();
         Course getSer230 = assign2.getCourse();
@@ -102,7 +103,7 @@ public class AssignmentTest {
         assertTrue(getCse110 == null); // check if Assignment can be created without Course
     }
     
-    @Test
+    //@Test
     public void setCourseTest() {
         assign1.setCourse(ser334);
         assign2.setCourse(null);
@@ -116,7 +117,7 @@ public class AssignmentTest {
         assertTrue(assign4.getCourse() == cse110); // Test assignment setter without constructor
     }
     
-    @Test 
+    //@Test 
     public void removeCourseTest() {
         assign1.removeCourse(); // normal removal
         assign3.removeCourse(); // tests removal of null course
@@ -125,5 +126,35 @@ public class AssignmentTest {
         assertFalse(assign1.getCourse() == ser316);
         assertTrue(assign3.getCourse() == null);
     }
+    
+    //Tests added by Ryan Bohorquez
+    
+    /*
+     *Tests the constructor for Assignment, makes sure it sets up everything as intended
+     */
+    @Test
+    public void testConstructor() {
+        CalendarDate ass1Due = new CalendarDate(6,2,2019);
+        Course ser334 = new Course("SER 334");
+        Assignment ass1 = new Assignment(ser334, ass1Due, ASSIGNEDGROUP.Student, "Task1", "Complete homework 1");
+        assertEquals(ass1.getdate(), ass1Due);
+        assertEquals(ass1.getAssignedGroup(), ASSIGNEDGROUP.Student);
+        assertTrue(ass1.getName().equals("Task1"));
+        assertTrue(ass1.getDescription().equals("Complete homework 1"));
+    }
 
+    /*
+     *Tests setting a course to an assignment that already has a different course. The assignment should
+     * be removed from the first course and added to the second
+     */
+    @Test
+    public void testSetCourseWithExistingCourse() {
+        CalendarDate ass1Due = new CalendarDate(6,2,2019);
+        Course ser334 = new Course("SER 334");
+        Course ser315 = new Course("SER 315");
+        Assignment ass1 = new Assignment(ser334, ass1Due, ASSIGNEDGROUP.Student, "Task1", "Complete homework 1");
+        ass1.setCourse(ser315);
+        assertFalse(ser334.getAssignments().contains(ass1));
+        assertTrue(ser315.getAssignments().contains(ass1));
+    }
 }
