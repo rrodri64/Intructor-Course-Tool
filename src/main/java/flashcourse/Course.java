@@ -8,6 +8,7 @@
 
 package main.java.flashcourse;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,7 @@ private Map<CalendarDate, String> lectureTimes;
 private Map<CalendarDate, String> holidays;
 private Map<CalendarDate, String> freeDays;
 private ArrayList<Assignment> assignments;
+private ArrayList<File> documents;
 private Element _el;
 
 /**
@@ -56,6 +58,7 @@ public Course(String course) {
     holidays = new HashMap<>();
     freeDays = new HashMap<>();
     assignments = new ArrayList<>();
+    documents = new ArrayList<>();
     _el = null;
 }
 
@@ -221,6 +224,35 @@ public boolean deleteFreeDay(CalendarDate freeDayDate, String courseName) {
     }
     
     return delete;
+}
+
+public ArrayList<File> getDocuments(){
+	return documents;
+}
+
+public boolean addDocument(File file) {
+	boolean add = false;
+	if(documents.size() == 0) {
+		documents.add(file);
+		return true;
+	}
+	
+	if(!documents.contains(file)) {
+		documents.add(file);
+		add = true;
+	}
+	
+	return add;
+}
+
+public boolean deleteDocument(File file) {
+	boolean delete = false;
+	if(documents.contains(file)) {
+		documents.remove(file);
+		delete = true;
+	}
+	
+	return delete;
 }
 
 public ArrayList<Assignment> getAssignments(){
