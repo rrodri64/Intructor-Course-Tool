@@ -65,9 +65,8 @@ public class Time {
     public void setHours(int hours) {
         if (hours > 23 || hours < 0) {
             System.out.println("Hours should be between 0 and 23.");
-            this.setHours(0);
         } else {
-            this.setHours(hours);
+            this.hours = hours;
         }
     }
 
@@ -79,7 +78,7 @@ public class Time {
         if (minutes > 59 || minutes < 0) {
             System.out.println("Minutes should be between 0 and 59.");
         } else {
-            this.setMinutes(minutes);
+            this.minutes = minutes;
         }
     }
     
