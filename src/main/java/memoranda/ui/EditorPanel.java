@@ -26,6 +26,9 @@ import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.text.html.HTMLDocument;
 
+
+import main.java.flashcourse.ui.DocumentsPanel;
+//import main.java.memoranda.CurrentNote;
 import main.java.flashcourse.CurrentCourse;
 import main.java.flashcourse.ui.DocumentsPanel;
 import main.java.memoranda.History;
@@ -532,7 +535,7 @@ public class EditorPanel extends JPanel {
 	}
 
 	void importB_actionPerformed(ActionEvent e) {
-		// Fix until Sun's JVM supports more locales...
+		// Fix until Sun's JVM supports more locales
 		UIManager.put("FileChooser.lookInLabelText", Local
 				.getString("Look in:"));
 		UIManager.put("FileChooser.upFolderToolTipText", Local

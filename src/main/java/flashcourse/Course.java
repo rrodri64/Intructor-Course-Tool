@@ -8,6 +8,7 @@
 
 package main.java.flashcourse;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,10 +32,11 @@ private CalendarDate courseEndDate;
 private CalendarDate finalExam;
 private CalendarDate courseBreakStart;
 private CalendarDate courseBreakEnd;
-private Map<CalendarDate, String> lectureTimes;
+private ArrayList<Lecture> lectures;
 private Map<CalendarDate, String> holidays;
 private Map<CalendarDate, String> freeDays;
 private ArrayList<Assignment> assignments;
+private ArrayList<File> documents;
 private Element _el;
 
 /**
@@ -45,116 +47,112 @@ private Element _el;
  * and sets all dates and date collections as empty.
  */
 public Course(String course) {
-	
-	courseName = course;
-	courseStartDate = new CalendarDate();
-	courseEndDate = new CalendarDate();
-	finalExam = new CalendarDate();
-	courseBreakStart = new CalendarDate();
-	courseBreakEnd = new CalendarDate();
-	lectureTimes = new HashMap<>();
-	holidays = new HashMap<>();
-	freeDays = new HashMap<>();
-	assignments = new ArrayList<>();
-	_el = null;
+    
+    courseName = course;
+    courseStartDate = new CalendarDate();
+    courseEndDate = new CalendarDate();
+    finalExam = new CalendarDate();
+    courseBreakStart = new CalendarDate();
+    courseBreakEnd = new CalendarDate();
+    lectures = new ArrayList<>();
+    holidays = new HashMap<>();
+    freeDays = new HashMap<>();
+    assignments = new ArrayList<>();
+    documents = new ArrayList<>();
+    _el = null;
 }
 
 public String getCourseName() {
-	return courseName;
+    return courseName;
 }
 
 
 public void setCourseName(String course) {
-	courseName = course;
+    courseName = course;
 }
 
 public CalendarDate getCourseStartDate() {
-	return courseStartDate;
+    return courseStartDate;
 }
 
 public void setCourseStartDate(CalendarDate start) {
-	courseStartDate = start;
+    courseStartDate = start;
 }
 
 
 public CalendarDate getCourseEndDate() {
-	return courseEndDate;
-	
+    return courseEndDate;
+    
 }
 
 public void setCourseEndDate(CalendarDate end) {
-	courseEndDate = end;
+    courseEndDate = end;
 }
 
 
 public CalendarDate getFinalExamDate() {
-	return finalExam;
+    return finalExam;
 }
 
 
 
 public void setFinalExamDate(CalendarDate fExam) {
-	finalExam = fExam;
+    finalExam = fExam;
 }
 
-public Map<CalendarDate, String> getLectureDates(){
-	return lectureTimes;
+public ArrayList<Lecture> getLectureDates(){
+    return lectures;
 }
 
 
 public CalendarDate getCourseBreakStart() {
-	return courseBreakStart;
+    return courseBreakStart;
 }
 
 
 public void setCourseBreakStart(CalendarDate start) {
-	courseBreakStart = start;
+    courseBreakStart = start;
 }
 
 
 public CalendarDate getCourseBreakEnd() {
-	return courseBreakEnd;
+    return courseBreakEnd;
 }
 
 
 public void setCourseBreakEnd(CalendarDate end) {
-	courseBreakEnd = end;
+    courseBreakEnd = end;
 }
 
 /**
  * 
- * @param lectureName of the lecture that is to be added
- * @param lectureDate of the lecture name that is to be added
+ * @param lecture to be added to array list
  * 
  * Adds lecture times to the lectureTime collection
  */
-public void addLectureDates(CalendarDate lectureDate, String courseName) {
-	lectureTimes.put(lectureDate, courseName);
+public void addLecture(Lecture lecture) {
+    if (!lectures.contains(lecture)) {
+        lectures.add(lecture);
+    }
 }
 
 /**
  * 
- * @param lectureName to be deleted
- * @param lectureDate that corresponds the lectureName to be deleted
+ * @param lecture to be deleted
  * @return true of false based on success of target lecture time deletion
  * 
- * Deletes target lecture time from LectureTimes collection
+ * Deletes target lecture time from lectures collection
  */
-public boolean deleteLectureTimes(CalendarDate lectureDate, String courseName) {
-	boolean deleted = false;
-	for(CalendarDate key : lectureTimes.keySet()) {
-		if(lectureDate.equals(key)) {
-			lectureTimes.remove(lectureDate);
-			deleted = true;
-		}
-	}
-	
-	return deleted;
-	
+public boolean deleteLecture(Lecture lecture) {
+    if (lectures.contains(lecture)) {
+        lectures.remove(lecture);
+        return true;
+    }
+    return false;
 }
 
 public Map<CalendarDate, String> getHolidayDates(){
-	return holidays;
+    return holidays;
 }
 
 /**
@@ -165,7 +163,7 @@ public Map<CalendarDate, String> getHolidayDates(){
  * Adds holiday date to holidays collection
  */
 public void addHolidayDates(CalendarDate holidayDate, String courseName) {
-	holidays.put(holidayDate, courseName);
+    holidays.put(holidayDate, courseName);
 }
 
 /**
@@ -177,20 +175,20 @@ public void addHolidayDates(CalendarDate holidayDate, String courseName) {
  * Deletes target holiday date from holidays collection
  */
 public boolean deleteHolidayDate(CalendarDate holidayDate, String courseName) {
-	boolean deleted = false;
-	for(CalendarDate key : holidays.keySet()) {
-		if(holidayDate.equals(key)) {
-			holidays.remove(holidayDate);
-			deleted = true;
-		}
-	}
-		
-	return deleted;
+    boolean deleted = false;
+    for(CalendarDate key : holidays.keySet()) {
+        if(holidayDate.equals(key)) {
+            holidays.remove(holidayDate);
+            deleted = true;
+        }
+    }
+        
+    return deleted;
 }
 
 
 public Map<CalendarDate, String> getfreeDays(){
-	return freeDays;
+    return freeDays;
 }
 
 /**
@@ -201,7 +199,7 @@ public Map<CalendarDate, String> getfreeDays(){
  * Adds free day date to freeDays collection
  */
 public void addFreeDays(CalendarDate freeDayDate, String courseName) {
-	freeDays.put(freeDayDate, courseName);
+    freeDays.put(freeDayDate, courseName);
 }
 
 /**
@@ -212,19 +210,48 @@ public void addFreeDays(CalendarDate freeDayDate, String courseName) {
  * Deletes target free day from FreeDays collection
  */
 public boolean deleteFreeDay(CalendarDate freeDayDate, String courseName) {
+    boolean delete = false;
+    for(CalendarDate key : freeDays.keySet()) {
+        if(freeDayDate.equals(key)) {
+            freeDays.remove(freeDayDate);
+            delete = true;
+        }
+    }
+    
+    return delete;
+}
+
+public ArrayList<File> getDocuments(){
+	return documents;
+}
+
+public boolean addDocument(File file) {
+	boolean add = false;
+	if(documents.size() == 0) {
+		documents.add(file);
+		return true;
+	}
+	
+	if(!documents.contains(file)) {
+		documents.add(file);
+		add = true;
+	}
+	
+	return add;
+}
+
+public boolean deleteDocument(File file) {
 	boolean delete = false;
-	for(CalendarDate key : freeDays.keySet()) {
-		if(freeDayDate.equals(key)) {
-			freeDays.remove(freeDayDate);
-			delete = true;
-		}
+	if(documents.contains(file)) {
+		documents.remove(file);
+		delete = true;
 	}
 	
 	return delete;
 }
 
 public ArrayList<Assignment> getAssignments(){
-	return assignments;
+    return assignments;
 }
 
 /**
@@ -236,15 +263,21 @@ public ArrayList<Assignment> getAssignments(){
  * Adds assignment to assignments collection
  */
 public boolean addAssignment(Assignment assign) {
+
 	boolean add = false;
-	for(int i = 0; i < assignments.size(); i++) {
-		if(!(assignments.get(i).equals(assign))) {
+	if(assignments.size() == 0) {
+	    assignments.add(assign);
+	    return true;
+	}
+	
+		if(!(assignments.contains(assign))){
 			assignments.add(assign);
 			add = true;
-		}
+		
 	}
 	return add;
 	
+
 }
 
 /**
@@ -256,14 +289,15 @@ public boolean addAssignment(Assignment assign) {
  */
 public boolean deleteAssignment(Assignment assign) {
 	boolean delete = false;
-	for(int i = 0; i < assignments.size(); i++) {
-		if((assignments.get(i).equals(assign))) {
-			delete = true;
+	
+		if((assignments.contains(assign))) {
 			assignments.remove(assign);
-		}
+			delete = true;
+		
 	}
 	
 	return delete;
+
 }
 
 /**
@@ -273,7 +307,7 @@ public boolean deleteAssignment(Assignment assign) {
  */
 @Override
 public String toString() {
-	return courseName;
+    return courseName;
 }
 
 public boolean isMarked() {

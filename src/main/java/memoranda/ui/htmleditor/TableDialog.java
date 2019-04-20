@@ -261,7 +261,7 @@ public class TableDialog extends JDialog {
 	}
 
 	void bgColorB_actionPerformed(ActionEvent e) {
-		// Fix until Sun's JVM supports more locales...
+		// Fix until Sun's JVM supports more locales
 		UIManager.put(
 			"ColorChooser.swatchesNameText",
 			Local.getString("Swatches"));

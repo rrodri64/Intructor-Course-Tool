@@ -3,6 +3,7 @@ package main.java.flashcourse.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -54,6 +55,13 @@ public class AssignmentPanel extends JPanel {
     JButton completeTaskB = new JButton();
     
 	JCheckBoxMenuItem ppShowActiveOnlyChB = new JCheckBoxMenuItem();
+	
+	
+	JPopupMenu assignmentFilterPP = new JPopupMenu();
+	JMenuItem showAllAssignPP = new JMenuItem();
+	JMenuItem showUpcomingAssignPP = new JMenuItem();
+	JMenuItem showPastAssignPP = new JMenuItem();
+	JButton assignFilterPPbutton = new JButton();
 		
     JScrollPane scrollPane = new JScrollPane();
     private TaskTable taskTable = new TaskTable();
@@ -65,6 +73,8 @@ public class AssignmentPanel extends JPanel {
 	JMenuItem ppAddSubTask = new JMenuItem();
 	JMenuItem ppCalcTask = new JMenuItem();
 	DailyItemsPanel parentPanel = null;
+	
+	
 
     public AssignmentPanel(DailyItemsPanel _parentPanel) {
         try {
@@ -110,7 +120,7 @@ public class AssignmentPanel extends JPanel {
         newAssignment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 newTaskB_actionPerformed(e);
-            }
+            }																														
         });
         newAssignment.setBorderPainted(false);
         
@@ -197,7 +207,77 @@ public class AssignmentPanel extends JPanel {
 //		showActiveOnly.setIcon(
 //			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("/ui/icons/todo_remove.png")));
 		// added by rawsushi
-		
+        
+        
+        ///////////////////////////////////////////////////////////////////////////////////
+        //US#60
+        assignmentFilterPP.setFont(new java.awt.Font("Dialog", 1, 10));
+        
+        //Create the three menu items, and add an action listener to have functionality added in the future
+        showAllAssignPP.setFont(new java.awt.Font("Dialog", 1, 11));
+        showAllAssignPP.setText(" "+Local.getString("Show all assignments"));
+        showAllAssignPP.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		//TODO
+        	}
+        });
+        showAllAssignPP.setEnabled(true);
+        
+        showUpcomingAssignPP.setFont(new java.awt.Font("Dialog", 1, 11));
+        showUpcomingAssignPP.setText(" "+Local.getString("Show upcoming assignments"));
+        showUpcomingAssignPP.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		//TODO
+        	}
+        });
+        showUpcomingAssignPP.setEnabled(true);
+        
+        showPastAssignPP.setFont(new java.awt.Font("Dialog", 1, 11));
+        showPastAssignPP.setText(" "+Local.getString("Show past assignments"));
+        showPastAssignPP.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		//TODO
+        	}
+        });
+        showPastAssignPP.setEnabled(true);
+        
+        //add the menu items to the pop up menu
+        assignmentFilterPP.add(showAllAssignPP);
+        assignmentFilterPP.add(showUpcomingAssignPP);
+        assignmentFilterPP.add(showPastAssignPP);
+        
+        //If this listener is needed, it's here to add functionality to, currently unnecessary
+//        assignmentFilterPP.addMouseListener(new MouseAdapter() {
+//        	public void mouseClicked(MouseEvent e) {
+//        		//assignmentFilterPP.show(e.getComponent(),e.getX(),e.getY());
+//        	}
+//        });
+        
+        //Create the button to add to the toolbar that will open the Filter menu
+        assignFilterPPbutton.setText(Local.getString("Filter"));
+        assignFilterPPbutton.setFont(new java.awt.Font("Dialog", 1, 10));
+        assignFilterPPbutton.setMaximumSize(new Dimension(34, 20));
+        assignFilterPPbutton.setMinimumSize(new Dimension(24, 10));
+        assignFilterPPbutton.setOpaque(false);
+        assignFilterPPbutton.setPreferredSize(new Dimension(24, 20));
+        assignFilterPPbutton.setBorderPainted(false);
+        assignFilterPPbutton.setFocusPainted(false);
+        assignFilterPPbutton.setMargin(new Insets(0, 0, 0, 0));
+        assignFilterPPbutton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//System.out.println(e.getActionCommand());
+				assignmentFilterPP.show(tasksToolBar,
+						//offset the menu location from the max size button avoiding overlap
+						(int) (assignFilterPPbutton.getLocation().getX() + 34),
+						(int) assignFilterPPbutton.getLocation().getY());
+			}
+		});
+        //button will be added to the toolbar further down
+        //End US#60
+        /////////////////////////////////////////////////////////////////////////////////////
+
+        
+        
 		ppShowActiveOnlyChB.setFont(new java.awt.Font("Dialog", 1, 11));
 		ppShowActiveOnlyChB.setText(
 			Local.getString("Show Active only"));
@@ -233,7 +313,7 @@ public class AssignmentPanel extends JPanel {
         /*taskTable.setMaximumSize(new Dimension(32767, 32767));
         taskTable.setRowHeight(24);*/
         ppEditTask.setFont(new java.awt.Font("Dialog", 1, 11));
-    ppEditTask.setText(Local.getString("Edit task")+"...");
+    ppEditTask.setText(Local.getString("Edit Assignment"));
     ppEditTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ppEditTask_actionPerformed(e);
@@ -252,7 +332,7 @@ public class AssignmentPanel extends JPanel {
     ppRemoveTask.setIcon(new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/todo_remove.png")));
     ppRemoveTask.setEnabled(false);
     ppNewTask.setFont(new java.awt.Font("Dialog", 1, 11));
-    ppNewTask.setText(Local.getString("New task")+"...");
+    ppNewTask.setText(Local.getString("New Assignment"));
     ppNewTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ppNewTask_actionPerformed(e);
@@ -321,6 +401,7 @@ public class AssignmentPanel extends JPanel {
         tasksToolBar.addSeparator(new Dimension(8, 24));
         tasksToolBar.add(editTaskB, null);
         tasksToolBar.add(completeTaskB, null);
+        tasksToolBar.add(assignFilterPPbutton, null);//US#60 Filter button added to toolbar
 
 		//tasksToolBar.add(showActiveOnly, null);
         

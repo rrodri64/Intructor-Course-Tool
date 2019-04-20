@@ -389,7 +389,7 @@ public class EventDialog extends JDialog implements WindowListener {
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
         this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
         
-        // Do final things...
+        // Do final things
         startCalFrame.cal.addSelectionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (ignoreStartChanged) return;

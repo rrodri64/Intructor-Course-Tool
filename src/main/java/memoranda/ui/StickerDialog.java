@@ -84,7 +84,7 @@ public class StickerDialog extends JDialog {
 			Local.getString("Black"),
 			Local.getString("White"),
 			Local.getString("Pink"),
-			Local.getString("Custom")+"..."};
+			Local.getString("Custom")};
 	String[] priorities = {
 			Local.getString("HIGHEST"),
 			Local.getString("HIGH"),

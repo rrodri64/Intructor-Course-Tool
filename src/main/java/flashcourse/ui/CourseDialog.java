@@ -236,28 +236,6 @@ public class CourseDialog extends JDialog {
             contentPanel.add(breakEndDate, gbc_breakEndDate);
         }
         
-        {
-            //Course lectures label
-            JLabel lectures = new JLabel("Lectures(Separate with comas)");
-            GridBagConstraints gbc_lectures = new GridBagConstraints();
-            gbc_lectures.anchor = GridBagConstraints.EAST;
-            gbc_lectures.insets = new Insets(0, 0, 5, 5);
-            gbc_lectures.gridx = 0;
-            gbc_lectures.gridy = 7;
-            contentPanel.add(lectures, gbc_lectures);
-        }
-        {
-            //Course lectures input
-            lectures = new JTextField();
-            lectures.setColumns(10);
-            GridBagConstraints gbc_lecturesInput = new GridBagConstraints();
-            gbc_lecturesInput.insets = new Insets(0, 0, 5, 0);
-            gbc_lecturesInput.fill = GridBagConstraints.HORIZONTAL;
-            gbc_lecturesInput.gridx = 1;
-            gbc_lecturesInput.gridy = 7;
-            contentPanel.add(lectures, gbc_lecturesInput);
-        }
-        
         
         {
             //Course holidays label
@@ -362,7 +340,6 @@ public class CourseDialog extends JDialog {
             //Tokenizers for separating out comma separated list of dates
             StringTokenizer holidayToken = new StringTokenizer(holidaysInput, ",");
             StringTokenizer freeToken = new StringTokenizer(freeDays, ",");
-            StringTokenizer lectureToken = new StringTokenizer(lectureDates, ",");
             
             //Set holiday dates 
             while(holidayToken.hasMoreTokens()) {
@@ -376,13 +353,6 @@ public class CourseDialog extends JDialog {
                 newCourse.addFreeDays(new CalendarDate(date), courseName);
             }
             
-            //Set lectures dates
-            while(lectureToken.hasMoreTokens()) {
-                date = simple.parse(lectureToken.nextToken());
-                newCourse.addLectureDates(new CalendarDate(date), courseName);
-            }
-            
-           
             //Set the start date
             date = simple.parse(startDateInput.getText());
             newCourse.setCourseStartDate(new CalendarDate(date));
