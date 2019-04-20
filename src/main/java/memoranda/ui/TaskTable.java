@@ -152,7 +152,8 @@ public class TaskTable extends JTable {
 		setDefaultEditor(TreeTableModel.class, new TreeTableCellEditor());
 		
 		// column name is repeated in 2 places, do something about it!
-		getColumn( "% " + Local.getString("done") ).setCellEditor(new TaskProgressEditor());
+		// following code is not required while not tracking % complete. - Bryan
+		// getColumn( "% " + Local.getString("done") ).setCellEditor(new TaskProgressEditor());
 		
 		// TODO: editor for task progress
 		
@@ -174,8 +175,11 @@ public class TaskTable extends JTable {
 		getTableHeader().setReorderingAllowed(false);
     }
 
+    /* Initializes the widths of the established columns. 
+     * Needs adjusting if the number/nature of columns changes. 
+     */
     void initColumnWidths() {
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 5; i++) {
             TableColumn column = getColumnModel().getColumn(i);
             if (i == 0) {
                 column.setPreferredWidth(8);
@@ -183,10 +187,10 @@ public class TaskTable extends JTable {
             else if (i == 1) {
                 column.setPreferredWidth(32767);
             }
-	    else if( i == 6 ){
-		    column.setPreferredWidth(100);
-		    column.setMinWidth(100);
-	    }
+            else if( i == 4 ){
+                column.setPreferredWidth(100);
+                column.setMinWidth(100);
+            }
             else {
                 column.setMinWidth(67); // 65);
                 column.setPreferredWidth(67); //65);
