@@ -313,7 +313,7 @@ public class EventsPanel extends JPanel {
     	newEventB_actionPerformed(e, null, cdate.getTime(), cdate.getTime());
     }
     
-    void newEventB_actionPerformed(ActionEvent e, String tasktext, Date startDate, Date endDate) {
+    void newEventB_actionPerformed(ActionEvent e, String tasktext, Date startDate, Date endDate) {//popup for creating a new 'event'
     	EventDialog dlg = new EventDialog(App.getFrame(), Local.getString("New event"));
     	Dimension frmSize = App.getFrame().getSize();
     	Point loc = App.getFrame().getLocation();
