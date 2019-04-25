@@ -61,6 +61,7 @@ public class EventsPanel extends JPanel {
             new ExceptionDialog(ex);
         }
     }
+    
     void jbInit() throws Exception {
         eventsToolBar.setFloatable(false);
 
