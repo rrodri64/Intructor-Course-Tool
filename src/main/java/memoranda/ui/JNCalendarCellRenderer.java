@@ -6,6 +6,7 @@
  * @author Alex V. Alishevskikh, alex@openmechanics.net
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
+
 package main.java.memoranda.ui;
 import java.awt.Color;
 import java.awt.Component;
@@ -65,11 +66,8 @@ public class JNCalendarCellRenderer extends javax.swing.table.DefaultTableCellRe
 			}
         }		
 
-
 		label.setHorizontalTextPosition(2);
 		label.setEnabled(true);
-		
-
 
         if (d.equals(CalendarDate.today())) {
             label.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 128)));

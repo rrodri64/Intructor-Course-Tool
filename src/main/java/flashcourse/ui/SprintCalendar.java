@@ -5,10 +5,14 @@
 
 package main.java.flashcourse.ui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
 
 import main.java.memoranda.ui.DailyItemsPanel;
 import main.java.memoranda.ui.ExceptionDialog;
+import main.java.memoranda.ui.JNCalendarPanel;
 
 /**
  * @author Bryan Culver
@@ -16,6 +20,8 @@ import main.java.memoranda.ui.ExceptionDialog;
  */
 public class SprintCalendar extends JPanel {
     DailyItemsPanel parentPanel;
+    JNCalendarPanel mainCalendar;
+    BorderLayout borderLayout1 = new BorderLayout();
     
     public SprintCalendar(DailyItemsPanel _parentPanel) {
         try {
@@ -28,7 +34,10 @@ public class SprintCalendar extends JPanel {
     }
 
     private void jbInit() {
-        // TODO Auto-generated method stub
+        mainCalendar = new JNCalendarPanel();
+        mainCalendar.getJNCalendar().getRenderer().setSize(500, 500);;
+        this.setLayout(borderLayout1);
+        this.add(mainCalendar, BorderLayout.CENTER);
         
     }
 

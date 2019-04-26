@@ -1,3 +1,9 @@
+/**DailyItemsPanel.java is the main GUI class that each tab utilizes for display. 
+ * @author Memoranda Team. 
+ * Updated by Bryan Culver 
+ * 25 April 2019 
+ */
+
 package main.java.memoranda.ui;
 
 import java.awt.BorderLayout;
@@ -46,12 +52,10 @@ import main.java.flashcourse.Course;
 import main.java.flashcourse.CurrentCourse;
 import main.java.flashcourse.ui.*;
 
-/**
- * 
+/**$Id: DailyItemsPanel.java,v 1.22 2005/02/13 03:06:10 rawsushi Exp $
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
+ * Maintained by team Fernsehturm. 
  */
-
-/*$Id: DailyItemsPanel.java,v 1.22 2005/02/13 03:06:10 rawsushi Exp $*/
 public class DailyItemsPanel extends JPanel {
     BorderLayout borderLayout1 = new BorderLayout();
     JSplitPane splitPane = new JSplitPane();
@@ -116,6 +120,16 @@ public class DailyItemsPanel extends JPanel {
             new ExceptionDialog(ex);
         }
     }
+    
+    //Getter method for the calendar so I could move UI
+    public JNCalendarPanel getCalendar() {
+        return calendar;
+    }
+    
+    public String getCurrentPanel() {
+        return CurrentPanel;
+    }
+    
     void jbInit() throws Exception {
         border1 = BorderFactory.createEtchedBorder(Color.white, Color.gray);
         border2 = BorderFactory.createEtchedBorder(Color.white, new Color(161, 161, 161));
@@ -263,7 +277,6 @@ public class DailyItemsPanel extends JPanel {
             @Override
             public void courseChange(Course course, boolean toSaveCurrentNote) {
                 // TODO Auto-generated method stub
-
             }
         });
 
@@ -487,14 +500,6 @@ public class DailyItemsPanel extends JPanel {
         CurrentPanel = pan;
     }
 
-    //Getter method for the calendar so I could move UI
-    public JNCalendarPanel getCalendar() {
-        return calendar;
-    }
-
-    public String getCurrentPanel() {
-        return CurrentPanel;
-    }
     void taskB_actionPerformed(ActionEvent e) {
         parentPanel.tasksB_actionPerformed(null);
     }
