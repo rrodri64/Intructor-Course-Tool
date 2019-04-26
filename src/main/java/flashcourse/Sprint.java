@@ -14,6 +14,7 @@ public class Sprint {
 	private CalendarDate sprintStart;
 	private CalendarDate sprintEnd;
 	private CalendarDate retrospective;
+	private final Integer RETRO_DAY = 3;
 	
 	/**
 	 * Constructor for a Sprint. Takes the start and end date and adds a generic
@@ -31,7 +32,7 @@ public class Sprint {
 		int month = end.getMonth();
 		int year = end.getYear();
 		
-		day += 3;//add 3 days to allow retrospective to take place
+		day += RETRO_DAY;//add 3 days to allow retrospective to take place
 		this.retrospective = new CalendarDate(day,month,year);
 		//right now this is a crude way of adding 3 days to the end date. 
 		//I don't think it will play nice with the way the CalandarDate class is set up
