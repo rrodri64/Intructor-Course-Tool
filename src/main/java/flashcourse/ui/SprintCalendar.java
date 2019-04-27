@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 import main.java.memoranda.ui.DailyItemsPanel;
 import main.java.memoranda.ui.ExceptionDialog;
@@ -35,9 +36,12 @@ public class SprintCalendar extends JPanel {
 
     private void jbInit() {
         mainCalendar = new JNCalendarPanel();
-        mainCalendar.getJNCalendar().getRenderer().setSize(500, 500);;
+        
+        mainCalendar.getJnCalendar().setRowHeight(100); // adjusts the vertical size of the days. 
         this.setLayout(borderLayout1);
         this.add(mainCalendar, BorderLayout.CENTER);
+        
+        
         
     }
 

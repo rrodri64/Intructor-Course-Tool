@@ -61,11 +61,8 @@ public class JNCalendarPanel extends JPanel {
     BorderLayout borderLayout5 = new BorderLayout();
     JSpinner yearSpin = new JSpinner(new SpinnerNumberModel(getJnCalendar().get().getYear(), 1980, 2999, 1));
     JSpinner.NumberEditor yearSpinner = new JSpinner.NumberEditor(yearSpin, "####");
-
     boolean ignoreChange = false;
-
     private Vector selectionListeners = new Vector();
-
     Border border1;
     Border border2;
 
@@ -77,7 +74,34 @@ public class JNCalendarPanel extends JPanel {
             new ExceptionDialog(ex);
         }
     }
+    
+public CalendarDate get() {
+        return _date;
+    }
 
+    /**
+     * @return the jnCalendar
+     */
+    public JNCalendar getJnCalendar() {
+        return jnCalendar;
+    }
+    
+    public JNCalendar getJNCalendar() {
+        return getJnCalendar();
+    }
+    
+    /**
+     * @param jnCalendar the jnCalendar to set
+     */
+    public void setJnCalendar(JNCalendar jnCalendar) {
+        this.jnCalendar = jnCalendar;
+    }
+    
+    public void set(CalendarDate date) {
+        _date = date;
+        refreshView();
+    }
+    
     public Action dayBackAction =
             new AbstractAction(
                     "Go one day back",
@@ -226,19 +250,6 @@ public class JNCalendarPanel extends JPanel {
 
     }
 
-    public void set(CalendarDate date) {
-        _date = date;
-        refreshView();
-    }
-
-    public JNCalendar getJNCalendar() {
-        return getJnCalendar();
-    }
-
-    public CalendarDate get() {
-        return _date;
-    }
-
     public void addSelectionListener(ActionListener al) {
         selectionListeners.add(al);
     }
@@ -298,21 +309,4 @@ public class JNCalendarPanel extends JPanel {
         refreshView();
         notifyListeners();
     }
-
-    /**
-     * @return the jnCalendar
-     */
-    public JNCalendar getJnCalendar() {
-        return jnCalendar;
-    }
-
-    /**
-     * @param jnCalendar the jnCalendar to set
-     */
-    public void setJnCalendar(JNCalendar jnCalendar) {
-        this.jnCalendar = jnCalendar;
-    }
-
-
-
 }
