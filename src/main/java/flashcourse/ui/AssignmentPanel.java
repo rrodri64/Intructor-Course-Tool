@@ -771,6 +771,7 @@ public class AssignmentPanel extends JPanel {
 
                 public void mouseReleased(MouseEvent e) {
                     maybeShowPopup(e);
+                    //System.out.println("mouse released in AssignmentPanel");
                 }
 
                 private void maybeShowPopup(MouseEvent e) {
