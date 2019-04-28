@@ -14,3 +14,14 @@ dependencies {
   compile 'net.sourceforge.nekohtml:nekohtml:1.9.+'
 }
 
+test {
+  filter { 
+	 //specific test class
+	 includeTestsMatching 'AssignmentTest'
+         includeTestsMatching 'CoursesTest'
+         includeTestsMatching 'CourseTest'
+         includeTestsMatching 'LectureTest'
+         includeTestsMatching 'TaskTest'
+         includeTestsMatching 'TimeTest'
+   }
+}

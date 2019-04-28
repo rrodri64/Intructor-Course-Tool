@@ -306,9 +306,10 @@ public class WorkPanel extends JPanel {
 	}
 
 	public void filesB_actionPerformed(ActionEvent e) {
-		cardLayout1.show(panel, "FILES");
+		cardLayout1.show(panel, "DAILYITEMS");
+		dailyItemsPanel.selectPanel("SPRINTS");
 		setCurrentButton(filesB);
-		Context.put("CURRENT_PANEL", "FILES");
+		Context.put("CURRENT_PANEL", "SPRINTS");
 	}
 
 	void setCurrentButton(JButton cb) {
