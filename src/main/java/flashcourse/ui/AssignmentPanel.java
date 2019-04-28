@@ -25,6 +25,7 @@ import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import main.java.flashcourse.CurrentCourse;
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.History;
 import main.java.memoranda.NoteList;
@@ -73,6 +74,8 @@ public class AssignmentPanel extends JPanel {
 	JMenuItem ppAddSubTask = new JMenuItem();
 	JMenuItem ppCalcTask = new JMenuItem();
 	DailyItemsPanel parentPanel = null;
+	
+	CurrentCourse currentCourse = CurrentCourse.getInstance();
 	
 	
 
