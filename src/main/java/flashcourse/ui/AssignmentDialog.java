@@ -373,7 +373,7 @@ public class AssignmentDialog extends JDialog {
 			labelOutput.setText("This due date is after the class ends");
 		} else {
 			//If all checks succeed, create the new assignment.
-			assignments.add(new Assignment(
+			c.addAssignment(new Assignment(
 					c,
 					selectedDate,
 					ASSIGNEDGROUP.valueOf(cbAssignee.getSelectedItem().toString()),
