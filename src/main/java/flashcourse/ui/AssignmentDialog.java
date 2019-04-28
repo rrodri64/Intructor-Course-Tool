@@ -116,10 +116,10 @@ public class AssignmentDialog extends JDialog {
 	JPanel panelOutput = new JPanel(new FlowLayout(FlowLayout.LEFT));
 	
 	//TODO Remove this, testing purposes only
-	ArrayList<Course> courses = new ArrayList<Course>();
+	//ArrayList<Course> courses = new ArrayList<Course>();
 	
 	//TODO Remove this, when we have a place to actually store assignments
-	ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+	//ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 	
 	/*
 	 *Constructor for the AssignmentDialog class. Opens a new Dialog box and waits for input.
@@ -244,7 +244,7 @@ public class AssignmentDialog extends JDialog {
         panelAssignTo.add(labelAssignTo, null);
         
         //Set up courses area
-        getCourses();
+        //getCourses();
 //        labelCourses.setMaximumSize(new Dimension(100, 16));
 //        labelCourses.setMinimumSize(new Dimension(60, 16));
 //        labelCourses.setText(Local.getString("Course:"));
@@ -256,7 +256,7 @@ public class AssignmentDialog extends JDialog {
 //        		setDueDateLimit(((JComboBox)e.getSource()).getSelectedItem().toString());
 //        	}
 //        	
-//        });
+//        });//all of this code is unnecessary since it's now based on the currently selected course
         
         //Setup output field and panel
         panelOutput.add(labelOutput);
@@ -302,24 +302,24 @@ public class AssignmentDialog extends JDialog {
 	 * TODO actually implement this method, currently returns a dummy list.
 	 *
 	 */
-    private void getCourses() { 	
-//    	Course c1 = new Course("SER322");
-//    	Course c2 = new Course("SER310");
-//    	Course c3 = new Course("SER352");
-
-//    	courses.put(c1.getCourseName(), c1);
-//    	courses.put(c2.getCourseName(), c2);
-//    	courses.put(c3.getCourseName(), c3);
-    	Courses temp = CourseList.getCourses();
-    	courses = new ArrayList<Course>(temp.getCourses());
-    	
-//    	cbCourses.removeAllItems();
-//    	cbCourses.addItem("Select");
-//    	for (Course c : courses) {
-//    	    cbCourses.addItem(c.toString());
-//    	}
-//    	cbCourses.setSelectedItem("Select");
-    }
+//    private void getCourses() {//this whole method is unnecessary now
+////    	Course c1 = new Course("SER322");
+////    	Course c2 = new Course("SER310");
+////    	Course c3 = new Course("SER352");
+//
+////    	courses.put(c1.getCourseName(), c1);
+////    	courses.put(c2.getCourseName(), c2);
+////    	courses.put(c3.getCourseName(), c3);
+//    	Courses temp = CourseList.getCourses();
+//    	courses = new ArrayList<Course>(temp.getCourses());
+//    	
+////    	cbCourses.removeAllItems();
+////    	cbCourses.addItem("Select");
+////    	for (Course c : courses) {
+////    	    cbCourses.addItem(c.toString());
+////    	}
+////    	cbCourses.setSelectedItem("Select");
+//    }
     
     /*
 	 *Sets the due date of the assignment being created
