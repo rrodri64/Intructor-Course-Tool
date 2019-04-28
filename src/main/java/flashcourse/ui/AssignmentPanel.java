@@ -53,6 +53,7 @@ public class AssignmentPanel extends JPanel {
     JButton editTaskB = new JButton();
     JButton removeTaskB = new JButton();
     JButton completeTaskB = new JButton();
+    JButton dateTaskB = new JButton();
     
 	JCheckBoxMenuItem ppShowActiveOnlyChB = new JCheckBoxMenuItem();
 	
@@ -72,6 +73,7 @@ public class AssignmentPanel extends JPanel {
 	JMenuItem ppCompleteTask = new JMenuItem();
 	JMenuItem ppAddSubTask = new JMenuItem();
 	JMenuItem ppCalcTask = new JMenuItem();
+	JMenuItem ppDateTask = new JMenuItem();
 	DailyItemsPanel parentPanel = null;
 	
 	
@@ -156,6 +158,22 @@ public class AssignmentPanel extends JPanel {
         editTaskB.setIcon(
             new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/todo_edit.png")));
 
+        dateTaskB.setBorderPainted(false);
+        dateTaskB.setFocusable(false);
+        dateTaskB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dateTaskB_actionPerformed(e);
+            }
+        });
+        dateTaskB.setPreferredSize(new Dimension(24, 24));
+        dateTaskB.setRequestFocusEnabled(false);
+        dateTaskB.setToolTipText(Local.getString("Edit assignment due date"));
+        dateTaskB.setMinimumSize(new Dimension(24, 24));
+        dateTaskB.setMaximumSize(new Dimension(24, 24));
+        //dateTaskB.setEnabled(true);
+        dateTaskB.setIcon(
+            new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/date_edit.png")));
+        
         removeTaskB.setBorderPainted(false);
         removeTaskB.setFocusable(false);
         removeTaskB.addActionListener(new java.awt.event.ActionListener() {
@@ -321,6 +339,21 @@ public class AssignmentPanel extends JPanel {
         });
     ppEditTask.setEnabled(false);
     ppEditTask.setIcon(new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/todo_edit.png")));
+    
+    this.setLayout(borderLayout1);
+    scrollPane.getViewport().setBackground(Color.white);
+    /*taskTable.setMaximumSize(new Dimension(32767, 32767));
+    taskTable.setRowHeight(24);*/
+    ppDateTask.setFont(new java.awt.Font("Dialog", 1, 11));
+    ppDateTask.setText(Local.getString("Edit assignment due date"));
+    ppDateTask.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            ppDateTask_actionPerformed(e);
+        }
+    });
+ppDateTask.setEnabled(false);
+ppDateTask.setIcon(new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/date_edit.png")));
+    
     taskPPMenu.setFont(new java.awt.Font("Dialog", 1, 10));
     ppRemoveTask.setFont(new java.awt.Font("Dialog", 1, 11));
     ppRemoveTask.setText(Local.getString("Remove task"));
@@ -400,6 +433,7 @@ public class AssignmentPanel extends JPanel {
         tasksToolBar.add(removeTaskB, null);
         tasksToolBar.addSeparator(new Dimension(8, 24));
         tasksToolBar.add(editTaskB, null);
+        tasksToolBar.add(dateTaskB, null);
         tasksToolBar.add(completeTaskB, null);
         tasksToolBar.add(assignFilterPPbutton, null);//US#60 Filter button added to toolbar
 
@@ -432,6 +466,7 @@ public class AssignmentPanel extends JPanel {
             public void valueChanged(ListSelectionEvent e) {
                 boolean enbl = (getTaskTable().getRowCount() > 0)&&(getTaskTable().getSelectedRow() > -1);
                 editTaskB.setEnabled(enbl);ppEditTask.setEnabled(enbl);
+                dateTaskB.setEnabled(enbl);ppDateTask.setEnabled(enbl);
                 removeTaskB.setEnabled(enbl);ppRemoveTask.setEnabled(enbl);
 				
 				ppCompleteTask.setEnabled(enbl);
@@ -464,13 +499,14 @@ public class AssignmentPanel extends JPanel {
             }
         });
         editTaskB.setEnabled(false);
+        dateTaskB.setEnabled(false);
         removeTaskB.setEnabled(false);
 		completeTaskB.setEnabled(false);
 		ppAddSubTask.setEnabled(false);
 		//ppSubTasks.setEnabled(false);
 		//ppParentTask.setEnabled(false);
     taskPPMenu.add(ppEditTask);
-    
+    taskPPMenu.add(ppDateTask);
     taskPPMenu.addSeparator();
     taskPPMenu.add(ppNewTask);
     taskPPMenu.add(ppAddSubTask);
@@ -552,6 +588,39 @@ public class AssignmentPanel extends JPanel {
         parentPanel.updateIndicators();
         //taskTable.updateUI();
     }
+    
+    void dateTaskB_actionPerformed(ActionEvent e) {
+        Task t =
+            CurrentProject.getTaskList().getTask(
+                getTaskTable().getModel().getValueAt(getTaskTable().getSelectedRow(), TaskTable.TASK_ID).toString());
+        AssignmentDialog dlg = new AssignmentDialog(App.getFrame(), Local.getString("Edit assignment due date"));
+        Dimension frmSize = App.getFrame().getSize();
+        Point loc = App.getFrame().getLocation();
+        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+        dlg.titleField.setText(t.getText());
+        dlg.descriptionField.setText(t.getDescription());
+        dlg.dueDate.getModel().setValue(t.getStartDate().getDate());       
+
+        dlg.setVisible(true);
+        if (dlg.CANCELLED)
+            return;
+        CalendarDate sd = new CalendarDate((Date) dlg.dueDate.getModel().getValue());
+//        CalendarDate ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
+         CalendarDate ed;
+        
+        t.setStartDate(sd);
+        t.setText(dlg.titleField.getText());
+        t.setDescription(dlg.descriptionField.getText());
+        
+//      CurrentProject.getTaskList().adjustParentTasks(t);
+
+        CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
+        getTaskTable().tableChanged();
+        parentPanel.updateIndicators();
+        //taskTable.updateUI();
+    }
+    
+    
 
     void newTaskB_actionPerformed(ActionEvent e) {
         AssignmentDialog dlg = new AssignmentDialog(App.getFrame(), Local.getString("New Assignment"));
@@ -759,6 +828,7 @@ public class AssignmentPanel extends JPanel {
 			//if(taskTable.getSelectedColumn() == 1) return;
 			
 			editTaskB_actionPerformed(null);
+			dateTaskB_actionPerformed(null);
 		}
         }
 
@@ -781,6 +851,9 @@ public class AssignmentPanel extends JPanel {
   void ppEditTask_actionPerformed(ActionEvent e) {
     editTaskB_actionPerformed(e);
   }
+  void ppDateTask_actionPerformed(ActionEvent e) {
+      dateTaskB_actionPerformed(e);
+    }
   void ppRemoveTask_actionPerformed(ActionEvent e) {
     removeTaskB_actionPerformed(e);
   }
