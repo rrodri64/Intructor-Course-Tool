@@ -335,7 +335,7 @@ public class CourseDialog extends JDialog {
             //Date inputs
             String holidaysInput = holidays.getText();
             String freeDays = freeDaysInput.getText();
-            String lectureDates = lectures.getText();
+            //String lectureDates = lectures.getText();
             
             //Tokenizers for separating out comma separated list of dates
             StringTokenizer holidayToken = new StringTokenizer(holidaysInput, ",");
