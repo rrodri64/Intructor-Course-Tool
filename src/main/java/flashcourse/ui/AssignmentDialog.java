@@ -55,6 +55,8 @@ import java.util.HashMap;
  *  it is successful.
  */
 public class AssignmentDialog extends JDialog {
+	private static CurrentCourse currentCourse = CurrentCourse.getInstance();
+	
 	
 	//Main panel for everything to go into
     JPanel panelMain = new JPanel(new BorderLayout());
@@ -101,23 +103,23 @@ public class AssignmentDialog extends JDialog {
     JLabel labelAssignTo = new JLabel();
 
     //Set up things for the courses dropdown
-    JComboBox cbCourses = new JComboBox();  
+    //JComboBox cbCourses = new JComboBox();  
     JLabel labelCourses = new JLabel();
     JPanel panelCourses = new JPanel(new FlowLayout(FlowLayout.RIGHT));
     
 	//Forbid to set dates outside the bounds
-	CalendarDate dueDateMin = CurrentProject.get().getStartDate();
-	CalendarDate dueDateMax = CurrentProject.get().getEndDate();
+	CalendarDate dueDateMin = currentCourse.get().getCourseStartDate();
+	CalendarDate dueDateMax = currentCourse.get().getCourseEndDate();
 	
 	//Setup the output label to correct user input
 	JTextArea labelOutput = new JTextArea(2,18);
 	JPanel panelOutput = new JPanel(new FlowLayout(FlowLayout.LEFT));
 	
 	//TODO Remove this, testing purposes only
-	HashMap<String, Course> courses = new HashMap<String, Course>();
+	//ArrayList<Course> courses = new ArrayList<Course>();
 	
 	//TODO Remove this, when we have a place to actually store assignments
-	ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+	//ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 	
 	/*
 	 *Constructor for the AssignmentDialog class. Opens a new Dialog box and waits for input.
@@ -242,19 +244,19 @@ public class AssignmentDialog extends JDialog {
         panelAssignTo.add(labelAssignTo, null);
         
         //Set up courses area
-        getCourses();
-        labelCourses.setMaximumSize(new Dimension(100, 16));
-        labelCourses.setMinimumSize(new Dimension(60, 16));
-        labelCourses.setText(Local.getString("Course:"));
-        cbCourses.setFont(new java.awt.Font("Dialog", 0, 11));
-        panelCourses.add(labelCourses, null);
-        panelCourses.add(cbCourses, null);
-        cbCourses.addActionListener (new ActionListener() {
-        	public void actionPerformed (ActionEvent e) {
-        		setDueDateLimit(((JComboBox)e.getSource()).getSelectedItem().toString());
-        	}
-        	
-        });
+        //getCourses();
+//        labelCourses.setMaximumSize(new Dimension(100, 16));
+//        labelCourses.setMinimumSize(new Dimension(60, 16));
+//        labelCourses.setText(Local.getString("Course:"));
+//        cbCourses.setFont(new java.awt.Font("Dialog", 0, 11));
+//        panelCourses.add(labelCourses, null);
+//        panelCourses.add(cbCourses, null);
+//        cbCourses.addActionListener (new ActionListener() {
+//        	public void actionPerformed (ActionEvent e) {
+//        		setDueDateLimit(((JComboBox)e.getSource()).getSelectedItem().toString());
+//        	}
+//        	
+//        });//all of this code is unnecessary since it's now based on the currently selected course
         
         //Setup output field and panel
         panelOutput.add(labelOutput);
@@ -300,25 +302,24 @@ public class AssignmentDialog extends JDialog {
 	 * TODO actually implement this method, currently returns a dummy list.
 	 *
 	 */
-    private void getCourses() { 	
-    	Course c1 = new Course("SER322");
-    	Course c2 = new Course("SER310");
-    	Course c3 = new Course("SER352");
-    	c1.setCourseStartDate(new CalendarDate(3,4,2019));
-    	c2.setCourseStartDate(new CalendarDate(7,5,2019));
-    	c1.setCourseEndDate(new CalendarDate(5,4,2019));
-    	c2.setCourseEndDate(new CalendarDate(5,7,2019));
-    	courses.put(c1.getCourseName(), c1);
-    	courses.put(c2.getCourseName(), c2);
-    	courses.put(c3.getCourseName(), c3);
-    	
-    	cbCourses.removeAllItems();
-    	cbCourses.addItem("Select");
-    	for (String key : courses.keySet()) {
-    	    cbCourses.addItem(key);
-    	}
-    	cbCourses.setSelectedItem("Select");
-    }
+//    private void getCourses() {//this whole method is unnecessary now
+////    	Course c1 = new Course("SER322");
+////    	Course c2 = new Course("SER310");
+////    	Course c3 = new Course("SER352");
+//
+////    	courses.put(c1.getCourseName(), c1);
+////    	courses.put(c2.getCourseName(), c2);
+////    	courses.put(c3.getCourseName(), c3);
+//    	Courses temp = CourseList.getCourses();
+//    	courses = new ArrayList<Course>(temp.getCourses());
+//    	
+////    	cbCourses.removeAllItems();
+////    	cbCourses.addItem("Select");
+////    	for (Course c : courses) {
+////    	    cbCourses.addItem(c.toString());
+////    	}
+////    	cbCourses.setSelectedItem("Select");
+//    }
     
     /*
 	 *Sets the due date of the assignment being created
@@ -337,8 +338,9 @@ public class AssignmentDialog extends JDialog {
 	 *@param max maximum date for a due date
 	 */
 	public void setDueDateLimit(String course) {
-		this.dueDateMin = courses.get(course).getCourseStartDate();
-		this.dueDateMax = courses.get(course).getCourseEndDate();
+		Course c = currentCourse.get();
+		this.dueDateMin = c.getCourseStartDate();
+		this.dueDateMax = c.getCourseEndDate();
 	}
 	
 	/*
@@ -350,13 +352,14 @@ public class AssignmentDialog extends JDialog {
     	CalendarDate selectedDate = new CalendarDate(new SimpleDateFormat("dd/MM/yyyy").format(dueDate.getValue()));
     	//Gross hack to get an actual current date because the CurrentDate.get() method returns a 0 based index month
     	CalendarDate currentDate = new CalendarDate(CurrentDate.get().getDay(), CurrentDate.get().getMonth()+1, CurrentDate.get().getYear());
+    	Course c = currentCourse.get();//sorry :(
 
     	//Check for all possible error in users selections
 		if (titleField.getText().equals("")) {
 			labelOutput.setText("Please enter a title for the assignment");
 		} else if (descriptionField.getText().equals("")) {
 			labelOutput.setText("Please enter a description for the assignment");
-		} else if (cbCourses.getSelectedItem().toString().equals("Select")) {
+		} else if (c.toString().equals("Select")) {
 			labelOutput.setText("Please select what class this assignment is for");
 		} else if (cbAssignee.getSelectedItem().toString().equals("Select")) {
 			labelOutput.setText("Please select who this assignment is for");
@@ -370,8 +373,8 @@ public class AssignmentDialog extends JDialog {
 			labelOutput.setText("This due date is after the class ends");
 		} else {
 			//If all checks succeed, create the new assignment.
-			assignments.add(new Assignment(
-					courses.get(cbCourses.getSelectedItem().toString()),
+			c.addAssignment(new Assignment(
+					c,
 					selectedDate,
 					ASSIGNEDGROUP.valueOf(cbAssignee.getSelectedItem().toString()),
 					titleField.getText(),

@@ -8,6 +8,7 @@
 
 package main.java.flashcourse;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,10 +32,11 @@ private CalendarDate courseEndDate;
 private CalendarDate finalExam;
 private CalendarDate courseBreakStart;
 private CalendarDate courseBreakEnd;
-private Map<CalendarDate, String> lectureTimes;
+private ArrayList<Lecture> lectures;
 private Map<CalendarDate, String> holidays;
 private Map<CalendarDate, String> freeDays;
 private ArrayList<Assignment> assignments;
+private ArrayList<File> documents;
 private Element _el;
 
 /**
@@ -52,10 +54,11 @@ public Course(String course) {
     finalExam = new CalendarDate();
     courseBreakStart = new CalendarDate();
     courseBreakEnd = new CalendarDate();
-    lectureTimes = new HashMap<>();
+    lectures = new ArrayList<>();
     holidays = new HashMap<>();
     freeDays = new HashMap<>();
     assignments = new ArrayList<>();
+    documents = new ArrayList<>();
     _el = null;
 }
 
@@ -97,8 +100,8 @@ public void setFinalExamDate(CalendarDate fExam) {
     finalExam = fExam;
 }
 
-public Map<CalendarDate, String> getLectureDates(){
-    return lectureTimes;
+public ArrayList<Lecture> getLectureDates(){
+    return lectures;
 }
 
 
@@ -123,34 +126,29 @@ public void setCourseBreakEnd(CalendarDate end) {
 
 /**
  * 
- * @param lectureName of the lecture that is to be added
- * @param lectureDate of the lecture name that is to be added
+ * @param lecture to be added to array list
  * 
  * Adds lecture times to the lectureTime collection
  */
-public void addLectureDates(CalendarDate lectureDate, String courseName) {
-    lectureTimes.put(lectureDate, courseName);
+public void addLecture(Lecture lecture) {
+    if (!lectures.contains(lecture)) {
+        lectures.add(lecture);
+    }
 }
 
 /**
  * 
- * @param lectureName to be deleted
- * @param lectureDate that corresponds the lectureName to be deleted
+ * @param lecture to be deleted
  * @return true of false based on success of target lecture time deletion
  * 
- * Deletes target lecture time from LectureTimes collection
+ * Deletes target lecture time from lectures collection
  */
-public boolean deleteLectureTimes(CalendarDate lectureDate, String courseName) {
-    boolean deleted = false;
-    for(CalendarDate key : lectureTimes.keySet()) {
-        if(lectureDate.equals(key)) {
-            lectureTimes.remove(lectureDate);
-            deleted = true;
-        }
+public boolean deleteLecture(Lecture lecture) {
+    if (lectures.contains(lecture)) {
+        lectures.remove(lecture);
+        return true;
     }
-    
-    return deleted;
-    
+    return false;
 }
 
 public Map<CalendarDate, String> getHolidayDates(){
@@ -223,6 +221,35 @@ public boolean deleteFreeDay(CalendarDate freeDayDate, String courseName) {
     return delete;
 }
 
+public ArrayList<File> getDocuments(){
+	return documents;
+}
+
+public boolean addDocument(File file) {
+	boolean add = false;
+	if(documents.size() == 0) {
+		documents.add(file);
+		return true;
+	}
+	
+	if(!documents.contains(file)) {
+		documents.add(file);
+		add = true;
+	}
+	
+	return add;
+}
+
+public boolean deleteDocument(File file) {
+	boolean delete = false;
+	if(documents.contains(file)) {
+		documents.remove(file);
+		delete = true;
+	}
+	
+	return delete;
+}
+
 public ArrayList<Assignment> getAssignments(){
     return assignments;
 }
@@ -248,6 +275,9 @@ public boolean addAssignment(Assignment assign) {
 			add = true;
 		
 	}
+	System.out.println("[DEBUG] "+this.courseName);
+	System.out.println("[DEBUG] "+assign.getName());	
+	System.out.println("[DEBUG] "+assign.getDescription());	
 	return add;
 	
 

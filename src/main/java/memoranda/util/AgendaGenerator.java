@@ -304,7 +304,7 @@ public class AgendaGenerator {
 		String s =
 				"<td width=\"34%\" valign=\"top\">"
 						+ "<a href=\"memoranda:events\"><h1>"
-						+ Local.getString("Events")
+						+ Local.getString("Lectures")
 						+ "</h1></a>\n"
 						+ "<table width=\"100%\" valign=\"top\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#FFFFF6\">\n";
 		Vector v = (Vector) EventsManager.getEventsForDate(date);
