@@ -175,5 +175,14 @@ public class CalendarDate {
         return Local.getDateString(this, DateFormat.SHORT);
     }
     
+//    /**
+//     * Returns a new CalendarDate set some number of days after this one
+//     * @param days the number of days to advance
+//     * @return a new CalendarDate set 'days' number of days ahead of this
+//     */
+//    public CalendarDate dateFromThis(int days) {
+//    	
+//    }
+    
 
 }
