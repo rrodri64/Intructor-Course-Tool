@@ -314,43 +314,44 @@ public class EventsPanel extends JPanel {
         newEventB_actionPerformed(e, null, cdate.getTime(), cdate.getTime());
     }
 
-    void newEventB_actionPerformed(ActionEvent e, String tasktext, Date startDate, Date endDate) {
-        EventDialog dlg = new EventDialog(App.getFrame(), Local.getString("New event"));
-        Dimension frmSize = App.getFrame().getSize();
-        Point loc = App.getFrame().getLocation();
-        if (tasktext != null) {
-            dlg.textField.setText(tasktext);
-        }
-        dlg.startDate.getModel().setValue(startDate);
-        dlg.endDate.getModel().setValue(endDate);
-        dlg.timeSpin.getModel().setValue(startDate);
+    
+    void newEventB_actionPerformed(ActionEvent e, String tasktext, Date startDate, Date endDate) {//popup for creating a new 'event'
+    	EventDialog dlg = new EventDialog(App.getFrame(), Local.getString("New event"));
+    	Dimension frmSize = App.getFrame().getSize();
+    	Point loc = App.getFrame().getLocation();
+    	if (tasktext != null) {
+    		dlg.textField.setText(tasktext);
+    	}
+		dlg.startDate.getModel().setValue(startDate);
+		dlg.endDate.getModel().setValue(endDate);
+		dlg.timeSpin.getModel().setValue(startDate);
 
-        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
-        dlg.setEventDate(startDate);
-        dlg.setVisible(true);
-        if (dlg.CANCELLED)
-            return;
-        Calendar calendar = new GregorianCalendar(Local.getCurrentLocale()); //Fix deprecated methods to get hours
-        //by (jcscoobyrs) 14-Nov-2003 at 10:24:38 AM
-        calendar.setTime(((Date)dlg.timeSpin.getModel().getValue()));//Fix deprecated methods to get hours
-        //by (jcscoobyrs) 14-Nov-2003 at 10:24:38 AM
-        int hh = calendar.get(Calendar.HOUR_OF_DAY);//Fix deprecated methods to get hours
-        //by (jcscoobyrs) 14-Nov-2003 at 10:24:38 AM
-        int mm = calendar.get(Calendar.MINUTE);//Fix deprecated methods to get hours
-        //by (jcscoobyrs) 14-Nov-2003 at 10:24:38 AM
-
-        //int hh = ((Date) dlg.timeSpin.getModel().getValue()).getHours();
-        //int mm = ((Date) dlg.timeSpin.getModel().getValue()).getMinutes();
-        String text = dlg.textField.getText();
-
-        CalendarDate eventCalendarDate = new CalendarDate(dlg.getEventDate());
-
-        if (dlg.noRepeatRB.isSelected())
-            EventsManager.createEvent(eventCalendarDate, hh, mm, text);
-        else {
-            updateEvents(dlg,hh,mm,text);
-        }
-        saveEvents();
+    	dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+    	dlg.setEventDate(startDate);
+		dlg.setVisible(true);
+    	if (dlg.CANCELLED)
+    		return;
+    	Calendar calendar = new GregorianCalendar(Local.getCurrentLocale()); //Fix deprecated methods to get hours
+    	//by (jcscoobyrs) 14-Nov-2003 at 10:24:38 AM
+    	calendar.setTime(((Date)dlg.timeSpin.getModel().getValue()));//Fix deprecated methods to get hours
+    	//by (jcscoobyrs) 14-Nov-2003 at 10:24:38 AM
+    	int hh = calendar.get(Calendar.HOUR_OF_DAY);//Fix deprecated methods to get hours
+    	//by (jcscoobyrs) 14-Nov-2003 at 10:24:38 AM
+    	int mm = calendar.get(Calendar.MINUTE);//Fix deprecated methods to get hours
+    	//by (jcscoobyrs) 14-Nov-2003 at 10:24:38 AM
+    	
+    	//int hh = ((Date) dlg.timeSpin.getModel().getValue()).getHours();
+    	//int mm = ((Date) dlg.timeSpin.getModel().getValue()).getMinutes();
+    	String text = dlg.textField.getText();
+		
+		CalendarDate eventCalendarDate = new CalendarDate(dlg.getEventDate());
+		
+    	if (dlg.noRepeatRB.isSelected())
+    		EventsManager.createEvent(eventCalendarDate, hh, mm, text);
+    	else {
+    		updateEvents(dlg,hh,mm,text);
+    	}
+    	saveEvents();
     }
 
     private void saveEvents() {
