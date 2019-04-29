@@ -60,17 +60,28 @@ public class CourseList extends JList {
    private Course SER321 =  new Course("SER321");
    private Course SER334 = new Course("SER334");
    private Course SER222 = new Course("SER222");
+   
+   
+   
 
-   private Courses courseCollection = new Courses();
-  
+   private static Courses courseCollection = new Courses();
+   
     boolean sortOrderDesc = false;
 
     int _type = ALL;
 
     
     public CourseList(int type) {
-        
+    	
         super();
+        
+        //continuation of hardcoded for testing
+    	SER321.setCourseStartDate(new CalendarDate(1,4,2019));
+    	SER321.setCourseEndDate(new CalendarDate(1,6,2019));
+    	SER334.setCourseStartDate(new CalendarDate(1,4,2019));
+    	SER334.setCourseEndDate(new CalendarDate(1,6,2019));
+    	SER334.setCourseStartDate(new CalendarDate(1,4,2019));
+    	SER321.setCourseEndDate(new CalendarDate(1,6,2019));
         
         courseCollection.addCourse(SER321);
         courseCollection.addCourse(SER222);
@@ -163,7 +174,7 @@ public class CourseList extends JList {
         ArrayList<Course> indexCourse = courseCollection.getCourses();
         
         Course course = indexCourse.get(index);
-        System.out.println(course.toString());
+        //System.out.println("getCourse from CourseList called "+course.toString());
         return course;
     }
     
@@ -171,7 +182,7 @@ public class CourseList extends JList {
         return courseCollection;
     }
     
-    public Courses getCourses() {
+    public static Courses getCourses() {
         return courseCollection;
     }
     

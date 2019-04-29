@@ -25,6 +25,7 @@ import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import main.java.flashcourse.CurrentCourse;
 import main.java.memoranda.CurrentProject;
 import main.java.memoranda.History;
 import main.java.memoranda.NoteList;
@@ -75,6 +76,8 @@ public class AssignmentPanel extends JPanel {
 	JMenuItem ppCalcTask = new JMenuItem();
 	JMenuItem ppDateTask = new JMenuItem();
 	DailyItemsPanel parentPanel = null;
+	
+	CurrentCourse currentCourse = CurrentCourse.getInstance();
 	
 	
 
@@ -838,6 +841,7 @@ ppDateTask.setIcon(new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResour
 
                 public void mouseReleased(MouseEvent e) {
                     maybeShowPopup(e);
+                    //System.out.println("mouse released in AssignmentPanel");
                 }
 
                 private void maybeShowPopup(MouseEvent e) {

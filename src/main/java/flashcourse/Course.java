@@ -275,6 +275,9 @@ public boolean addAssignment(Assignment assign) {
 			add = true;
 		
 	}
+	System.out.println("[DEBUG] "+this.courseName);
+	System.out.println("[DEBUG] "+assign.getName());	
+	System.out.println("[DEBUG] "+assign.getDescription());	
 	return add;
 	
 

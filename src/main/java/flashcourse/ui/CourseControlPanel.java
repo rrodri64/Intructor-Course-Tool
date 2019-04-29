@@ -37,6 +37,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import main.java.flashcourse.Course;
+import main.java.flashcourse.CurrentCourse;
 import main.java.memoranda.ui.App;
 import main.java.memoranda.ui.AppFrame;
 import main.java.memoranda.ui.ExceptionDialog;
@@ -73,6 +74,10 @@ public class CourseControlPanel extends JPanel {
     JPopupMenu courseControlMenu = new JPopupMenu();
     JMenuItem ppOpenNote = new JMenuItem();
     JMenuItem ppRemoveCourse = new JMenuItem();
+    
+    JMenuItem ppSelectCourse = new JMenuItem();
+    CurrentCourse currentC = CurrentCourse.getInstance();
+    
     JMenuItem removeCourseFromSelector = new JMenuItem();
     JMenuItem addCourse = new JMenuItem();
     
@@ -174,8 +179,26 @@ public class CourseControlPanel extends JPanel {
   
         courseList = courseListPanel.courseList;
      
-        notesPPMenu.add(ppRemoveCourse);
         
+        
+        //didn't actually need this it turns out
+//        ppSelectCourse.setFont(new java.awt.Font("Dialog", 1, 11));
+//        ppSelectCourse.setText(Local.getString("Select Course"));
+//        ppSelectCourse.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//            	ppSelectCourse_actionPerformed(e);
+//            }
+//        });
+//        ppSelectCourse.setIcon(
+//            new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResource("/ui/icons/Delete.png")));
+//        ppSelectCourse.setEnabled(true);
+//        notesPPMenu.add(ppSelectCourse);
+        
+        
+        
+        
+        
+        notesPPMenu.add(ppRemoveCourse);
         
         courseControlMenu.add(removeCourseFromSelector);
         courseControlMenu.add(addCourse);
@@ -230,7 +253,7 @@ public class CourseControlPanel extends JPanel {
         courseListPanel.courseList.update();
       
     }
-
+    
    /**
     * 
     * Class for listening mouse events for pop ups
@@ -244,6 +267,11 @@ public class CourseControlPanel extends JPanel {
         
          public void mouseReleased(MouseEvent e) {
              maybeShowPopup(e);
+             //System.out.println("TEST"+((Course) courseList.getCourse(courseList.getSelectedIndex())).toString());//debug line
+             //when the mouse is clicked, if it's on a course, then it selects that course and updates the CurrentCourse class to that
+             //if it's not on a course, say on white space, it selects the currently selected course
+             Course temp = ((Course) courseList.getCourse(courseList.getSelectedIndex()));
+             currentC.set(temp,true);//sorry...
          }
         
          private void maybeShowPopup(MouseEvent e) {
@@ -259,17 +287,36 @@ public class CourseControlPanel extends JPanel {
      * @param e action event for when the create course button is pressed
      */
     void courseMgtB_actionPerformed(ActionEvent e) {
+    	
+    	//System.out.println("courseMgtB_actionPerformed "+e.toString());
+
         courseControlMenu.show(
             toolBar,
             (int) courseMgtB.getLocation().getX(),
             (int) courseMgtB.getLocation().getY() + 24);
     }
 
+    
+    
+    void ppSelectCourse_actionPerformed(ActionEvent e) {
+    	//System.out.println(e);
+    	//System.out.println(e.toString());
+    	
+    	
+    	//System.out.println("TESTTTTTETETETST"+((Course) courseList.getCourse(courseList.getSelectedIndex())).toString());
+    }
+    
+    
+    
     /**
      * 
      * @param e action event for when the delete course button is pressed
      */
     void ppRemoveCourse_actionPerformed(ActionEvent e) {
+    	
+//    	System.out.println("ppRemoveCourse_actionPerformed");
+//    	System.out.println("ACTION EVENT IS:"+e);
+    	
         String msg;
         if(courseList.getSelectedIndices().length == 0) {
            return;
