@@ -841,6 +841,7 @@ ppDateTask.setIcon(new ImageIcon(main.java.memoranda.ui.AppFrame.class.getResour
 
                 public void mouseReleased(MouseEvent e) {
                     maybeShowPopup(e);
+                    //System.out.println("mouse released in AssignmentPanel");
                 }
 
                 private void maybeShowPopup(MouseEvent e) {
